@@ -4,11 +4,17 @@ import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URISto
 import '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 
 import './AccessControl.sol';
+import './interfaces/IBeMetaPlace.sol';
 
-contract BeMetaPlace is ERC721URIStorageUpgradeable, AccessControl {
+contract BeMetaPlace is
+	ERC721URIStorageUpgradeable,
+	AccessControl,
+	IBeMetaPlace
+{
 	using CountersUpgradeable for CountersUpgradeable.Counter;
-
 	CountersUpgradeable.Counter private _tokenCounters;
+
+	string __baseName;
 
 	function initialize(string memory name_, string memory symbol_)
 		public
@@ -19,7 +25,11 @@ contract BeMetaPlace is ERC721URIStorageUpgradeable, AccessControl {
 		__Ownable_init();
 	}
 
-	function mint(address to_, string memory tokenURI_) public onlyAdmin {
+	function mint(address to_, string memory tokenURI_)
+		public
+		override
+		onlyAdmin
+	{
 		_tokenCounters.increment();
 		uint256 _tokenId = _tokenCounters.current();
 
@@ -30,6 +40,7 @@ contract BeMetaPlace is ERC721URIStorageUpgradeable, AccessControl {
 
 	function setTokenURI(uint256 tokenId, string memory _tokenURI)
 		public
+		override
 		onlyAdmin
 	{
 		_setTokenURI(tokenId, _tokenURI);
@@ -44,4 +55,14 @@ contract BeMetaPlace is ERC721URIStorageUpgradeable, AccessControl {
 	{
 		return BaseRelayRecipient._msgSender();
 	}
+
+	function setBase(string memory base_name) external onlyAdmin {
+		__baseName = base_name;
+	}
+
+	function _baseURI() internal view virtual override returns (string memory) {
+		return __baseName;
+	}
+
+	uint256[50] private __gap;
 }
