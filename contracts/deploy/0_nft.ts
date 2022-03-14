@@ -16,15 +16,14 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 			execute: {
 				init: {
 					methodName: 'initialize',
-					args: [
-						'https://raw.githubusercontent.com/SurroundingArt64/cdn/master/{id}.json',
-					],
+					args: ['BeMetaPlace', 'BMP'],
 				},
 			},
 			proxyContract: 'OptimizedTransparentProxy',
+			upgradeIndex: 0,
 		},
 	})
 }
 export default func
-func.tags = ['BeMetaPlace1155']
+func.tags = ['BeMetaPlace']
 func.dependencies = []
