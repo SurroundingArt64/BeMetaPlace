@@ -17,7 +17,7 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		uint256 startAt;
 		uint256 endAt;
 		address tokenAddress;
-		address buyer;
+		address seller;
 		uint256 listingIndex;
 	}
 
@@ -48,7 +48,7 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 			startAt: block.timestamp,
 			endAt: block.timestamp + duration,
 			tokenAddress: tokenAddress,
-			buyer: address(0),
+			seller: _msgSender(),
 			listingIndex: listings[_msgSender()].length - 1
 		});
 	}
@@ -63,14 +63,19 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 
 		IERC20(sale.tokenAddress).safeTransferFrom(
 			_msgSender(),
-			sale.buyer,
+			sale.seller,
 			sale.price
 		);
 
+		IERC721(address(nft721)).safeTransferFrom(
+			sale.seller,
+			_msgSender(),
+			_tokenId
+		);
 		// swap with last and delete
-		uint256 lastValue = listings[sale.buyer][listings[sale.buyer].length - 1];
-		listings[sale.buyer][sale.listingIndex] = lastValue;
-		listings[sale.buyer].pop();
+		uint256 lastValue = listings[sale.seller][listings[sale.seller].length - 1];
+		listings[sale.seller][sale.listingIndex] = lastValue;
+		listings[sale.seller].pop();
 	}
 
 	uint256[50] private __gap;
