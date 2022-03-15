@@ -29,9 +29,10 @@ contract BeMetaPlace is
 		public
 		override
 		onlyAdmin
+		returns (uint256 _tokenId)
 	{
 		_tokenCounters.increment();
-		uint256 _tokenId = _tokenCounters.current();
+		_tokenId = _tokenCounters.current();
 
 		_mint(to_, _tokenId);
 
