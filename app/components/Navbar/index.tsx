@@ -26,9 +26,9 @@ const Navbar = (props: TextInputProps) => {
           rightSection={
             <ActionIcon size={24} radius='xl' color='yellow' variant='filled'>
               {theme.dir === 'ltr' ? (
-                <ArrowRight size={12} />
+                <ArrowRight size={12} color='black' />
               ) : (
-                <ArrowLeft size={12} />
+                <ArrowLeft size={12} color='black' />
               )}
             </ActionIcon>
           }
