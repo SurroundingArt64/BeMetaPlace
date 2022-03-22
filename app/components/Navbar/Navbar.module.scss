@@ -6,20 +6,52 @@
   height: 80px;
   background: linear-gradient(90deg, #102dab 0%, #4262ea 100%);
   .container {
+    @include flex;
+    width: clamp(300px, 80vw, $sm-screen);
+    justify-content: space-between;
     margin: auto;
     .logo {
       font-weight: 500;
       font-size: 32px;
       line-height: 48px;
-      /* identical to box height, or 150% */
-
       font-feature-settings: 'tnum' on, 'lnum' on, 'ss07' on, 'ss06' on,
         'ss05' on, 'ss04' on, 'ss03' on, 'ss02' on, 'ss01' on, 'dnom' on,
         'numr' on;
-
       color: #f9f8fe;
+      @media screen and (max-width: $sm-screen) {
+        font-size: 24px;
+      }
       span {
         color: #faba81;
+      }
+    }
+    ul {
+      @include flex;
+      gap: min(2vw, 48px);
+      list-style-type: none;
+      @media screen and (max-width: $mobile) {
+        display: none;
+      }
+      li {
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: #f9f8fe;
+        @media screen and (max-width: $sm-screen) {
+          font-size: 12px;
+        }
+      }
+    }
+    .search {
+      @media screen and (max-width: $mobile) {
+        display: none;
+      }
+    }
+    .burger {
+      display: none;
+      @media screen and (max-width: $mobile) {
+        display: inline-block;
       }
     }
   }
