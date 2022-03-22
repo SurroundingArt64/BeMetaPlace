@@ -116,5 +116,41 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		allowedERC20Tokens[token] = enabled;
 	}
 
+	function withdraw(address tokenAddress, uint256 amount) external onlyOwner {
+		IERC20(tokenAddress).transfer(_msgSender(), amount);
+	}
+
+	function withdrawNFT(address tokenAddress, uint256 amount)
+		external
+		onlyOwner
+	{
+		IERC721(tokenAddress).transferFrom(address(this), _msgSender(), amount);
+	}
+
+	function cancel(uint256 _tokenId) external onlyAdmin {
+		Sale memory sale = sales[_tokenId];
+		require(
+			sale.seller == _msgSender() || _msgSender() == owner(),
+			'Not owner or seller.'
+		);
+		// get the last tokenId
+		uint256 lastTokenId = listings[sale.seller][
+			listings[sale.seller].length - 1
+		];
+
+		// update the current with last
+		listings[sale.seller][sale.listingIndex] = listings[sale.seller][
+			listings[sale.seller].length - 1
+		];
+		// update the swapped with current index
+		sales[lastTokenId].listingIndex = sale.listingIndex;
+
+		// pop the last
+		delete sales[_tokenId];
+
+		// set listing index for last value
+		listings[sale.seller].pop();
+	}
+
 	uint256[50] private __gap;
 }

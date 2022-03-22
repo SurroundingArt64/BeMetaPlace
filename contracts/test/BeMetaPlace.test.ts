@@ -79,5 +79,7 @@ describe('BeMetaPlace.sol', () => {
 			(sale) => sale.listingIndex.toNumber()
 		)
 		expect(sales).to.deep.eq([0, 1])
+
+		expect(await BeMetaPlace.ownerOf(2)).to.eq(alice.address)
 	})
 })
