@@ -4,9 +4,9 @@
   @include flex;
   background: #040e38;
   width: 100vw;
-  height: 200px;
+  height: 300px;
   color: white;
-  padding: 64px 0;
+  padding: auto 0;
   .container {
     @include flex;
     justify-content: space-between;

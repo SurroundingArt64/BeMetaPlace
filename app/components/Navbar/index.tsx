@@ -38,9 +38,9 @@ const Navbar = (props: TextInputProps) => {
           {...props}
         />
         <ul>
+          <li data-type='create'>Create</li>
           <li>Marketplace</li>
           <li>Wallet</li>
-          <li>Contact</li>
         </ul>
         <Burger
           opened={opened}
