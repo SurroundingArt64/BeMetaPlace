@@ -59,8 +59,6 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		require(sale.startAt <= block.timestamp, 'Sale has not started yet.');
 		require(sale.endAt >= block.timestamp, 'Sale has already ended.');
 
-		delete sales[_tokenId];
-
 		IERC20(sale.tokenAddress).safeTransferFrom(
 			_msgSender(),
 			sale.seller,
@@ -74,7 +72,13 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		);
 		// swap with last and delete
 		uint256 lastValue = listings[sale.seller][listings[sale.seller].length - 1];
-		listings[sale.seller][sale.listingIndex] = lastValue;
+
+		listings[sale.seller][sale.listingIndex] = listings[sale.seller][lastValue];
+		sales[lastValue].listingIndex = sale.listingIndex;
+
+		delete sales[_tokenId];
+
+		// set listing index for last value
 		listings[sale.seller].pop();
 	}
 
