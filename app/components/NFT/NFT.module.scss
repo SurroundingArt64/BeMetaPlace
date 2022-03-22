@@ -8,6 +8,10 @@
   padding: 0 10px 10px 10px;
   border: 1px solid #ccc;
   border-radius: 15px;
+  transition-duration: 300ms;
+  &:hover {
+    transform: scale(1.1);
+  }
   .container {
     @include flex;
     flex-direction: column;
@@ -15,10 +19,12 @@
     width: 100%;
     height: 100%;
     .image {
-      border-radius: 20px;
-      width: 250px;
+      border-radius: 10px;
+      width: 230px;
+      min-height: 230px;
       height: auto;
-      padding: 10px;
+      margin: 10px;
+      background-color: #faba81;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
