@@ -2,6 +2,7 @@
 pragma solidity ^0.8.6;
 import './AccessControl.sol';
 import './interfaces/IBeMetaPlace.sol';
+import './interfaces/IAccessControl.sol';
 import '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
@@ -75,7 +76,7 @@ contract SecondarySale is
 		require(allowedNFTAddresses[nftAddress], 'NFTAddress not allowed');
 		require(allowedCurrencies[currency], 'Currency not allowed');
 		require(
-			IBeMetaPlace(nftAddress).isAdmin(address(this)),
+			IAccessControl(nftAddress).isAdmin(address(this)),
 			'Not allowed to mint'
 		);
 		require(
