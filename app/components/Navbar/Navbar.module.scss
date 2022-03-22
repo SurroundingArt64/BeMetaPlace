@@ -28,6 +28,7 @@
     }
     ul {
       @include flex;
+      margin: 0;
       gap: min(2vw, 48px);
       list-style-type: none;
       @media screen and (max-width: $mobile) {
