@@ -20,6 +20,44 @@ const Home: NextPage = () => {
           'A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.',
       },
     },
+    {
+      owner: 'AquaRules',
+      item: {
+        image: 'https://i.redd.it/0move82tzrm71.gif',
+        title: 'Royal Doge #69',
+        value: '4.20',
+        currency: 'ETH',
+        address: '0x0000000000000000000000000000000000000001',
+        description:
+          'A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.',
+      },
+    },
+    {
+      owner: 'AquaRules',
+      item: {
+        image:
+          'https://i.pinimg.com/originals/ab/92/90/ab9290e4f21fbd1ffc909b014875ea98.gif',
+        title: 'Trip #420',
+        value: '2',
+        currency: 'ETH',
+        address: '0x0000000000000000000000000000000000000002',
+        description:
+          'A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.',
+      },
+    },
+    {
+      owner: 'AquaRules',
+      item: {
+        image:
+          'https://static.wixstatic.com/media/0a7fb4_aeaf94b15bd84cd3821fa600519597b5~mv2.gif/v1/fit/w_400%2Ch_400%2Cal_c%2Cq_80/file.gif',
+        title: 'Taco #3',
+        value: '5',
+        currency: 'ETH',
+        address: '0x0000000000000000000000000000000000000003',
+        description:
+          'A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.',
+      },
+    },
   ]
 
   return (
@@ -32,8 +70,8 @@ const Home: NextPage = () => {
       <div className={classes.root}>
         <h1>Today's Trending</h1>
         <div className={classes.grid}>
-          {nfts.map((nft) => (
-            <NFT {...{ nft }} />
+          {nfts.map((nft, i) => (
+            <NFT {...{ nft }} key={i} />
           ))}
         </div>
       </div>
