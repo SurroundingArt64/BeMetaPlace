@@ -138,9 +138,19 @@ contract SecondarySale is
 		IERC721(nftAddress).safeTransferFrom(data.seller, _msgSender(), tokenId);
 		IERC20(data.currency).transfer(data.seller, data.price);
 		uint256 listingIndex = listingIndices[data.seller][b];
+
 		listings[_msgSender()][listingIndex] = listings[_msgSender()][
 			listings[_msgSender()].length - 1
 		];
+		listingIndices[data.seller][
+			getIndex(
+				listings[_msgSender()][listingIndex].nftAddress,
+				listings[_msgSender()][listingIndex].tokenId
+			)
+		] = listingIndex;
+
+		listings[_msgSender()].pop();
+
 		delete sales[_msgSender()][b];
 	}
 }
