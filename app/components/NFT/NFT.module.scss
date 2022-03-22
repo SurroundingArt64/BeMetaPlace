@@ -39,6 +39,12 @@
         padding: 0;
         font-weight: 500;
       }
+      & > :not(:last-child) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
       & > * + * {
         margin-top: 5px;
       }
@@ -68,6 +74,9 @@
         justify-content: space-between;
         .price {
           @include flex;
+          * + * {
+            margin-left: 5px;
+          }
         }
       }
     }
