@@ -10,7 +10,7 @@ export interface NFTTypes {
     value: string
     currency: string
     address: string
-    description: string
+    description?: string
   }
 }
 
