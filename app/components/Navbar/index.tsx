@@ -17,9 +17,11 @@ const Navbar = (props: TextInputProps) => {
   return (
     <div className={classes.root}>
       <div className={classes.container}>
-        <div className={classes.logo}>
-          be<span>meta</span>place
-        </div>
+        <Link href='/'>
+          <div className={classes.logo}>
+            be<span>meta</span>place
+          </div>
+        </Link>
         <TextInput
           icon={<Search size={18} />}
           radius='xl'
@@ -42,7 +44,9 @@ const Navbar = (props: TextInputProps) => {
           <li data-type='create'>
             <Link href='/create'>Create</Link>
           </li>
-          <li>Marketplace</li>
+          <li>
+            <Link href='/'>Marketplace</Link>
+          </li>
           <li>Wallet</li>
         </ul>
         <Burger
