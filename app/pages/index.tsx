@@ -13,12 +13,9 @@ const Home: NextPage = () => {
       <div className={classes.root}>
         <h1>Today's Trending</h1>
         <div className={classes.grid}>
-          <div className={classes.box}></div>
-          <div className={classes.box}></div>
-          <div className={classes.box}></div>
-          <div className={classes.box}></div>
-          <div className={classes.box}></div>
-          <div className={classes.box}></div>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div className={classes.box} key={i} />
+          ))}
         </div>
       </div>
     </>
