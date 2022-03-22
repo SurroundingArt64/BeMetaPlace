@@ -5,7 +5,7 @@ export interface NFTTypes {
   owner: string
   item: {
     image: string
-    video: string
+    video?: string
     title: string
     value: string
     currency: string
@@ -16,12 +16,15 @@ export interface NFTTypes {
 
 const NFT: React.FC<{ nft: NFTTypes }> = ({ nft }) => {
   return (
-    <div className={classes.root} key={nft.item.address}>
+    <div className={classes.root}>
       <div className={classes.container}>
-        {/* <img className={classes.image} src={nft.item.image} /> */}
-        <video autoPlay muted loop className={classes.image}>
-          <source src={nft.item.video} type='video/mp4' />
-        </video>
+        {nft.item.video ? (
+          <video autoPlay muted loop className={classes.image}>
+            <source src={nft.item.video} type='video/mp4' />
+          </video>
+        ) : (
+          <img className={classes.image} src={nft.item.image} />
+        )}
         <div className={classes.info}>
           <h1 className={classes.title}>{nft.item.title}</h1>
           <h2 className={classes.owner}>Owned by {nft.owner}</h2>
