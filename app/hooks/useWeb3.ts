@@ -57,7 +57,7 @@ export const useWeb3 = () => {
           ? {
               enableLogging: true,
               network: {
-                host: "https://mumbai.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+                host: "https://polygon-mumbai.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
                 chainId: 80001,
               },
               useLocalStorage: true,
