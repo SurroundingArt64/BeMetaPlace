@@ -12,7 +12,7 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 	await deploy('PrimarySale', {
 		from: deployer,
 		log: true,
-		// skipIfAlreadyDeployed: true,
+		skipIfAlreadyDeployed: true,
 		args: [],
 		proxy: {
 			execute: {
