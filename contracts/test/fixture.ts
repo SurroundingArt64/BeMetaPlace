@@ -4,15 +4,17 @@ import {
 	getNamedAccounts,
 	getUnnamedAccounts,
 } from 'hardhat'
-import { BeMetaPlace } from '../src/types'
+import { BeMetaPlace, BeMetaToken, PrimarySale } from '../src/types'
 import { setupUser, setupUsers } from './utils'
 
 export const setupTest = deployments.createFixture(async () => {
-	await deployments.fixture(['BeMetaPlace'])
+	await deployments.fixture(['BeMetaPlace', 'BeMetaToken', 'PrimarySale'])
 
 	const BeMetaPlace = (await ethers.getContract('BeMetaPlace')) as BeMetaPlace
+	const PrimarySale = (await ethers.getContract('PrimarySale')) as PrimarySale
+	const BeMetaToken = (await ethers.getContract('BeMetaToken')) as BeMetaToken
 
-	const contracts = { BeMetaPlace }
+	const contracts = { BeMetaPlace, PrimarySale, BeMetaToken }
 	const { deployer: deployerAddress } = await getNamedAccounts()
 	const userAddresses = await getUnnamedAccounts()
 

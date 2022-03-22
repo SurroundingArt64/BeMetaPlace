@@ -26,4 +26,4 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 }
 export default func
 func.tags = ['BeMetaPlace']
-func.dependencies = []
+func.dependencies = ['BeMetaToken']

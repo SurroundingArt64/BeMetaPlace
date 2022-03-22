@@ -24,6 +24,27 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	mapping(uint256 => Sale) public sales;
 	mapping(address => uint256[]) public listings;
 
+	function getListings(address seller)
+		external
+		view
+		returns (uint256[] memory listing)
+	{
+		listing = listings[seller];
+	}
+
+	function getSales(address seller)
+		external
+		view
+		returns (Sale[] memory saleArr)
+	{
+		uint256[] memory listing = listings[seller];
+		saleArr = new Sale[](listing.length);
+
+		for (uint256 index = 0; index < listing.length; index++) {
+			saleArr[index] = sales[listing[index]];
+		}
+	}
+
 	function initialize(address _nft721_address) public initializer {
 		__ERC721Holder_init();
 		__Ownable_init();
@@ -39,7 +60,7 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	) external onlyAdmin {
 		require(allowedERC20Tokens[tokenAddress], 'Not allowed token');
 
-		uint256 _tokenId = nft721.mint(_msgSender(), _uri);
+		uint256 _tokenId = nft721.mint(address(this), _uri);
 
 		listings[_msgSender()].push(_tokenId);
 
@@ -66,20 +87,33 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		);
 
 		IERC721(address(nft721)).safeTransferFrom(
-			sale.seller,
+			address(this),
 			_msgSender(),
 			_tokenId
 		);
 		// swap with last and delete
-		uint256 lastValue = listings[sale.seller][listings[sale.seller].length - 1];
 
-		listings[sale.seller][sale.listingIndex] = listings[sale.seller][lastValue];
-		sales[lastValue].listingIndex = sale.listingIndex;
+		// get the last tokenId
+		uint256 lastTokenId = listings[sale.seller][
+			listings[sale.seller].length - 1
+		];
 
+		// update the current with last
+		listings[sale.seller][sale.listingIndex] = listings[sale.seller][
+			listings[sale.seller].length - 1
+		];
+		// update the swapped with current index
+		sales[lastTokenId].listingIndex = sale.listingIndex;
+
+		// pop the last
 		delete sales[_tokenId];
 
 		// set listing index for last value
 		listings[sale.seller].pop();
+	}
+
+	function setAllowedERC20(address token, bool enabled) external {
+		allowedERC20Tokens[token] = enabled;
 	}
 
 	uint256[50] private __gap;
