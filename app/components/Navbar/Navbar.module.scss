@@ -1,0 +1,26 @@
+@import '../../styles/mixins.scss';
+
+.root {
+  @include flex;
+  width: 100vw;
+  height: 80px;
+  background: linear-gradient(90deg, #102dab 0%, #4262ea 100%);
+  .container {
+    margin: auto;
+    .logo {
+      font-weight: 500;
+      font-size: 32px;
+      line-height: 48px;
+      /* identical to box height, or 150% */
+
+      font-feature-settings: 'tnum' on, 'lnum' on, 'ss07' on, 'ss06' on,
+        'ss05' on, 'ss04' on, 'ss03' on, 'ss02' on, 'ss01' on, 'dnom' on,
+        'numr' on;
+
+      color: #f9f8fe;
+      span {
+        color: #faba81;
+      }
+    }
+  }
+}
