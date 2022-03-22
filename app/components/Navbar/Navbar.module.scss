@@ -68,6 +68,7 @@
       }
     }
     .search {
+      width: clamp(100px, 20vw, 400px);
       @media screen and (max-width: $mobile) {
         display: none;
       }
