@@ -1,0 +1,15 @@
+@import '../../styles/mixins.scss';
+
+.root {
+  @include flex;
+  width: clamp(300px, 80vw, $sm-screen);
+  margin: auto;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 64px 0;
+  h1 {
+    font-weight: 500;
+    color: #0a0b0d;
+    margin-bottom: 64px;
+  }
+}
