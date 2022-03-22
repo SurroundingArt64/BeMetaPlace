@@ -9,6 +9,7 @@ import {
 } from '@mantine/core'
 import { Search, ArrowRight, ArrowLeft } from 'tabler-icons-react'
 import { useBooleanToggle } from '@mantine/hooks'
+import Link from 'next/link'
 
 const Navbar = (props: TextInputProps) => {
   const theme = useMantineTheme()
@@ -38,7 +39,9 @@ const Navbar = (props: TextInputProps) => {
           {...props}
         />
         <ul>
-          <li data-type='create'>Create</li>
+          <li data-type='create'>
+            <Link href='/create'>Create</Link>
+          </li>
           <li>Marketplace</li>
           <li>Wallet</li>
         </ul>

@@ -15,8 +15,8 @@
   .grid {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-gap: 3em;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-gap: 2em;
     .box {
       width: 250px;
       height: 300px;
