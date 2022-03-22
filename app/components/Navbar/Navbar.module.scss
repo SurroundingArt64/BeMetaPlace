@@ -10,6 +10,7 @@
     width: clamp(300px, 80vw, $sm-screen);
     justify-content: space-between;
     margin: auto;
+    user-select: none;
     .logo {
       font-weight: 500;
       font-size: 32px;
@@ -27,17 +28,36 @@
     }
     ul {
       @include flex;
+      @include reset-list;
       gap: min(2vw, 48px);
-      list-style-type: none;
       @media screen and (max-width: $mobile) {
         display: none;
       }
       li {
+        position: relative;
         font-weight: 500;
         font-size: 14px;
         letter-spacing: 5px;
         text-transform: uppercase;
         color: #f9f8fe;
+        cursor: pointer;
+        padding: 10px 0;
+        &::after {
+          position: absolute;
+          content: '';
+          width: 100%;
+          height: 3px;
+          top: 100%;
+          left: -3px;
+          background: #faba81;
+          transition: transform 0.5s;
+          transform: scaleX(0);
+          transform-origin: right;
+        }
+        &:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
         @media screen and (max-width: $sm-screen) {
           font-size: 12px;
         }
