@@ -42,6 +42,10 @@
         color: #f9f8fe;
         cursor: pointer;
         padding: 10px 0;
+        &[data-type='create'] {
+          color: #faba81;
+          font-weight: 600;
+        }
         &::after {
           position: absolute;
           content: '';
