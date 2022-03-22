@@ -20,7 +20,7 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 				},
 			},
 			proxyContract: 'OptimizedTransparentProxy',
-			upgradeIndex: 0,
+			upgradeIndex: 1,
 		},
 	})
 }
