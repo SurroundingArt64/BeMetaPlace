@@ -1,21 +1,21 @@
-import { useContext, useState } from "react";
-import { Web3Provider } from "@ethersproject/providers";
-import AppContext from "../components/wallet/AppContext";
-import { ethers } from "ethers";
-import { PromiseType } from "utility-types";
+import { useContext, useState } from 'react'
+import { Web3Provider } from '@ethersproject/providers'
+import AppContext from '../components/wallet/AppContext'
+import { ethers } from 'ethers'
+import { PromiseType } from 'utility-types'
 
-export type WalletType = "metamask" | "wallet-connect" | "torus-wallet";
+export type WalletType = 'metamask' | 'wallet-connect' | 'torus-wallet'
 const getTorus = async () => {
-  return (await import("@toruslabs/torus-embed")).default;
-};
+  return (await import('@toruslabs/torus-embed')).default
+}
 
-const isDev = true;
+const isDev = true
 
 export const useWeb3 = () => {
-  const [walletType, setWalletType] = useState<WalletType>();
+  const [walletType, setWalletType] = useState<WalletType>()
 
   const { setLoader, connectedAddress, setConnectedAddress } =
-    useContext(AppContext);
+    useContext(AppContext)
 
   const getProvider = async (
     throwErr: boolean = false
@@ -24,40 +24,40 @@ export const useWeb3 = () => {
       if (!connectedAddress) {
         const walletAddress = await ContractInstance.provider
           .getSigner()
-          .getAddress();
-        setConnectedAddress(walletAddress);
+          .getAddress()
+        setConnectedAddress(walletAddress)
       }
-      return ContractInstance.provider;
-    } else return ContractInstance.provider;
-  };
-  let torus: PromiseType<ReturnType<typeof getTorus>>["prototype"];
+      return ContractInstance.provider
+    } else return ContractInstance.provider
+  }
+  let torus: PromiseType<ReturnType<typeof getTorus>>['prototype']
 
   const connect = async (walletType: WalletType) => {
-    setWalletType(walletType);
-    if (walletType == "metamask") {
-      const ethereum = (window as any)?.ethereum;
+    setWalletType(walletType)
+    if (walletType == 'metamask') {
+      const ethereum = (window as any)?.ethereum
       if (ethereum) {
         await ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        ContractInstance.provider = new ethers.providers.Web3Provider(ethereum);
-        setWalletType(walletType);
+          method: 'eth_requestAccounts',
+        })
+        ContractInstance.provider = new ethers.providers.Web3Provider(ethereum)
+        setWalletType(walletType)
 
-        setLoader(false);
-        return getProvider();
+        setLoader(false)
+        return getProvider()
       }
     }
-    if (walletType === "torus-wallet") {
-      const Torus = await getTorus();
+    if (walletType === 'torus-wallet') {
+      const Torus = await getTorus()
 
-      torus = new Torus({});
+      torus = new Torus({})
 
       await torus.init(
         isDev
           ? {
               enableLogging: true,
               network: {
-                host: "https://polygon-mumbai.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+                host: 'https://polygon-mumbai.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
                 chainId: 80001,
               },
               useLocalStorage: true,
@@ -65,40 +65,40 @@ export const useWeb3 = () => {
           : {
               enableLogging: false,
               network: {
-                host: "https://polygon-rpc.com/",
+                host: 'https://polygon-rpc.com/',
                 chainId: 137,
               },
               useLocalStorage: false,
             }
-      );
+      )
 
       await torus.login({
-        verifier: "google",
-      });
+        verifier: 'google',
+      })
       if (torus.provider) {
         ContractInstance.provider = new ethers.providers.Web3Provider(
           torus.provider
-        );
-        setWalletType(walletType);
+        )
+        setWalletType(walletType)
 
-        localStorage?.setItem("walletType", walletType);
-        setLoader(false);
+        localStorage?.setItem('walletType', walletType)
+        setLoader(false)
 
-        return getProvider();
+        return getProvider()
       }
     }
-  };
-  return { connect, walletType, getProvider, connectedAddress };
-};
+  }
+  return { connect, walletType, getProvider, connectedAddress }
+}
 
 class ContractInstance {
-  private static _provider: Web3Provider;
+  private static _provider: Web3Provider
 
   public static get provider(): Web3Provider {
-    return ContractInstance._provider;
+    return ContractInstance._provider
   }
 
   public static set provider(provider: Web3Provider) {
-    ContractInstance._provider = provider;
+    ContractInstance._provider = provider
   }
 }
