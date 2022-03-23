@@ -1,6 +1,14 @@
 $sm-screen: 1200px;
 $mobile: 900px;
 
+$gray-900: #0a0b0d;
+$primary-color: #4262ea;
+$secondary-color: #faba81;
+$dark-blue: #040e38;
+$gray-100: #f9f8fe;
+
+$gradient-color: linear-gradient(90deg, #102dab 0%, #4262ea 100%);
+
 @mixin flex {
   display: flex;
   flex-direction: row;

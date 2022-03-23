@@ -8,12 +8,7 @@ const NFTPage = () => {
   const address = (router.query.address as string) ?? ''
   return (
     <div className={classes.root}>
-      <h1>
-        #
-        {address.substring(0, 5) +
-          '...' +
-          address.substring(address.length - 5)}
-      </h1>
+      <h1>SuperBemta NFT</h1>
     </div>
   )
 }

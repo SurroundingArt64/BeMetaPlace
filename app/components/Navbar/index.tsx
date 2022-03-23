@@ -41,12 +41,12 @@ const Navbar = (props: TextInputProps) => {
           {...props}
         />
         <ul>
-          <li data-type='create'>
-            <Link href='/create'>Create</Link>
-          </li>
-          <li>
-            <Link href='/'>Marketplace</Link>
-          </li>
+          <Link href='/create'>
+            <li data-type='create'>Create</li>
+          </Link>
+          <Link href='/'>
+            <li>Marketplace</li>
+          </Link>
           <li>Wallet</li>
         </ul>
         <Burger
