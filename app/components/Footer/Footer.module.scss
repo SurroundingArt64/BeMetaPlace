@@ -2,7 +2,7 @@
 
 .root {
   @include flex;
-  background: #040e38;
+  background: $dark-blue;
   width: 100vw;
   height: 300px;
   color: white;
@@ -16,15 +16,12 @@
       font-weight: 500;
       font-size: 32px;
       line-height: 48px;
-      font-feature-settings: 'tnum' on, 'lnum' on, 'ss07' on, 'ss06' on,
-        'ss05' on, 'ss04' on, 'ss03' on, 'ss02' on, 'ss01' on, 'dnom' on,
-        'numr' on;
-      color: #f9f8fe;
+      color: $gray-100;
       @media screen and (max-width: $sm-screen) {
         font-size: 24px;
       }
       span {
-        color: #faba81;
+        color: $secondary-color;
       }
     }
   }

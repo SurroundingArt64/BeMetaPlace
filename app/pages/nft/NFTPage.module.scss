@@ -9,7 +9,17 @@
   padding: 64px 0;
   h1 {
     font-weight: 500;
-    color: #0a0b0d;
-    margin-bottom: 64px;
+    font-size: 32px;
+    line-height: 48px;
+    color: $gray-900;
+  }
+  .content {
+    @include flex;
+    margin: 32px 0;
+    .content__nft {
+      *:hover {
+        transform: none;
+      }
+    }
   }
 }
