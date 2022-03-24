@@ -10,7 +10,22 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 	const { deployer } = await getNamedAccounts()
 
 	const BeMetaPlace = await deployments.get('BeMetaPlace')
-
+	await deploy('PrimarySale', {
+		from: deployer,
+		log: true,
+		skipIfAlreadyDeployed: true,
+		args: [],
+		proxy: {
+			execute: {
+				init: {
+					methodName: 'initialize',
+					args: [BeMetaPlace.address],
+				},
+			},
+			proxyContract: 'OptimizedTransparentProxy',
+			upgradeIndex: 0,
+		},
+	})
 	await deploy('PrimarySale', {
 		from: deployer,
 		log: true,
