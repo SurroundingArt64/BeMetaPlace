@@ -23,7 +23,7 @@ export const useWeb3 = () => {
   } = useContext(AppContext);
 
   const getProvider = async (
-    throwErr: boolean = false
+    _throwErr: boolean = false
   ): Promise<Web3Provider> => {
     if (ContractInstance.provider !== undefined) {
       if (!connectedAddress) {
