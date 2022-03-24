@@ -2,14 +2,15 @@ import { Web3Provider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 const networks = {
-  80001: { NFTSale: "" },
-  137: { NFTSale: "" },
+  80001: { NFT: "0x394E9697138E49077d09d7EBeB2075D4b960AB66" },
+  137: { NFT: "" },
 };
 export const getContractAddress = (
   network: keyof typeof networks,
   contract: keyof typeof networks[keyof typeof networks]
 ) => {
-  return networks[network][contract];
+  const address = networks[network][contract];
+  return address;
 };
 
 export const getContractABI = async (
