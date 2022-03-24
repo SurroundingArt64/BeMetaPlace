@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import NFT, { NFTTypes } from "../../components/NFT";
 import { useWeb3 } from "../../hooks/useWeb3";
+import { getContractAddress } from "../../hooks/useContract";
 
 const Create = () => {
   const [preview, setPreview] = React.useState<NFTTypes>({
@@ -25,20 +26,27 @@ const Create = () => {
     },
   });
 
-  const { connectedAddress } = useWeb3();
+  const { connectedAddress, showWallet, chainId } = useWeb3();
 
-  const { showWallet } = useWeb3();
   useEffect(() => {
     if (connectedAddress) {
-      setPreview((p) => ({
-        ...p,
-        owner: connectedAddress,
-        wallet: connectedAddress,
-      }));
+      const run = async () => {
+        const NFTAddress = getContractAddress(chainId, "NFT");
+        console.log({ NFTAddress });
+        setPreview((p) => ({
+          ...p,
+          owner: connectedAddress,
+          item: {
+            ...p.item,
+            address: NFTAddress,
+          },
+        }));
+      };
+      run();
     } else {
       showWallet(true);
     }
-  }, [connectedAddress]);
+  }, [connectedAddress, chainId]);
 
   const handleUpdate = (
     _key: keyof typeof preview["item"],
@@ -52,6 +60,7 @@ const Create = () => {
       },
     }));
   };
+
   return (
     <div className={classes.root}>
       <h1>Create Your NFT</h1>
@@ -82,7 +91,7 @@ const Create = () => {
               required
               disabled
               label="Wallet Address"
-              placeholder="0x0000000000000000000000000000000000000000"
+              value={preview.item.address}
             />
             <TextInput
               required

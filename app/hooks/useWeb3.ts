@@ -14,7 +14,8 @@ const isDev = true;
 
 export const useWeb3 = () => {
   const [walletType, setWalletType] = useState<WalletType>();
-
+  const [chainId, setChainId] =
+    useState<typeof ContractInstance.chainId>(80001);
   const {
     setLoader,
     connectedAddress,
@@ -47,6 +48,13 @@ export const useWeb3 = () => {
           method: "eth_requestAccounts",
         });
         ContractInstance.provider = new ethers.providers.Web3Provider(ethereum);
+
+        const { chainId } = await ContractInstance.provider.getNetwork();
+        if (chainId === 80001 || chainId === 137) {
+          ContractInstance.chainId = chainId;
+          setChainId(chainId);
+        }
+
         setWalletType(walletType);
 
         setLoader(false);
@@ -85,6 +93,11 @@ export const useWeb3 = () => {
         ContractInstance.provider = new ethers.providers.Web3Provider(
           torus.provider
         );
+        const { chainId } = await ContractInstance.provider.getNetwork();
+        if (chainId === 80001 || chainId === 137) {
+          ContractInstance.chainId = chainId;
+          setChainId(chainId);
+        }
         setWalletType(walletType);
 
         localStorage?.setItem("walletType", walletType);
@@ -101,5 +114,6 @@ export const useWeb3 = () => {
     connectedAddress,
     wallet,
     showWallet,
+    chainId,
   };
 };
