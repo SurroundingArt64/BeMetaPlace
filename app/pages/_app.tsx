@@ -7,22 +7,27 @@ import AppContext from "../components/wallet/AppContext";
 function MyApp({ Component, pageProps }: AppProps) {
   const [connectedAddress, setConnectedAddress] = useState<string>();
   const [loader, setLoader] = useState<boolean>(true);
+  const [wallet, showWallet] = useState<boolean>(false);
+
   const setLoaderWithTimeOut = ((value: boolean) => {
     setTimeout(() => setLoader(value), 500);
   }) as typeof setLoader;
+
   return (
-    <Layout>
-      <AppContext.Provider
-        value={{
-          connectedAddress: connectedAddress,
-          setConnectedAddress,
-          loader,
-          setLoader: setLoaderWithTimeOut,
-        }}
-      >
+    <AppContext.Provider
+      value={{
+        connectedAddress: connectedAddress,
+        setConnectedAddress,
+        loader,
+        setLoader: setLoaderWithTimeOut,
+        wallet,
+        showWallet,
+      }}
+    >
+      <Layout>
         <Component {...pageProps} />
-      </AppContext.Provider>
-    </Layout>
+      </Layout>
+    </AppContext.Provider>
   );
 }
 

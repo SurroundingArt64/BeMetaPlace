@@ -1,6 +1,6 @@
-import React from 'react'
-import Footer from './Footer'
-import Navbar from './Navbar'
+import React, { useContext } from "react";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 const Layout: React.FC = ({ children }) => {
   return (
@@ -9,7 +9,7 @@ const Layout: React.FC = ({ children }) => {
       {children}
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
