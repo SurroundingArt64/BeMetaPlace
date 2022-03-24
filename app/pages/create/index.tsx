@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./Create.module.scss";
 
 import {
@@ -40,6 +40,18 @@ const Create = () => {
       termsOfService: false,
     },
   });
+  const { showWallet } = useWeb3();
+  useEffect(() => {
+    if (connectedAddress) {
+      setPreview((p) => ({
+        ...p,
+        owner: connectedAddress,
+        wallet: connectedAddress,
+      }));
+    } else {
+      showWallet(true);
+    }
+  }, [connectedAddress]);
   return (
     <div className={classes.root}>
       <h1>Create Your NFT</h1>
