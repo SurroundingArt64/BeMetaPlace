@@ -12,6 +12,7 @@ describe('BeMetaPlace.sol', () => {
 		bob: UserType,
 		BeMetaPlace: FixtureType['BeMetaPlace'],
 		PrimarySale: FixtureType['PrimarySale'],
+		SecondarySale: FixtureType['SecondarySale'],
 		BeMetaToken: FixtureType['BeMetaToken']
 
 	beforeEach(async () => {
@@ -21,8 +22,10 @@ describe('BeMetaPlace.sol', () => {
 			BeMetaPlace,
 			BeMetaToken,
 			PrimarySale,
+			SecondarySale,
 		} = await setupTest())
 		await deployer.BeMetaPlace.setAdminAccess(PrimarySale.address, true)
+		await deployer.BeMetaPlace.setAdminAccess(SecondarySale.address, true)
 	})
 
 	it('correct name', async () => {
@@ -64,22 +67,60 @@ describe('BeMetaPlace.sol', () => {
 		)
 
 		await deployer.BeMetaToken.transfer(alice.address, amount)
-
 		await alice.BeMetaToken.approve(PrimarySale.address, amount)
-
 		await alice.PrimarySale.buy(2)
 
 		const values = (
 			await deployer.PrimarySale.getListings(deployer.address)
-		).map((elem) => elem.toNumber())
-
+		).map((elem: any) => elem.toNumber())
 		expect(values).to.deep.eq([1, 3])
-
 		const sales = (await deployer.PrimarySale.getSales(deployer.address)).map(
-			(sale) => sale.listingIndex.toNumber()
+			(sale: any) => sale.listingIndex.toNumber()
 		)
 		expect(sales).to.deep.eq([0, 1])
-
 		expect(await BeMetaPlace.ownerOf(2)).to.eq(alice.address)
+	})
+
+	it('can cancel sale', async () => {
+		const amount = ethers.utils.parseEther('100')
+		await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
+		await deployer.PrimarySale.create(
+			'cancel-1',
+			BeMetaToken.address,
+			3600,
+			amount
+		)
+		await deployer.PrimarySale.cancel(1)
+		const values = (
+			await deployer.PrimarySale.getListings(deployer.address)
+		).map((elem: any) => elem.toNumber())
+		expect(values).to.deep.eq([])
+	})
+
+	it('can cancel and re-list', async () => {
+		const amount = ethers.utils.parseEther('100')
+		await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
+		await deployer.PrimarySale.create(
+			'cancel-1',
+			BeMetaToken.address,
+			3600,
+			amount
+		)
+		await deployer.PrimarySale.cancel(1)
+		let values = (await deployer.PrimarySale.getListings(deployer.address)).map(
+			(elem: any) => elem.toNumber()
+		)
+		expect(values).to.deep.eq([])
+		await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
+		await deployer.PrimarySale.create(
+			'cancel-1',
+			BeMetaToken.address,
+			3600,
+			amount
+		)
+		values = (await deployer.PrimarySale.getListings(deployer.address)).map(
+			(elem: any) => elem.toNumber()
+		)
+		expect(values).to.deep.eq([2])
 	})
 })
