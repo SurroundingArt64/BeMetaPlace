@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import classes from "./Navbar.module.scss";
 import {
   TextInput,
@@ -10,7 +10,6 @@ import {
 import { Search, ArrowRight, ArrowLeft } from "tabler-icons-react";
 import { useBooleanToggle } from "@mantine/hooks";
 import Link from "next/link";
-import AppContext from "../wallet/AppContext";
 import { useWeb3 } from "../../hooks/useWeb3";
 import Wallet from "../wallet/Wallet";
 
