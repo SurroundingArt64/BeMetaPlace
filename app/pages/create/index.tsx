@@ -32,7 +32,6 @@ const Create = () => {
     if (connectedAddress) {
       const run = async () => {
         const NFTAddress = getContractAddress(chainId, "NFT");
-        console.log({ NFTAddress });
         setPreview((p) => ({
           ...p,
           owner: connectedAddress,
