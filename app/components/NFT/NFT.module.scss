@@ -1,7 +1,9 @@
-@import '../../styles/mixins.scss';
+@import "../../styles/mixins.scss";
 
 .root {
   @include flex;
+  user-select: none;
+  cursor: pointer;
   width: 250px;
   height: auto;
   margin: 0;
@@ -48,6 +50,17 @@
       & > * + * {
         margin-top: 5px;
       }
+      .description {
+        .more {
+          font-size: 12px;
+          cursor: pointer;
+          font-weight: bold;
+          text-decoration: underline;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
       h1 {
         color: #4262ea;
         font-size: 24px;
@@ -72,6 +85,9 @@
         @include flex;
         width: 100%;
         justify-content: space-between;
+        h3 {
+          font-weight: bold;
+        }
         .price {
           @include flex;
           * + * {

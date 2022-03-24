@@ -40,7 +40,7 @@ const Home: NextPage = () => {
         currency: "ETH",
         address: "0x0000000000000000000000000000000000000002",
         description:
-          "A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.",
+          "A tribute to the Parisian duo responsible for some of the most popular dance and pop songs. A tribute to the Parisian duo responsible for some of the most popular dance and pop songs. A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.",
       },
     },
     {
