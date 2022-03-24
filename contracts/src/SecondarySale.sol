@@ -29,6 +29,13 @@ contract SecondarySale is
 		bool isActive;
 	}
 
+	event UpdatedAllowedNFT(address indexed nftAddress, bool isAllowed);
+
+	event UpdatedAllowedCurrencies(
+		address indexed currencyAddress,
+		bool isAllowed
+	);
+
 	function getIndex(address nftAddress, uint256 tokenId)
 		public
 		pure
@@ -58,6 +65,14 @@ contract SecondarySale is
 		__Ownable_init();
 		__ERC721Holder_init();
 		__ReentrancyGuard_init();
+	}
+
+	function getListings(address seller)
+		external
+		view
+		returns (SaleData[] memory listing)
+	{
+		listing = listings[seller];
 	}
 
 	function create(
@@ -153,5 +168,15 @@ contract SecondarySale is
 		listings[_msgSender()].pop();
 
 		delete sales[_msgSender()][b];
+	}
+
+	function setAllowedNFTAddress(address token, bool enabled) external {
+		allowedNFTAddresses[token] = enabled;
+		emit UpdatedAllowedNFT(token, enabled);
+	}
+
+	function setAllowedCurrency(address token, bool enabled) external {
+		allowedCurrencies[token] = enabled;
+		emit UpdatedAllowedCurrencies(token, enabled);
 	}
 }
