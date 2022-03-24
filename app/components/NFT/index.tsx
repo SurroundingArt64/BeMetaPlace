@@ -1,18 +1,18 @@
-import Link from 'next/link'
-import React from 'react'
-import classes from './NFT.module.scss'
+import Link from "next/link";
+import React from "react";
+import classes from "./NFT.module.scss";
 
 export interface NFTTypes {
-  owner: string
+  owner: string;
   item: {
-    image: string
-    video?: string
-    title: string
-    value: string
-    currency: string
-    address: string
-    description?: string
-  }
+    image: string;
+    video?: string;
+    title: string;
+    value: string;
+    currency: string;
+    address: string;
+    description?: string;
+  };
 }
 
 const NFT: React.FC<{ nft: NFTTypes; disabled?: boolean }> = ({
@@ -26,7 +26,7 @@ const NFT: React.FC<{ nft: NFTTypes; disabled?: boolean }> = ({
           <div className={classes.container}>
             {nft.item.video ? (
               <video autoPlay muted loop className={classes.image}>
-                <source src={nft.item.video} type='video/mp4' />
+                <source src={nft.item.video} type="video/mp4" />
               </video>
             ) : (
               <img className={classes.image} src={nft.item.image} />
@@ -42,7 +42,18 @@ const NFT: React.FC<{ nft: NFTTypes; disabled?: boolean }> = ({
                 </div>
               </div>
               <p className={classes.description}>
-                {nft.item.description ?? 'No description given.'}
+                {nft.item.description ? (
+                  nft.item.description.length > 80 ? (
+                    <>
+                      {nft.item.description.slice(0, 80) + "... "}{" "}
+                      <div className={classes.more}> READ MORE</div>{" "}
+                    </>
+                  ) : (
+                    nft.item.description
+                  )
+                ) : (
+                  "No description given."
+                )}
               </p>
             </div>
           </div>
@@ -51,7 +62,7 @@ const NFT: React.FC<{ nft: NFTTypes; disabled?: boolean }> = ({
         <div className={classes.container}>
           {nft.item.video ? (
             <video autoPlay muted loop className={classes.image}>
-              <source src={nft.item.video} type='video/mp4' />
+              <source src={nft.item.video} type="video/mp4" />
             </video>
           ) : (
             <img className={classes.image} src={nft.item.image} />
@@ -67,13 +78,13 @@ const NFT: React.FC<{ nft: NFTTypes; disabled?: boolean }> = ({
               </div>
             </div>
             <p className={classes.description}>
-              {nft.item.description ?? 'No description given.'}
+              {nft.item.description ?? "No description given."}
             </p>
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default NFT
+export default NFT;
