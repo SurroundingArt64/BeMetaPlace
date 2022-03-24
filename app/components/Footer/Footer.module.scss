@@ -1,4 +1,4 @@
-@import '../../styles/mixins.scss';
+@import "../../styles/mixins.scss";
 
 .root {
   @include flex;
@@ -6,7 +6,7 @@
   width: 100vw;
   height: 300px;
   color: white;
-  padding: auto 0;
+
   .container {
     @include flex;
     justify-content: space-between;
