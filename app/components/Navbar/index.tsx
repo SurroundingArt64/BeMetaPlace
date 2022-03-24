@@ -17,7 +17,7 @@ import Wallet from "../wallet/Wallet";
 const Navbar = (props: TextInputProps) => {
   const theme = useMantineTheme();
   const [opened, toggleOpened] = useBooleanToggle(false);
-  const { showWallet, wallet } = useWeb3();
+  const { showWallet, wallet, connectedAddress } = useWeb3();
   return (
     <div className={classes.root}>
       {wallet && (
@@ -60,10 +60,14 @@ const Navbar = (props: TextInputProps) => {
           </li>
           <li
             onClick={() => {
-              showWallet(true);
+              if (!connectedAddress) showWallet(true);
             }}
           >
-            Wallet
+            {connectedAddress
+              ? connectedAddress.slice(0, 5) +
+                "..." +
+                connectedAddress.slice(connectedAddress.length - 4)
+              : "Wallet"}
           </li>
         </ul>
         <Burger
