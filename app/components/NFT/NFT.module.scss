@@ -85,14 +85,15 @@
         @include flex;
         width: 100%;
         justify-content: space-between;
-        h3 {
-          font-weight: bold;
-        }
         .price {
-          @include flex;
-          * + * {
-            margin-left: 5px;
+          h3 {
+            font-weight: bold;
           }
+          @include flex;
+          justify-content: space-between;
+          // .value {
+          //   padding-right: 5px;
+          // }
         }
       }
     }
