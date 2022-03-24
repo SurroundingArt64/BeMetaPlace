@@ -9,7 +9,7 @@ interface IParams extends ParsedUrlQuery {
 }
 const NFTPage: React.FC = () => {
   const router = useRouter();
-  const [address, setAddress] = useState<string>();
+  const [, setAddress] = useState<string>();
   useEffect(() => {
     const query = router.query as IParams;
     if (query.address) {
