@@ -1,15 +1,24 @@
 import { useRouter } from "next/router";
-import React from "react";
+import { ParsedUrlQuery } from "querystring";
+import React, { useEffect, useState } from "react";
 import NFT from "../../components/NFT";
 
 import classes from "./NFTPage.module.scss";
-
+interface IParams extends ParsedUrlQuery {
+  address?: string;
+}
 const NFTPage: React.FC = () => {
   const router = useRouter();
-  const address = (router.query.address as string) ?? "";
-
+  const [address, setAddress] = useState<string>();
+  useEffect(() => {
+    const query = router.query as IParams;
+    if (query.address) {
+      setAddress(query.address);
+      setSample((sample) => ({ ...sample, address: query.address }));
+    }
+  }, [router]);
   // GET FROM IPFS
-  const sample = {
+  const [sample, setSample] = useState({
     owner: "AquaRules",
     item: {
       image:
@@ -19,11 +28,11 @@ const NFTPage: React.FC = () => {
       title: "Daft Punk #1",
       value: "1",
       currency: "ETH",
-      address: "0x0000000000000000000000000000000000000000",
+      address: "",
       description:
         "A tribute to the Parisian duo responsible for some of the most popular dance and pop songs.",
     },
-  };
+  });
 
   return (
     <div className={classes.root}>
