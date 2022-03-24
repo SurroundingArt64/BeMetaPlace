@@ -173,10 +173,14 @@ describe('BeMetaPlace.sol', () => {
 				Date.now(),
 				Date.now() + 3600
 			)
-			const values = (
+			let values = (
 				await deployer.SecondarySale.getListings(deployer.address)
 			).map((elem: any) => elem.tokenId.toNumber())
 			expect(values).to.deep.eq([1])
+			values = (await deployer.SecondarySale.getListings(deployer.address)).map(
+				(elem: any) => elem.seller
+			)
+			expect(values).to.deep.eq([deployer.address])
 		})
 	})
 })

@@ -29,12 +29,9 @@ contract SecondarySale is
 		bool isActive;
 	}
 
-	event UpdatedAllowedNFT(address indexed nftAddress, bool isAllowed);
+	event SetNFT(address indexed nftAddress, bool isAllowed);
 
-	event UpdatedAllowedCurrencies(
-		address indexed currencyAddress,
-		bool isAllowed
-	);
+	event SetCurrencies(address indexed currencyAddress, bool isAllowed);
 
 	function getIndex(address nftAddress, uint256 tokenId)
 		public
@@ -172,11 +169,11 @@ contract SecondarySale is
 
 	function setAllowedNFTAddress(address token, bool enabled) external {
 		allowedNFTAddresses[token] = enabled;
-		emit UpdatedAllowedNFT(token, enabled);
+		emit SetNFT(token, enabled);
 	}
 
 	function setAllowedCurrency(address token, bool enabled) external {
 		allowedCurrencies[token] = enabled;
-		emit UpdatedAllowedCurrencies(token, enabled);
+		emit SetCurrencies(token, enabled);
 	}
 }
