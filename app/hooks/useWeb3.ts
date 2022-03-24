@@ -14,8 +14,13 @@ const isDev = true;
 export const useWeb3 = () => {
   const [walletType, setWalletType] = useState<WalletType>();
 
-  const { setLoader, connectedAddress, setConnectedAddress } =
-    useContext(AppContext);
+  const {
+    setLoader,
+    connectedAddress,
+    setConnectedAddress,
+    wallet,
+    showWallet,
+  } = useContext(AppContext);
 
   const getProvider = async (
     throwErr: boolean = false
@@ -88,7 +93,14 @@ export const useWeb3 = () => {
       }
     }
   };
-  return { connect, walletType, getProvider, connectedAddress };
+  return {
+    connect,
+    walletType,
+    getProvider,
+    connectedAddress,
+    wallet,
+    showWallet,
+  };
 };
 
 class ContractInstance {

@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import NFT, { NFTTypes } from "../components/NFT";
-import Wallet from "../components/wallet/Wallet";
 import classes from "./index.module.scss";
 
 const Home: NextPage = () => {
@@ -56,7 +55,6 @@ const Home: NextPage = () => {
       },
     },
   ];
-
   return (
     <>
       <Head>
@@ -64,7 +62,6 @@ const Home: NextPage = () => {
         <meta name="description" content="bemetaplace, NFT Marketplace" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Wallet outerClick={() => {}}></Wallet>
       <div className={classes.root}>
         <h1>Today's Trending</h1>
         <div className={classes.grid}>
