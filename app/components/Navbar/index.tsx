@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Navbar.module.scss";
 import {
   TextInput,
@@ -12,11 +12,20 @@ import { useBooleanToggle } from "@mantine/hooks";
 import Link from "next/link";
 import { useWeb3 } from "../../hooks/useWeb3";
 import Wallet from "../wallet/Wallet";
+import { useRouter } from "next/router";
 
 const Navbar = (props: TextInputProps) => {
   const theme = useMantineTheme();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const { showWallet, wallet, connectedAddress } = useWeb3();
+  const [awaitRedirect, setAwaitRedirect] = useState<string>();
+  const { push } = useRouter();
+  useEffect(() => {
+    if (awaitRedirect && connectedAddress) {
+      push(awaitRedirect);
+      setAwaitRedirect(undefined);
+    }
+  }, [awaitRedirect, connectedAddress]);
   return (
     <div className={classes.root}>
       {wallet && (
@@ -51,9 +60,18 @@ const Navbar = (props: TextInputProps) => {
           {...props}
         />
         <ul>
-          <Link href="/create">
-            <li data-type="create">Create</li>
-          </Link>
+          <li
+            onClick={() => {
+              if (!connectedAddress) {
+                showWallet(true);
+              }
+              setAwaitRedirect("create");
+            }}
+            data-type="create"
+          >
+            Create
+          </li>
+
           <Link href="/">
             <li>Marketplace</li>
           </Link>
