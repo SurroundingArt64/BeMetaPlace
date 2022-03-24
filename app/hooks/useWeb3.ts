@@ -3,6 +3,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import AppContext from "../components/wallet/AppContext";
 import { ethers } from "ethers";
 import { PromiseType } from "utility-types";
+import { ContractInstance } from "./useContract";
 
 export type WalletType = "metamask" | "wallet-connect" | "torus-wallet";
 const getTorus = async () => {
@@ -102,15 +103,3 @@ export const useWeb3 = () => {
     showWallet,
   };
 };
-
-class ContractInstance {
-  private static _provider: Web3Provider;
-
-  public static get provider(): Web3Provider {
-    return ContractInstance._provider;
-  }
-
-  public static set provider(provider: Web3Provider) {
-    ContractInstance._provider = provider;
-  }
-}
