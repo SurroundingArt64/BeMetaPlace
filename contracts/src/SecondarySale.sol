@@ -46,7 +46,7 @@ contract SecondarySale is
 		uint256 price,
 		uint256 startTime,
 		uint256 endTime,
-		uint256 tokenId
+		uint256 tokenId,
 		bool isActive
 	);
 	event Updated(
@@ -56,7 +56,7 @@ contract SecondarySale is
 		uint256 price,
 		uint256 startTime,
 		uint256 endTime,
-		uint256 tokenId
+		uint256 tokenId,
 		bool isActive
 	);
 	event Sold(address indexed seller, uint256 tokenId);
@@ -158,7 +158,7 @@ contract SecondarySale is
 			data.price,
 			data.startTime,
 			data.endTime,
-			data.tokenId
+			data.tokenId,
 			data.isActive
 		);
 	}
