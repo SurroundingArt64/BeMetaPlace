@@ -15,6 +15,13 @@ contract SecondarySale is
 	ReentrancyGuardUpgradeable
 {
 	using SafeERC20 for IERC20;
+
+	//
+	//
+	// MAPPINGS
+	//
+	//
+
 	mapping(address => bool) public allowedNFTAddresses;
 	mapping(address => bool) public allowedCurrencies;
 	// user=>(address+tokenId)=>SaleData
@@ -26,6 +33,12 @@ contract SecondarySale is
 	// user listing index
 	mapping(address => mapping(bytes => uint256)) public listingIndices;
 
+	//
+	//
+	// STRUCTS
+	//
+	//
+
 	struct SaleData {
 		address seller;
 		address nftAddress;
@@ -36,6 +49,12 @@ contract SecondarySale is
 		uint256 tokenId;
 		bool isActive;
 	}
+
+	//
+	//
+	// EVENTS
+	//
+	//
 
 	event SetNFT(address indexed nftAddress, bool isAllowed);
 	event SetCurrencies(address indexed currencyAddress, bool isAllowed);
@@ -62,11 +81,23 @@ contract SecondarySale is
 	event Sold(address indexed seller, uint256 tokenId);
 	event Cancelled(address indexed seller, uint256 tokenId);
 
+	//
+	//
+	// INTI
+	//
+	//
+
 	function initialize() public initializer {
 		__Ownable_init();
 		__ERC721Holder_init();
 		__ReentrancyGuard_init();
 	}
+
+	//
+	//
+	// GETTERS / SETTERS
+	//
+	//
 
 	function getListings(address seller)
 		external
@@ -75,6 +106,22 @@ contract SecondarySale is
 	{
 		listing = listings[seller];
 	}
+
+	function setAllowedNFTAddress(address token, bool enabled) external {
+		allowedNFTAddresses[token] = enabled;
+		emit SetNFT(token, enabled);
+	}
+
+	function setAllowedCurrency(address token, bool enabled) external {
+		allowedCurrencies[token] = enabled;
+		emit SetCurrencies(token, enabled);
+	}
+
+	//
+	//
+	// CORE
+	//
+	//
 
 	function create(
 		address nftAddress,
@@ -220,15 +267,11 @@ contract SecondarySale is
 		emit Cancelled(_msgSender(), _tokenId);
 	}
 
-	function setAllowedNFTAddress(address token, bool enabled) external {
-		allowedNFTAddresses[token] = enabled;
-		emit SetNFT(token, enabled);
-	}
-
-	function setAllowedCurrency(address token, bool enabled) external {
-		allowedCurrencies[token] = enabled;
-		emit SetCurrencies(token, enabled);
-	}
+	//
+	//
+	// UTILS
+	//
+	//
 
 	function getIndex(address nftAddress, uint256 tokenId)
 		public
