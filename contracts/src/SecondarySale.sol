@@ -167,33 +167,28 @@ contract SecondarySale is
 		delete sales[_msgSender()][b];
 	}
 
-	function cancel(uint256 _tokenId) external {
-		SaleData memory sale = tokenSaleData[getIndex(_msgSender(), _tokenId)];
+	function cancel(address nftAddress, uint256 _tokenId) external {
+		bytes memory b = getIndex(nftAddress, _tokenId);
+		SaleData memory data = tokenSaleData[b];
 		require(
-			sale.seller == _msgSender() || _msgSender() == owner(),
+			data.seller == _msgSender() || _msgSender() == owner(),
 			'Not owner or seller.'
 		);
-		// get the last
-		SaleData memory _last = listings[_msgSender()][
+		uint256 listingIndex = listingIndices[data.seller][b];
+
+		listings[_msgSender()][listingIndex] = listings[_msgSender()][
 			listings[_msgSender()].length - 1
 		];
-		// update the current with last
-		listings[_msgSender()][
-			listingIndices[_msgSender()][getIndex(address(this), _tokenId)]
-		] = _last;
-		// update the swapped with current index
-		listingIndices[_msgSender()][
+		listingIndices[data.seller][
 			getIndex(
-				listings[_msgSender()][
-					listingIndices[_msgSender()][getIndex(address(this), _tokenId)]
-				].nftAddress,
-				_last.tokenId
+				listings[_msgSender()][listingIndex].nftAddress,
+				listings[_msgSender()][listingIndex].tokenId
 			)
-		] = listingIndices[_msgSender()][getIndex(address(this), _tokenId)];
-		// delete sale
-		delete sales[_msgSender()][getIndex(address(this), _tokenId)];
-		// pop the last
+		] = listingIndex;
+
 		listings[_msgSender()].pop();
+
+		delete sales[_msgSender()][b];
 	}
 
 	function setAllowedNFTAddress(address token, bool enabled) external {
