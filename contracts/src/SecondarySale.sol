@@ -173,21 +173,21 @@ contract SecondarySale is
 			sale.seller == _msgSender() || _msgSender() == owner(),
 			'Not owner or seller.'
 		);
-		// get the last tokenId
-		uint256 _lastTokenId = listings[_msgSender()][
+		// get the last
+		SaleData memory _last = listings[_msgSender()][
 			listings[_msgSender()].length - 1
-		].tokenId;
+		];
 		// update the current with last
 		listings[_msgSender()][
 			listingIndices[_msgSender()][getIndex(address(this), _tokenId)]
-		].tokenId = _lastTokenId;
+		] = _last;
 		// update the swapped with current index
 		listingIndices[_msgSender()][
 			getIndex(
 				listings[_msgSender()][
 					listingIndices[_msgSender()][getIndex(address(this), _tokenId)]
 				].nftAddress,
-				_lastTokenId
+				_last.tokenId
 			)
 		] = listingIndices[_msgSender()][getIndex(address(this), _tokenId)];
 		// delete sale
