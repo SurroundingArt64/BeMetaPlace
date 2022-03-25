@@ -17,6 +17,14 @@ contract SecondarySale is
 	using SafeERC20 for IERC20;
 	mapping(address => bool) public allowedNFTAddresses;
 	mapping(address => bool) public allowedCurrencies;
+	// user=>(address+tokenId)=>SaleData
+	mapping(address => mapping(bytes => SaleData)) public sales;
+	// (address+tokenId)=>SaleData
+	mapping(bytes => SaleData) public tokenSaleData;
+	// user listings
+	mapping(address => SaleData[]) public listings;
+	// user listing index
+	mapping(address => mapping(bytes => uint256)) public listingIndices;
 
 	struct SaleData {
 		address seller;
@@ -30,33 +38,29 @@ contract SecondarySale is
 	}
 
 	event SetNFT(address indexed nftAddress, bool isAllowed);
-
 	event SetCurrencies(address indexed currencyAddress, bool isAllowed);
-
-	function getIndex(address nftAddress, uint256 tokenId)
-		public
-		pure
-		returns (bytes memory b)
-	{
-		b = abi.encode(nftAddress, tokenId);
-	}
-
-	function getData(bytes memory b)
-		public
-		pure
-		returns (address nftAddress, uint256 tokenId)
-	{
-		(nftAddress, tokenId) = abi.decode(b, (address, uint256));
-	}
-
-	// user=>(address+tokenId)=>SaleData
-	mapping(address => mapping(bytes => SaleData)) public sales;
-	mapping(bytes => SaleData) public tokenSaleData;
-	// user listings
-	mapping(address => SaleData[]) public listings;
-
-	// user listing index
-	mapping(address => mapping(bytes => uint256)) public listingIndices;
+	event Sale(
+		address indexed seller,
+		address indexed nftAddress,
+		address indexed currency,
+		uint256 price,
+		uint256 startTime,
+		uint256 endTime,
+		uint256 tokenId
+		bool isActive
+	);
+	event Updated(
+		address indexed seller,
+		address indexed nftAddress,
+		address indexed currency,
+		uint256 price,
+		uint256 startTime,
+		uint256 endTime,
+		uint256 tokenId
+		bool isActive
+	);
+	event Sold(address indexed seller, uint256 tokenId);
+	event Cancelled(address indexed seller, uint256 tokenId);
 
 	function initialize() public initializer {
 		__Ownable_init();
@@ -115,6 +119,16 @@ contract SecondarySale is
 		listingIndices[_msgSender()][getIndex(nftAddress, tokenId)] = _listingIndex;
 		sales[_msgSender()][getIndex(nftAddress, tokenId)] = data;
 		tokenSaleData[getIndex(nftAddress, tokenId)] = data;
+		emit Sale(
+			_msgSender(),
+			nftAddress,
+			currency,
+			amount,
+			startTime == 0 ? block.timestamp : startTime,
+			endTime,
+			tokenId,
+			true
+		);
 	}
 
 	function updateListing(SaleData memory data) external {
@@ -136,6 +150,17 @@ contract SecondarySale is
 		sales[_msgSender()][getIndex(data.nftAddress, data.tokenId)] = data;
 		tokenSaleData[getIndex(data.nftAddress, data.tokenId)] = data;
 		listings[_msgSender()][_listingIndex] = data;
+
+		emit Updated(
+			data.seller,
+			data.nftAddress,
+			data.currency,
+			data.price,
+			data.startTime,
+			data.endTime,
+			data.tokenId
+			data.isActive
+		);
 	}
 
 	function buy(address nftAddress, uint256 tokenId) external {
@@ -165,6 +190,8 @@ contract SecondarySale is
 		listings[_msgSender()].pop();
 
 		delete sales[_msgSender()][b];
+
+		emit Sold(_msgSender(), tokenId);
 	}
 
 	function cancel(address nftAddress, uint256 _tokenId) external {
@@ -189,6 +216,8 @@ contract SecondarySale is
 		listings[_msgSender()].pop();
 
 		delete sales[_msgSender()][b];
+
+		emit Cancelled(_msgSender(), _tokenId);
 	}
 
 	function setAllowedNFTAddress(address token, bool enabled) external {
@@ -199,5 +228,21 @@ contract SecondarySale is
 	function setAllowedCurrency(address token, bool enabled) external {
 		allowedCurrencies[token] = enabled;
 		emit SetCurrencies(token, enabled);
+	}
+
+	function getIndex(address nftAddress, uint256 tokenId)
+		public
+		pure
+		returns (bytes memory b)
+	{
+		b = abi.encode(nftAddress, tokenId);
+	}
+
+	function getData(bytes memory b)
+		public
+		pure
+		returns (address nftAddress, uint256 tokenId)
+	{
+		(nftAddress, tokenId) = abi.decode(b, (address, uint256));
 	}
 }
