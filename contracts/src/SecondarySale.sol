@@ -244,26 +244,30 @@ contract SecondarySale is
 	function cancel(address nftAddress, uint256 _tokenId) external onlyAdmin {
 		bytes memory b = getIndex(nftAddress, _tokenId);
 		SaleData memory data = tokenSaleData[b];
+
 		require(
 			data.seller == _msgSender() || _msgSender() == owner(),
 			'Not owner or seller.'
 		);
+
+		// Get current listing
 		uint256 listingIndex = listingIndices[data.seller][b];
 
+		// Rewrite current listing with last listing
 		listings[_msgSender()][listingIndex] = listings[_msgSender()][
 			listings[_msgSender()].length - 1
 		];
-		listingIndices[data.seller][
-			getIndex(
-				listings[_msgSender()][listingIndex].nftAddress,
-				listings[_msgSender()][listingIndex].tokenId
-			)
-		] = listingIndex;
 
+		// Update listing index
+		listingIndices[data.seller][b] = listingIndex;
+
+		// Remove last listing
 		listings[_msgSender()].pop();
 
+		// Delete sale data
 		delete sales[_msgSender()][b];
 
+		// Emit Cancelled Event
 		emit Cancelled(_msgSender(), _tokenId);
 	}
 
