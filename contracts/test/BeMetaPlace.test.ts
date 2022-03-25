@@ -130,7 +130,7 @@ describe('BeMetaPlace.sol', () => {
 		it('cannot sale with un-allowed NFTAddress', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await expect(
-				deployer.SecondarySale.create(
+				alice.SecondarySale.create(
 					BeMetaPlace.address,
 					BeMetaToken.address,
 					'utr-1',
@@ -147,7 +147,7 @@ describe('BeMetaPlace.sol', () => {
 				true
 			)
 			await expect(
-				deployer.SecondarySale.create(
+				alice.SecondarySale.create(
 					BeMetaPlace.address,
 					BeMetaToken.address,
 					'utr-1',
@@ -164,8 +164,8 @@ describe('BeMetaPlace.sol', () => {
 				true
 			)
 			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
-			await deployer.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
-			await deployer.SecondarySale.create(
+			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+			await alice.SecondarySale.create(
 				BeMetaPlace.address,
 				BeMetaToken.address,
 				'utr-1',
@@ -173,14 +173,14 @@ describe('BeMetaPlace.sol', () => {
 				Date.now(),
 				Date.now() + 3600
 			)
-			let values = (
-				await deployer.SecondarySale.getListings(deployer.address)
-			).map((elem: any) => elem.tokenId.toNumber())
+			let values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
 			expect(values).to.deep.eq([1])
-			values = (await deployer.SecondarySale.getListings(deployer.address)).map(
+			values = (await alice.SecondarySale.getListings(alice.address)).map(
 				(elem: any) => elem.seller
 			)
-			expect(values).to.deep.eq([deployer.address])
+			expect(values).to.deep.eq([alice.address])
 		})
 	})
 })
