@@ -182,5 +182,30 @@ describe('BeMetaPlace.sol', () => {
 			)
 			expect(values).to.deep.eq([alice.address])
 		})
+		it('should be able to put on sale and cancel', async () => {
+			const amount = ethers.utils.parseEther('100')
+			await deployer.SecondarySale.setAllowedNFTAddress(
+				BeMetaPlace.address,
+				true
+			)
+			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
+			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+			await alice.SecondarySale.create(
+				BeMetaPlace.address,
+				BeMetaToken.address,
+				'utr-1',
+				amount,
+				Date.now(),
+				Date.now() + 3600
+			)
+			let values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			await alice.SecondarySale.cancel(values[0])
+			values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			expect(values).to.deep.eq([])
+		})
 	})
 })

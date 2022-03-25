@@ -167,6 +167,35 @@ contract SecondarySale is
 		delete sales[_msgSender()][b];
 	}
 
+	function cancel(uint256 _tokenId) external {
+		SaleData memory sale = tokenSaleData[getIndex(_msgSender(), _tokenId)];
+		require(
+			sale.seller == _msgSender() || _msgSender() == owner(),
+			'Not owner or seller.'
+		);
+		// get the last tokenId
+		uint256 _lastTokenId = listings[_msgSender()][
+			listings[_msgSender()].length - 1
+		].tokenId;
+		// update the current with last
+		listings[_msgSender()][
+			listingIndices[_msgSender()][getIndex(address(this), _tokenId)]
+		].tokenId = _lastTokenId;
+		// update the swapped with current index
+		listingIndices[_msgSender()][
+			getIndex(
+				listings[_msgSender()][
+					listingIndices[_msgSender()][getIndex(address(this), _tokenId)]
+				].nftAddress,
+				_lastTokenId
+			)
+		] = listingIndices[_msgSender()][getIndex(address(this), _tokenId)];
+		// delete sale
+		delete sales[_msgSender()][getIndex(address(this), _tokenId)];
+		// pop the last
+		listings[_msgSender()].pop();
+	}
+
 	function setAllowedNFTAddress(address token, bool enabled) external {
 		allowedNFTAddresses[token] = enabled;
 		emit SetNFT(token, enabled);
