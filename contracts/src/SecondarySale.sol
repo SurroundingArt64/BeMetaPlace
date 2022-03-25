@@ -254,6 +254,7 @@ contract SecondarySale is
 		uint256 listingIndex = listingIndices[data.seller][b];
 
 		// Rewrite current listing with last listing
+		// @dev ! THIS FAILS WITH UNDERFLOW?
 		listings[_msgSender()][listingIndex] = listings[_msgSender()][
 			listings[_msgSender()].length - 1
 		];
@@ -261,11 +262,11 @@ contract SecondarySale is
 		// Update listing index
 		listingIndices[data.seller][b] = listingIndex;
 
-		// Remove last listing
-		listings[_msgSender()].pop();
-
 		// Delete sale data
 		delete sales[_msgSender()][b];
+
+		// Remove last listing
+		listings[_msgSender()].pop();
 
 		// Emit Cancelled Event
 		emit Cancelled(_msgSender(), _tokenId);
