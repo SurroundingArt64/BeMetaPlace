@@ -241,7 +241,7 @@ contract SecondarySale is
 		emit Sold(_msgSender(), tokenId);
 	}
 
-	function cancel(address nftAddress, uint256 _tokenId) external {
+	function cancel(address nftAddress, uint256 _tokenId) external onlyAdmin {
 		bytes memory b = getIndex(nftAddress, _tokenId);
 		SaleData memory data = tokenSaleData[b];
 		require(
