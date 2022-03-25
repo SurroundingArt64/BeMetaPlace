@@ -201,7 +201,7 @@ describe('BeMetaPlace.sol', () => {
 			let values = (await alice.SecondarySale.getListings(alice.address)).map(
 				(elem: any) => elem.tokenId.toNumber()
 			)
-			await alice.SecondarySale.cancel(values[0])
+			await alice.SecondarySale.cancel(BeMetaPlace.address, values[0])
 			values = (await alice.SecondarySale.getListings(alice.address)).map(
 				(elem: any) => elem.tokenId.toNumber()
 			)
