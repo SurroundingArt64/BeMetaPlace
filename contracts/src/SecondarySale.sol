@@ -17,9 +17,9 @@ contract SecondarySale is
 	using SafeERC20 for IERC20;
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////             MAPPINGS 			        ////
-	////        			 										  ////
+	////																		////
+	////						MAPPINGS								////
+	////																		////
 	////////////////////////////////////////////
 
 	mapping(address => bool) public allowedNFTAddresses;
@@ -34,9 +34,9 @@ contract SecondarySale is
 	mapping(address => mapping(bytes => uint256)) public listingIndices;
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////              STRUCTS 		          ////
-	////        			 										  ////
+	////																		////
+	////							STRUCTS								////
+	////																		////
 	////////////////////////////////////////////
 
 	struct SaleData {
@@ -51,9 +51,9 @@ contract SecondarySale is
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////              EVENTS  			        ////
-	////        			 										  ////
+	////																		////
+	////							EVENTS								////
+	////																		////
 	////////////////////////////////////////////
 
 	event SetNFT(address indexed nftAddress, bool isAllowed);
@@ -82,9 +82,9 @@ contract SecondarySale is
 	event Cancelled(address indexed seller, uint256 tokenId);
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////               INIT   			        ////
-	////        			 										  ////
+	////																		////
+	////							INIT									////
+	////																		////
 	////////////////////////////////////////////
 
 	function initialize() public initializer {
@@ -94,9 +94,9 @@ contract SecondarySale is
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////          GETTERS/SETTERS	          ////
-	////        			 										  ////
+	////																		////
+	////					GETTERS/SETTERS						////
+	////																		////
 	////////////////////////////////////////////
 
 	function getListings(address seller)
@@ -118,9 +118,9 @@ contract SecondarySale is
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////               CORE  		  	        ////
-	////        			 										  ////
+	////																		////
+	////								CORE								////
+	////																		////
 	////////////////////////////////////////////
 
 	function create(
@@ -273,9 +273,9 @@ contract SecondarySale is
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////               UTILS  			        ////
-	////        			 										  ////
+	////																		////
+	////							UTILS									////
+	////																		////
 	////////////////////////////////////////////
 
 	function getIndex(address nftAddress, uint256 tokenId)
