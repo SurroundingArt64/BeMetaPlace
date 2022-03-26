@@ -65,7 +65,7 @@ const Navbar = (props: TextInputProps) => {
               if (!connectedAddress) {
                 showWallet(true);
               }
-              setAwaitRedirect("create");
+              setAwaitRedirect("/create");
             }}
             data-type="create"
           >
