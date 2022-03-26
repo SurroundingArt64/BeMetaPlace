@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { FormEvent, useEffect } from 'react'
 import classes from './Create.module.scss'
 
 import {
@@ -17,6 +17,10 @@ import { useNotifications } from '@mantine/notifications'
 import { useRouter } from 'next/router'
 
 const Create = () => {
+  const { connectedAddress, showWallet, chainId } = useWeb3()
+  const router = useRouter()
+  const notifications = useNotifications()
+
   const [preview, setPreview] = React.useState<NFTTypes>({
     owner: '',
     item: {
@@ -28,10 +32,6 @@ const Create = () => {
       address: '',
     },
   })
-
-  const { connectedAddress, showWallet, chainId } = useWeb3()
-  const router = useRouter()
-  const notifications = useNotifications()
 
   useEffect(() => {
     if (connectedAddress) {
@@ -65,6 +65,24 @@ const Create = () => {
     }))
   }
 
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const res = await fetch('/api/nft/create', {
+      method: 'POST',
+      body: JSON.stringify(preview),
+    })
+    const data = await res.json()
+    if (data.success) {
+      router.push('/nft/[id]', `/nft/${data.id}`)
+    } else {
+      notifications.showNotification({
+        title: 'Error',
+        message: data.message,
+        color: 'red',
+      })
+    }
+  }
+
   return (
     <div className={classes.root}>
       <h1>Create Your NFT</h1>
@@ -73,25 +91,7 @@ const Create = () => {
           <NFT nft={preview} disabled />
         </div>
         <Box sx={{ maxWidth: 1000, minWidth: 400 }} mx='auto'>
-          <form
-            onSubmit={async (event) => {
-              event.preventDefault()
-              const res = await fetch('/api/nft/create', {
-                method: 'POST',
-                body: JSON.stringify(preview),
-              })
-              const data = await res.json()
-              if (data.success) {
-                router.push('/nft/[id]', `/nft/${data.id}`)
-              } else {
-                notifications.showNotification({
-                  title: 'Error',
-                  message: data.message,
-                  color: 'red',
-                })
-              }
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <TextInput
               required
               label='Title'
