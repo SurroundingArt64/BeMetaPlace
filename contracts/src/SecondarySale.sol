@@ -227,7 +227,6 @@ contract SecondarySale is
 		uint256 listingIndex = listingIndices[data.seller][b];
 
 		// Rewrite current listing with last listing
-		// @dev ! THIS FAILS WITH UNDERFLOW?
 		listings[data.seller][listingIndex] = listings[data.seller][
 			listings[data.seller].length - 1
 		];
