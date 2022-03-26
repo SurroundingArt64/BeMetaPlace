@@ -7,18 +7,74 @@
   align-items: flex-start;
   flex-direction: column;
   padding: 64px 0;
-  h1 {
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 48px;
-    color: $gray-900;
+  .header {
+    @include flex;
+    width: 100%;
+    justify-content: space-between;
+    .title {
+      @include flex;
+      .verified {
+        padding: 0 0.5rem;
+      }
+      h1 {
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 48px;
+        color: $gray-900;
+      }
+    }
+    .social {
+      @include flex;
+      * + * {
+        padding: 0 1rem;
+      }
+    }
   }
   .content {
     @include flex;
-    margin: 32px 0;
+    justify-content: space-between;
+    padding-top: 2rem;
+    align-items: flex-start;
+    width: 100%;
+
     .content__nft {
+      width: 48%;
+      .image {
+        border-radius: 10px;
+        width: 100%;
+        min-height: 230px;
+        height: auto;
+        padding: 10px;
+        background-color: $secondary-color;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
       *:hover {
         transform: none;
+      }
+    }
+    .content__right {
+      width: 48%;
+
+      .price {
+        @include flex;
+        justify-content: space-between;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: $gray-900;
+        font-weight: 600;
+        padding: 1rem 0;
+      }
+      .desc {
+        font-weight: 400;
+        padding-top: 0.75rem;
+      }
+      .ownedBy {
+        color: $primary-color;
+        font-weight: 500;
+        font-size: 18px;
       }
     }
   }
