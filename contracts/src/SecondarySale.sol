@@ -37,6 +37,7 @@ contract SecondarySale is
 		uint256 tokenId;
 		bool isActive;
 	}
+
 	event SetNFT(address indexed nftAddress, bool isAllowed);
 	event SetCurrencies(address indexed currencyAddress, bool isAllowed);
 	event Sale(
@@ -49,23 +50,24 @@ contract SecondarySale is
 		uint256 tokenId,
 		bool isActive
 	);
-	event Updated(
-		address indexed seller,
-		address indexed nftAddress,
-		address indexed currency,
-		uint256 price,
-		uint256 startTime,
-		uint256 endTime,
-		uint256 tokenId,
-		bool isActive
-	);
+
 	event Sold(address indexed seller, uint256 tokenId);
 	event Cancelled(address indexed seller, uint256 tokenId);
 
-	function initialize() public initializer {
-		__Ownable_init();
-		__ERC721Holder_init();
-		__ReentrancyGuard_init();
+	function getIndex(address nftAddress, uint256 tokenId)
+		public
+		pure
+		returns (bytes memory b)
+	{
+		b = abi.encode(nftAddress, tokenId);
+	}
+
+	function getData(bytes memory b)
+		public
+		pure
+		returns (address nftAddress, uint256 tokenId)
+	{
+		(nftAddress, tokenId) = abi.decode(b, (address, uint256));
 	}
 
 	function getListings(address seller)
@@ -74,6 +76,12 @@ contract SecondarySale is
 		returns (SaleData[] memory listing)
 	{
 		listing = listings[seller];
+	}
+
+	function initialize() public initializer {
+		__Ownable_init();
+		__ERC721Holder_init();
+		__ReentrancyGuard_init();
 	}
 
 	function setAllowedNFTAddress(address token, bool enabled) external {
@@ -161,7 +169,7 @@ contract SecondarySale is
 		tokenSaleData[getIndex(data.nftAddress, data.tokenId)] = data;
 		listings[_msgSender()][_listingIndex] = data;
 
-		emit Updated(
+		emit Sale(
 			data.seller,
 			data.nftAddress,
 			data.currency,
@@ -233,21 +241,5 @@ contract SecondarySale is
 
 		// Emit Cancelled Event
 		emit Cancelled(_msgSender(), _tokenId);
-	}
-
-	function getIndex(address nftAddress, uint256 tokenId)
-		public
-		pure
-		returns (bytes memory b)
-	{
-		b = abi.encode(nftAddress, tokenId);
-	}
-
-	function getData(bytes memory b)
-		public
-		pure
-		returns (address nftAddress, uint256 tokenId)
-	{
-		(nftAddress, tokenId) = abi.decode(b, (address, uint256));
 	}
 }
