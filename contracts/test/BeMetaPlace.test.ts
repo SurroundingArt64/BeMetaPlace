@@ -185,30 +185,37 @@ describe('BeMetaPlace.sol', () => {
 				true
 			)
 			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
+
 			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+
 			await alice.SecondarySale.create(
 				BeMetaPlace.address,
 				BeMetaToken.address,
 				'utr-1',
 				amount,
 				0,
-				Date.now() + 3600
+				Math.floor(Date.now() / 1000) + 3600
 			)
-			let values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem) => elem.tokenId.toNumber()
+			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+
+			const listings = await alice.SecondarySale.getListings(alice.address)
+			console.log(
+				listings[0].isActive,
+				listings[0].startTime.toString(),
+				listings[0].endTime.toString(),
+				Math.floor(Date.now() / 1000).toString()
 			)
-			console.log(values)
+			let values = listings.map((elem) => elem.tokenId.toNumber())
 			await deployer.BeMetaToken.transfer(bob.address, amount)
 			await bob.BeMetaToken.approve(SecondarySale.address, amount)
 			await bob.SecondarySale.buy(BeMetaPlace.address, values[0])
+
 			let alice_values = (
 				await alice.SecondarySale.getListings(alice.address)
 			).map((elem) => elem.tokenId.toNumber())
-			let bob_values = (await bob.SecondarySale.getListings(bob.address)).map(
-				(elem) => elem.tokenId.toNumber()
-			)
+
 			expect(alice_values).to.deep.eq([])
-			expect(bob_values).to.deep.eq(values)
+			expect(await deployer.BeMetaPlace.ownerOf(1)).to.eq(bob.address)
 		})
 		it('should be able to put on sale and not cancel', async () => {
 			const amount = ethers.utils.parseEther('100')
@@ -217,7 +224,9 @@ describe('BeMetaPlace.sol', () => {
 				true
 			)
 			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
+
 			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+
 			await alice.SecondarySale.create(
 				BeMetaPlace.address,
 				BeMetaToken.address,
