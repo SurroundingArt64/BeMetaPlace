@@ -67,7 +67,7 @@ const Create = () => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const res = await fetch('/api/nft/create', {
+    const res = await fetch('/api/nft', {
       method: 'POST',
       body: JSON.stringify(preview),
     })
