@@ -11,6 +11,9 @@
     @include flex;
     width: 100%;
     justify-content: space-between;
+    @media screen and (max-width: 570px) {
+      flex-wrap: wrap;
+    }
     .title {
       @include flex;
       .verified {
@@ -37,11 +40,24 @@
     align-items: flex-start;
     width: 100%;
 
+    --size-width: 48%;
+    flex-wrap: wrap;
+    @media screen and (max-width: 1024px) {
+      --size-width: 96%;
+    }
     .content__nft {
-      width: 48%;
+      width: var(--size-width);
+      padding-bottom: 1.5rem;
+      min-height: 560px;
+      @media screen and (max-width: 1024px) {
+        min-height: initial;
+      }
       .image {
         border-radius: 10px;
         width: 100%;
+        @media screen and (max-width: 1024px) {
+          --size-width: 80%;
+        }
         min-height: 230px;
         height: auto;
         background-color: $secondary-color;
@@ -54,8 +70,7 @@
       }
     }
     .content__right {
-      width: 48%;
-
+      width: var(--size-width);
       .price {
         @include flex;
         justify-content: space-between;
