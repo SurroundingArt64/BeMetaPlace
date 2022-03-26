@@ -71,9 +71,10 @@ const Create = () => {
       method: 'POST',
       body: JSON.stringify(preview),
     })
-    const data = await res.json()
+    const data: { message: NFTTypes; success: Boolean } = await res.json()
     if (data.success) {
-      router.push('/nft/[id]', `/nft/${data.id}`)
+      router.push('/')
+      // router.push('/nft/[id]', `/nft/${data.message.item?.address}`)
     } else {
       notifications.showNotification({
         title: 'Error',
