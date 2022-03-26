@@ -150,37 +150,37 @@ contract SecondarySale is
 		);
 	}
 
-	// function updateListing(SaleData memory data) external {
-	// 	require(
-	// 		IERC721(data.nftAddress).ownerOf(data.tokenId) == _msgSender(),
-	// 		'Not allowed to update. Not owner.'
-	// 	);
-	// 	require(
-	// 		data.endTime > data.startTime &&
-	// 			(data.startTime == 0 || data.startTime > block.timestamp),
-	// 		'End time must be after start time'
-	// 	);
-	// 	require(allowedNFTAddresses[data.nftAddress], 'NFTAddress not allowed');
-	// 	require(allowedCurrencies[data.currency], 'Currency not allowed');
-	// 	uint256 _listingIndex = listingIndices[_msgSender()][
-	// 		getIndex(data.nftAddress, data.tokenId)
-	// 	];
+	function updateListing(SaleData memory data) external {
+		require(
+			IERC721(data.nftAddress).ownerOf(data.tokenId) == _msgSender(),
+			'Not allowed to update. Not owner.'
+		);
+		require(
+			data.endTime > data.startTime &&
+				(data.startTime == 0 || data.startTime > block.timestamp),
+			'End time must be after start time'
+		);
+		require(allowedNFTAddresses[data.nftAddress], 'NFTAddress not allowed');
+		require(allowedCurrencies[data.currency], 'Currency not allowed');
+		uint256 _listingIndex = listingIndices[_msgSender()][
+			getIndex(data.nftAddress, data.tokenId)
+		];
 
-	// 	sales[_msgSender()][getIndex(data.nftAddress, data.tokenId)] = data;
-	// 	tokenSaleData[getIndex(data.nftAddress, data.tokenId)] = data;
-	// 	listings[_msgSender()][_listingIndex] = data;
+		sales[_msgSender()][getIndex(data.nftAddress, data.tokenId)] = data;
+		tokenSaleData[getIndex(data.nftAddress, data.tokenId)] = data;
+		listings[_msgSender()][_listingIndex] = data;
 
-	// 	emit Sale(
-	// 		data.seller,
-	// 		data.nftAddress,
-	// 		data.currency,
-	// 		data.price,
-	// 		data.startTime,
-	// 		data.endTime,
-	// 		data.tokenId,
-	// 		data.isActive
-	// 	);
-	// }
+		emit Sale(
+			data.seller,
+			data.nftAddress,
+			data.currency,
+			data.price,
+			data.startTime,
+			data.endTime,
+			data.tokenId,
+			data.isActive
+		);
+	}
 
 	function buy(address nftAddress, uint256 tokenId) external {
 		require(allowedNFTAddresses[nftAddress], 'NFTAddress not allowed');
@@ -237,6 +237,7 @@ contract SecondarySale is
 
 		// Delete sale data
 		delete sales[data.seller][b];
+		delete tokenSaleData[b];
 
 		// Remove last listing
 		listings[data.seller].pop();
