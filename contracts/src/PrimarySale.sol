@@ -11,6 +11,8 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	IBeMetaPlace nft721;
 
 	mapping(address => bool) public allowedERC20Tokens;
+	mapping(uint256 => Sale) public sales;
+	mapping(address => uint256[]) public listings;
 
 	struct Sale {
 		uint256 price;
@@ -21,8 +23,12 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		uint256 listingIndex;
 	}
 
-	mapping(uint256 => Sale) public sales;
-	mapping(address => uint256[]) public listings;
+	function initialize(address _nft721_address) public initializer {
+		__ERC721Holder_init();
+		__Ownable_init();
+
+		nft721 = IBeMetaPlace(_nft721_address);
+	}
 
 	function getListings(address seller)
 		external
@@ -45,11 +51,8 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		}
 	}
 
-	function initialize(address _nft721_address) public initializer {
-		__ERC721Holder_init();
-		__Ownable_init();
-
-		nft721 = IBeMetaPlace(_nft721_address);
+	function setAllowedERC20(address token, bool enabled) external {
+		allowedERC20Tokens[token] = enabled;
 	}
 
 	function create(
@@ -110,10 +113,6 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 
 		// set listing index for last value
 		listings[sale.seller].pop();
-	}
-
-	function setAllowedERC20(address token, bool enabled) external {
-		allowedERC20Tokens[token] = enabled;
 	}
 
 	function withdraw(address tokenAddress, uint256 amount) external onlyOwner {

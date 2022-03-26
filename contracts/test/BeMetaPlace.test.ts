@@ -39,12 +39,10 @@ describe('BeMetaPlace.sol', () => {
 				deployer.PrimarySale.create('utr-1', BeMetaToken.address, 3600, 1)
 			).to.be.revertedWith('Not allowed token')
 		})
-
 		it('can create sale with allowed token', async () => {
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
 			await deployer.PrimarySale.create('link-1', BeMetaToken.address, 3600, 1)
 		})
-
 		it('create multiple buy [2]', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
@@ -81,7 +79,6 @@ describe('BeMetaPlace.sol', () => {
 			expect(sales).to.deep.eq([0, 1])
 			expect(await BeMetaPlace.ownerOf(2)).to.eq(alice.address)
 		})
-
 		it('can cancel sale', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
@@ -97,7 +94,6 @@ describe('BeMetaPlace.sol', () => {
 			).map((elem: any) => elem.toNumber())
 			expect(values).to.deep.eq([])
 		})
-
 		it('can cancel and re-list', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
@@ -181,6 +177,85 @@ describe('BeMetaPlace.sol', () => {
 				(elem: any) => elem.seller
 			)
 			expect(values).to.deep.eq([alice.address])
+		})
+		it('should be able to buy', async () => {
+			const amount = ethers.utils.parseEther('100')
+			await deployer.SecondarySale.setAllowedNFTAddress(
+				BeMetaPlace.address,
+				true
+			)
+			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
+			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+			await alice.SecondarySale.create(
+				BeMetaPlace.address,
+				BeMetaToken.address,
+				'utr-1',
+				amount,
+				0,
+				Date.now() + 3600
+			)
+			let values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			await deployer.BeMetaToken.transfer(bob.address, amount)
+			await bob.BeMetaToken.approve(SecondarySale.address, amount)
+			await bob.SecondarySale.buy(BeMetaPlace.address, values[0])
+			let alice_values = (
+				await alice.SecondarySale.getListings(alice.address)
+			).map((elem: any) => elem.tokenId.toNumber())
+			let bob_values = (await bob.SecondarySale.getListings(bob.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			expect(alice_values).to.deep.eq([])
+			expect(bob_values).to.deep.eq(values)
+		})
+		it('should be able to put on sale and not cancel', async () => {
+			const amount = ethers.utils.parseEther('100')
+			await deployer.SecondarySale.setAllowedNFTAddress(
+				BeMetaPlace.address,
+				true
+			)
+			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
+			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+			await alice.SecondarySale.create(
+				BeMetaPlace.address,
+				BeMetaToken.address,
+				'utr-1',
+				amount,
+				Date.now(),
+				Date.now() + 3600
+			)
+			let values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			await expect(
+				alice.SecondarySale.cancel(BeMetaPlace.address, values[0])
+			).to.be.revertedWith('Caller is not admin')
+		})
+		it('should be able to put on sale and cancel as admin', async () => {
+			const amount = ethers.utils.parseEther('100')
+			await deployer.SecondarySale.setAllowedNFTAddress(
+				BeMetaPlace.address,
+				true
+			)
+			await deployer.SecondarySale.setAllowedCurrency(BeMetaToken.address, true)
+			await alice.BeMetaPlace.setApprovalForAll(SecondarySale.address, true)
+			await alice.SecondarySale.create(
+				BeMetaPlace.address,
+				BeMetaToken.address,
+				'utr-1',
+				amount,
+				Date.now(),
+				Date.now() + 3600
+			)
+			let values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			await deployer.SecondarySale.cancel(BeMetaPlace.address, values[0])
+			values = (await alice.SecondarySale.getListings(alice.address)).map(
+				(elem: any) => elem.tokenId.toNumber()
+			)
+			expect(values).to.deep.eq([])
 		})
 	})
 })
