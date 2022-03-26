@@ -1,4 +1,4 @@
-@import "../../styles/mixins.scss";
+@import '../../styles/mixins.scss';
 
 .root {
   @include flex;
@@ -91,9 +91,6 @@
           }
           @include flex;
           justify-content: space-between;
-          // .value {
-          //   padding-right: 5px;
-          // }
         }
       }
     }
