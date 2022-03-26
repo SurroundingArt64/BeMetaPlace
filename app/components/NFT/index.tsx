@@ -25,7 +25,7 @@ const NFT: React.FC<{ nft: NFTTypes; disabled?: boolean }> = ({
     <div
       onClick={() => {
         if (!disabled) {
-          push(`/nft/${nft.item.address}`);
+          push(`/nft/${nft.item.address}/${nft.item.tokenId}`);
         }
       }}
       className={classes.root}

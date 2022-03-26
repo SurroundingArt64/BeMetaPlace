@@ -8,6 +8,7 @@ const Home: NextPage = () => {
     {
       owner: "AquaRules",
       item: {
+        tokenId: "1",
         image:
           "https://external-preview.redd.it/604HAiILnE8x0SDxXo7jxkxstd5Ki7Cd82yS2LtqBmk.png?format=pjpg&auto=webp&s=6537951c3d9451e3827db293446fdc38d01fd732",
         video:
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
     {
       owner: "AquaRules",
       item: {
+        tokenId: "1",
         image: "https://i.redd.it/0move82tzrm71.gif",
         title: "Royal Doge #69",
         value: "4.20",
@@ -33,6 +35,7 @@ const Home: NextPage = () => {
     {
       owner: "AquaRules",
       item: {
+        tokenId: "1",
         image:
           "https://i.pinimg.com/originals/ab/92/90/ab9290e4f21fbd1ffc909b014875ea98.gif",
         title: "Trip #420",
@@ -46,6 +49,7 @@ const Home: NextPage = () => {
     {
       owner: "AquaRules",
       item: {
+        tokenId: "1",
         image:
           "https://static.wixstatic.com/media/0a7fb4_aeaf94b15bd84cd3821fa600519597b5~mv2.gif/v1/fit/w_400%2Ch_400%2Cal_c%2Cq_80/file.gif",
         title: "Taco #3",
