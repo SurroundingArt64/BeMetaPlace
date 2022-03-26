@@ -173,10 +173,10 @@ describe('BeMetaPlace.sol', () => {
 				(elem) => elem.tokenId.toNumber()
 			)
 			expect(values).to.deep.eq([1])
-			values = (await alice.SecondarySale.getListings(alice.address)).map(
+			let sellers = (await alice.SecondarySale.getListings(alice.address)).map(
 				(elem) => elem.seller
 			)
-			expect(values).to.deep.eq([alice.address])
+			expect(sellers).to.deep.eq([alice.address])
 		})
 		it('should be able to buy', async () => {
 			const amount = ethers.utils.parseEther('100')
