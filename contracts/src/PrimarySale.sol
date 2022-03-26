@@ -11,9 +11,9 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	IBeMetaPlace nft721;
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////             MAPPINGS 			        ////
-	////        			 										  ////
+	////																		////
+	////						MAPPINGS								////
+	////																		////
 	////////////////////////////////////////////
 
 	mapping(address => bool) public allowedERC20Tokens;
@@ -21,9 +21,9 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	mapping(address => uint256[]) public listings;
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////              STRUCTS 		          ////
-	////        			 										  ////
+	////																		////
+	////							STRUCTS								////
+	////																		////
 	////////////////////////////////////////////
 
 	struct Sale {
@@ -36,15 +36,15 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////              EVENTS  			        ////
-	////        			 										  ////
+	////																		////
+	////							EVENTS								////
+	////																		////
 	////////////////////////////////////////////
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////               INIT   			        ////
-	////        			 										  ////
+	////																		////
+	////							INIT									////
+	////																		////
 	////////////////////////////////////////////
 
 	function initialize(address _nft721_address) public initializer {
@@ -55,9 +55,9 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////          GETTERS/SETTERS	          ////
-	////        			 										  ////
+	////																		////
+	////					GETTERS/SETTERS						////
+	////																		////
 	////////////////////////////////////////////
 
 	function getListings(address seller)
@@ -86,9 +86,9 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////               CORE  		  	        ////
-	////        			 										  ////
+	////																		////
+	////								CORE								////
+	////																		////
 	////////////////////////////////////////////
 
 	function create(
@@ -188,9 +188,9 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	}
 
 	////////////////////////////////////////////
-	////        			 										  ////
-	////               UTILS  			        ////
-	////        			 										  ////
+	////																		////
+	////							UTILS									////
+	////																		////
 	////////////////////////////////////////////
 
 	uint256[50] private __gap;
