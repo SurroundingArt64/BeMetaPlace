@@ -1,5 +1,7 @@
 /coverage
 
+git-reset-auth.sh
+
 # Logs
 logs
 *.log
