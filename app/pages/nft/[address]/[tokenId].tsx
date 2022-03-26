@@ -1,24 +1,43 @@
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React, { useEffect, useState } from "react";
-import NFT from "../../components/NFT";
+import NFT, { NFTTypes } from "../../../components/NFT";
 
 import classes from "./NFTPage.module.scss";
 interface IParams extends ParsedUrlQuery {
   address?: string;
+  tokenId?: string;
 }
 const NFTPage: React.FC = () => {
   const router = useRouter();
   const [, setAddress] = useState<string>();
+  const [, setTokenId] = useState<string>();
+
   useEffect(() => {
     const query = router.query as IParams;
-    if (query.address) {
+    if (query.address && query.tokenId) {
       setAddress(query.address);
-      setSample((sample) => ({ ...sample, address: query.address }));
+      setTokenId(query.tokenId);
+
+      setSample((sample) => {
+        if (query.address && query.tokenId)
+          return {
+            ...sample,
+            item: {
+              ...sample.item,
+              address: query.address,
+              tokenId: query.tokenId,
+            },
+          };
+        else {
+          return sample;
+        }
+      });
+      console.log({ query });
     }
   }, [router]);
   // GET FROM IPFS
-  const [sample, setSample] = useState({
+  const [sample, setSample] = useState<NFTTypes>({
     owner: "AquaRules",
     item: {
       image:
@@ -27,6 +46,7 @@ const NFTPage: React.FC = () => {
         "https://assets.foundation.app/Za/mo/Qmdx1dJY9J4xqLLcfvJ1diZMdBLAgfvxZoF7WHuuojZamo/nft.mp4",
       title: "Daft Punk #1",
       value: "1",
+      tokenId: "1",
       currency: "ETH",
       address: "",
       description:
