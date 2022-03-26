@@ -9,17 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.6.1",
-    "@mantine/core": "^4.0.7",
-    "@mantine/form": "^4.0.7",
-    "@mantine/hooks": "^4.0.7",
-    "@toruslabs/torus-embed": "^1.20.4",
-    "ethers": "^5.6.1",
+    "@ethersproject/providers": "^5.6.2",
+    "@mantine/core": "^4.0.8",
+    "@mantine/form": "^4.0.8",
+    "@mantine/hooks": "^4.0.8",
+    "@mantine/notifications": "^4.0.8",
+    "@toruslabs/torus-embed": "^1.21.0",
+    "ethers": "^5.6.2",
+    "mongodb": "^4.4.1",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sass": "^1.49.9",
-    "tabler-icons-react": "^1.39.0",
+    "tabler-icons-react": "^1.41.0",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {

@@ -13,6 +13,8 @@ import {
 import NFT, { NFTTypes } from '../../components/NFT'
 import { useWeb3 } from '../../hooks/useWeb3'
 import { getContractAddress } from '../../hooks/useContract'
+import { useNotifications } from '@mantine/notifications'
+import { useRouter } from 'next/router'
 
 const Create = () => {
   const [preview, setPreview] = React.useState<NFTTypes>({
@@ -20,6 +22,7 @@ const Create = () => {
     item: {
       image: '',
       title: '',
+      tokenId: '',
       value: '',
       currency: '',
       address: '',
@@ -27,6 +30,8 @@ const Create = () => {
   })
 
   const { connectedAddress, showWallet, chainId } = useWeb3()
+  const router = useRouter()
+  const notifications = useNotifications()
 
   useEffect(() => {
     if (connectedAddress) {
@@ -68,7 +73,25 @@ const Create = () => {
           <NFT nft={preview} disabled />
         </div>
         <Box sx={{ maxWidth: 1000, minWidth: 400 }} mx='auto'>
-          <form onSubmit={() => {}}>
+          <form
+            onSubmit={async (event) => {
+              event.preventDefault()
+              const res = await fetch('/api/nft/create', {
+                method: 'POST',
+                body: JSON.stringify(preview),
+              })
+              const data = await res.json()
+              if (data.success) {
+                router.push('/nft/[id]', `/nft/${data.id}`)
+              } else {
+                notifications.showNotification({
+                  title: 'Error',
+                  message: data.message,
+                  color: 'red',
+                })
+              }
+            }}
+          >
             <TextInput
               required
               label='Title'

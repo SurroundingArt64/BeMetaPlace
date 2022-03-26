@@ -1,17 +1,18 @@
-import "../styles/globals.scss";
-import type { AppProps } from "next/app";
-import Layout from "../components/Layout";
-import { useState } from "react";
-import AppContext from "../components/wallet/AppContext";
+import '../styles/globals.scss'
+import type { AppProps } from 'next/app'
+import Layout from '../components/Layout'
+import { useState } from 'react'
+import AppContext from '../components/wallet/AppContext'
+import { NotificationsProvider } from '@mantine/notifications'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [connectedAddress, setConnectedAddress] = useState<string>();
-  const [loader, setLoader] = useState<boolean>(true);
-  const [wallet, showWallet] = useState<boolean>(false);
+  const [connectedAddress, setConnectedAddress] = useState<string>()
+  const [loader, setLoader] = useState<boolean>(true)
+  const [wallet, showWallet] = useState<boolean>(false)
 
   const setLoaderWithTimeOut = ((value: boolean) => {
-    setTimeout(() => setLoader(value), 500);
-  }) as typeof setLoader;
+    setTimeout(() => setLoader(value), 500)
+  }) as typeof setLoader
 
   return (
     <AppContext.Provider
@@ -24,11 +25,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         showWallet,
       }}
     >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <NotificationsProvider position='top-center'>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </NotificationsProvider>
     </AppContext.Provider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp
