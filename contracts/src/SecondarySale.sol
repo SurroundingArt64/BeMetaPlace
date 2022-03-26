@@ -8,6 +8,7 @@ import '@openzeppelin/contracts-upgradeable/token/ERC721/utils/ERC721HolderUpgra
 import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import 'hardhat/console.sol';
 
 contract SecondarySale is
 	AccessControl,
@@ -149,42 +150,42 @@ contract SecondarySale is
 		);
 	}
 
-	function updateListing(SaleData memory data) external {
-		require(
-			IERC721(data.nftAddress).ownerOf(data.tokenId) == _msgSender(),
-			'Not allowed to update. Not owner.'
-		);
-		require(
-			data.endTime > data.startTime &&
-				(data.startTime == 0 || data.startTime > block.timestamp),
-			'End time must be after start time'
-		);
-		require(allowedNFTAddresses[data.nftAddress], 'NFTAddress not allowed');
-		require(allowedCurrencies[data.currency], 'Currency not allowed');
-		uint256 _listingIndex = listingIndices[_msgSender()][
-			getIndex(data.nftAddress, data.tokenId)
-		];
+	// function updateListing(SaleData memory data) external {
+	// 	require(
+	// 		IERC721(data.nftAddress).ownerOf(data.tokenId) == _msgSender(),
+	// 		'Not allowed to update. Not owner.'
+	// 	);
+	// 	require(
+	// 		data.endTime > data.startTime &&
+	// 			(data.startTime == 0 || data.startTime > block.timestamp),
+	// 		'End time must be after start time'
+	// 	);
+	// 	require(allowedNFTAddresses[data.nftAddress], 'NFTAddress not allowed');
+	// 	require(allowedCurrencies[data.currency], 'Currency not allowed');
+	// 	uint256 _listingIndex = listingIndices[_msgSender()][
+	// 		getIndex(data.nftAddress, data.tokenId)
+	// 	];
 
-		sales[_msgSender()][getIndex(data.nftAddress, data.tokenId)] = data;
-		tokenSaleData[getIndex(data.nftAddress, data.tokenId)] = data;
-		listings[_msgSender()][_listingIndex] = data;
+	// 	sales[_msgSender()][getIndex(data.nftAddress, data.tokenId)] = data;
+	// 	tokenSaleData[getIndex(data.nftAddress, data.tokenId)] = data;
+	// 	listings[_msgSender()][_listingIndex] = data;
 
-		emit Sale(
-			data.seller,
-			data.nftAddress,
-			data.currency,
-			data.price,
-			data.startTime,
-			data.endTime,
-			data.tokenId,
-			data.isActive
-		);
-	}
+	// 	emit Sale(
+	// 		data.seller,
+	// 		data.nftAddress,
+	// 		data.currency,
+	// 		data.price,
+	// 		data.startTime,
+	// 		data.endTime,
+	// 		data.tokenId,
+	// 		data.isActive
+	// 	);
+	// }
 
 	function buy(address nftAddress, uint256 tokenId) external {
 		require(allowedNFTAddresses[nftAddress], 'NFTAddress not allowed');
 		bytes memory b = getIndex(nftAddress, tokenId);
-		SaleData memory data = sales[_msgSender()][b];
+		SaleData memory data = tokenSaleData[b];
 
 		require(data.isActive, 'Sale is not active');
 		require(
@@ -192,22 +193,23 @@ contract SecondarySale is
 			'Sale is not active'
 		);
 		IERC721(nftAddress).safeTransferFrom(data.seller, _msgSender(), tokenId);
-		IERC20(data.currency).transfer(data.seller, data.price);
+		IERC20(data.currency).transferFrom(_msgSender(), data.seller, data.price);
 		uint256 listingIndex = listingIndices[data.seller][b];
 
-		listings[_msgSender()][listingIndex] = listings[_msgSender()][
-			listings[_msgSender()].length - 1
+		listings[data.seller][listingIndex] = listings[data.seller][
+			listings[data.seller].length - 1
 		];
 		listingIndices[data.seller][
 			getIndex(
-				listings[_msgSender()][listingIndex].nftAddress,
-				listings[_msgSender()][listingIndex].tokenId
+				listings[data.seller][listingIndex].nftAddress,
+				listings[data.seller][listingIndex].tokenId
 			)
 		] = listingIndex;
 
-		listings[_msgSender()].pop();
+		listings[data.seller].pop();
 
-		delete sales[_msgSender()][b];
+		delete sales[data.seller][b];
+		delete tokenSaleData[b];
 
 		emit Sold(_msgSender(), tokenId);
 	}
