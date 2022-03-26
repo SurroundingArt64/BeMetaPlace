@@ -4,5 +4,3 @@ artifacts
 .env
 /src/types
 coverage
-
-*lock*
