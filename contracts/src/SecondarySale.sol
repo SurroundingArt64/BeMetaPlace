@@ -188,7 +188,7 @@ contract SecondarySale is
 
 		require(data.isActive, 'Sale is not active');
 		require(
-			data.startTime <= block.timestamp && block.timestamp <= data.endTime,
+			data.startTime <= block.timestamp && data.endTime >= data.startTime,
 			'Sale is not active'
 		);
 		IERC721(nftAddress).safeTransferFrom(data.seller, _msgSender(), tokenId);
@@ -226,20 +226,20 @@ contract SecondarySale is
 
 		// Rewrite current listing with last listing
 		// @dev ! THIS FAILS WITH UNDERFLOW?
-		listings[_msgSender()][listingIndex] = listings[_msgSender()][
-			listings[_msgSender()].length - 1
+		listings[data.seller][listingIndex] = listings[data.seller][
+			listings[data.seller].length - 1
 		];
 
 		// Update listing index
 		listingIndices[data.seller][b] = listingIndex;
 
 		// Delete sale data
-		delete sales[_msgSender()][b];
+		delete sales[data.seller][b];
 
 		// Remove last listing
-		listings[_msgSender()].pop();
+		listings[data.seller].pop();
 
 		// Emit Cancelled Event
-		emit Cancelled(_msgSender(), _tokenId);
+		emit Cancelled(data.seller, _tokenId);
 	}
 }

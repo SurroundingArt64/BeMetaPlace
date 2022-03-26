@@ -71,10 +71,10 @@ describe('BeMetaPlace.sol', () => {
 
 			const values = (
 				await deployer.PrimarySale.getListings(deployer.address)
-			).map((elem: any) => elem.toNumber())
+			).map((elem) => elem.toNumber())
 			expect(values).to.deep.eq([1, 3])
 			const sales = (await deployer.PrimarySale.getSales(deployer.address)).map(
-				(sale: any) => sale.listingIndex.toNumber()
+				(sale) => sale.listingIndex.toNumber()
 			)
 			expect(sales).to.deep.eq([0, 1])
 			expect(await BeMetaPlace.ownerOf(2)).to.eq(alice.address)
@@ -91,7 +91,7 @@ describe('BeMetaPlace.sol', () => {
 			await deployer.PrimarySale.cancel(1)
 			const values = (
 				await deployer.PrimarySale.getListings(deployer.address)
-			).map((elem: any) => elem.toNumber())
+			).map((elem) => elem.toNumber())
 			expect(values).to.deep.eq([])
 		})
 		it('can cancel and re-list', async () => {
@@ -106,7 +106,7 @@ describe('BeMetaPlace.sol', () => {
 			await deployer.PrimarySale.cancel(1)
 			let values = (
 				await deployer.PrimarySale.getListings(deployer.address)
-			).map((elem: any) => elem.toNumber())
+			).map((elem) => elem.toNumber())
 			expect(values).to.deep.eq([])
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
 			await deployer.PrimarySale.create(
@@ -116,7 +116,7 @@ describe('BeMetaPlace.sol', () => {
 				amount
 			)
 			values = (await deployer.PrimarySale.getListings(deployer.address)).map(
-				(elem: any) => elem.toNumber()
+				(elem) => elem.toNumber()
 			)
 			expect(values).to.deep.eq([2])
 		})
@@ -170,11 +170,11 @@ describe('BeMetaPlace.sol', () => {
 				Date.now() + 3600
 			)
 			let values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem: any) => elem.tokenId.toNumber()
+				(elem) => elem.tokenId.toNumber()
 			)
 			expect(values).to.deep.eq([1])
 			values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem: any) => elem.seller
+				(elem) => elem.seller
 			)
 			expect(values).to.deep.eq([alice.address])
 		})
@@ -195,16 +195,17 @@ describe('BeMetaPlace.sol', () => {
 				Date.now() + 3600
 			)
 			let values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem: any) => elem.tokenId.toNumber()
+				(elem) => elem.tokenId.toNumber()
 			)
+			console.log(values)
 			await deployer.BeMetaToken.transfer(bob.address, amount)
 			await bob.BeMetaToken.approve(SecondarySale.address, amount)
 			await bob.SecondarySale.buy(BeMetaPlace.address, values[0])
 			let alice_values = (
 				await alice.SecondarySale.getListings(alice.address)
-			).map((elem: any) => elem.tokenId.toNumber())
+			).map((elem) => elem.tokenId.toNumber())
 			let bob_values = (await bob.SecondarySale.getListings(bob.address)).map(
-				(elem: any) => elem.tokenId.toNumber()
+				(elem) => elem.tokenId.toNumber()
 			)
 			expect(alice_values).to.deep.eq([])
 			expect(bob_values).to.deep.eq(values)
@@ -226,7 +227,7 @@ describe('BeMetaPlace.sol', () => {
 				Date.now() + 3600
 			)
 			let values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem: any) => elem.tokenId.toNumber()
+				(elem) => elem.tokenId.toNumber()
 			)
 			await expect(
 				alice.SecondarySale.cancel(BeMetaPlace.address, values[0])
@@ -249,11 +250,11 @@ describe('BeMetaPlace.sol', () => {
 				Date.now() + 3600
 			)
 			let values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem: any) => elem.tokenId.toNumber()
+				(elem) => elem.tokenId.toNumber()
 			)
 			await deployer.SecondarySale.cancel(BeMetaPlace.address, values[0])
 			values = (await alice.SecondarySale.getListings(alice.address)).map(
-				(elem: any) => elem.tokenId.toNumber()
+				(elem) => elem.tokenId.toNumber()
 			)
 			expect(values).to.deep.eq([])
 		})
