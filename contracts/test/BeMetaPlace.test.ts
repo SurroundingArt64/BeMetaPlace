@@ -39,12 +39,10 @@ describe('BeMetaPlace.sol', () => {
 				deployer.PrimarySale.create('utr-1', BeMetaToken.address, 3600, 1)
 			).to.be.revertedWith('Not allowed token')
 		})
-
 		it('can create sale with allowed token', async () => {
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
 			await deployer.PrimarySale.create('link-1', BeMetaToken.address, 3600, 1)
 		})
-
 		it('create multiple buy [2]', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
@@ -81,7 +79,6 @@ describe('BeMetaPlace.sol', () => {
 			expect(sales).to.deep.eq([0, 1])
 			expect(await BeMetaPlace.ownerOf(2)).to.eq(alice.address)
 		})
-
 		it('can cancel sale', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)
@@ -97,7 +94,6 @@ describe('BeMetaPlace.sol', () => {
 			).map((elem: any) => elem.toNumber())
 			expect(values).to.deep.eq([])
 		})
-
 		it('can cancel and re-list', async () => {
 			const amount = ethers.utils.parseEther('100')
 			await deployer.PrimarySale.setAllowedERC20(BeMetaToken.address, true)

@@ -10,7 +10,21 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 	using SafeERC20 for IERC20;
 	IBeMetaPlace nft721;
 
+	////////////////////////////////////////////
+	////        			 										  ////
+	////             MAPPINGS 			        ////
+	////        			 										  ////
+	////////////////////////////////////////////
+
 	mapping(address => bool) public allowedERC20Tokens;
+	mapping(uint256 => Sale) public sales;
+	mapping(address => uint256[]) public listings;
+
+	////////////////////////////////////////////
+	////        			 										  ////
+	////              STRUCTS 		          ////
+	////        			 										  ////
+	////////////////////////////////////////////
 
 	struct Sale {
 		uint256 price;
@@ -21,8 +35,30 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		uint256 listingIndex;
 	}
 
-	mapping(uint256 => Sale) public sales;
-	mapping(address => uint256[]) public listings;
+	////////////////////////////////////////////
+	////        			 										  ////
+	////              EVENTS  			        ////
+	////        			 										  ////
+	////////////////////////////////////////////
+
+	////////////////////////////////////////////
+	////        			 										  ////
+	////               INIT   			        ////
+	////        			 										  ////
+	////////////////////////////////////////////
+
+	function initialize(address _nft721_address) public initializer {
+		__ERC721Holder_init();
+		__Ownable_init();
+
+		nft721 = IBeMetaPlace(_nft721_address);
+	}
+
+	////////////////////////////////////////////
+	////        			 										  ////
+	////          GETTERS/SETTERS	          ////
+	////        			 										  ////
+	////////////////////////////////////////////
 
 	function getListings(address seller)
 		external
@@ -45,12 +81,15 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		}
 	}
 
-	function initialize(address _nft721_address) public initializer {
-		__ERC721Holder_init();
-		__Ownable_init();
-
-		nft721 = IBeMetaPlace(_nft721_address);
+	function setAllowedERC20(address token, bool enabled) external {
+		allowedERC20Tokens[token] = enabled;
 	}
+
+	////////////////////////////////////////////
+	////        			 										  ////
+	////               CORE  		  	        ////
+	////        			 										  ////
+	////////////////////////////////////////////
 
 	function create(
 		string memory _uri,
@@ -112,10 +151,6 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		listings[sale.seller].pop();
 	}
 
-	function setAllowedERC20(address token, bool enabled) external {
-		allowedERC20Tokens[token] = enabled;
-	}
-
 	function withdraw(address tokenAddress, uint256 amount) external onlyOwner {
 		IERC20(tokenAddress).transfer(_msgSender(), amount);
 	}
@@ -151,6 +186,12 @@ contract PrimarySale is AccessControl, ERC721HolderUpgradeable {
 		// set listing index for last value
 		listings[sale.seller].pop();
 	}
+
+	////////////////////////////////////////////
+	////        			 										  ////
+	////               UTILS  			        ////
+	////        			 										  ////
+	////////////////////////////////////////////
 
 	uint256[50] private __gap;
 }
