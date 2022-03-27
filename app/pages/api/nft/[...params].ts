@@ -5,21 +5,24 @@ import { connectToDatabase } from '../../../lib/mongo'
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET': {
-      return getNFTs(res)
+      return getNFTs(req, res)
     }
   }
 }
 
-async function getNFTs(res: NextApiResponse) {
+async function getNFTs(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const { params } = req.query
+    const address = params[0]
+    const tokenId = params[1]
     let { db } = await connectToDatabase()
-    let posts = await db
+    let nft = await db
       .collection('NFT')
-      .find({})
+      .find({ 'item.address': address, 'item.tokenId': tokenId })
       .sort({ published: -1 })
       .toArray()
     return res.json({
-      message: JSON.parse(JSON.stringify(posts)),
+      message: JSON.parse(JSON.stringify(nft[0])),
       success: true,
     })
   } catch (error) {
