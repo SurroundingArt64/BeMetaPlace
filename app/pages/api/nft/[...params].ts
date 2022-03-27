@@ -20,11 +20,7 @@ async function getNFTs(req: NextApiRequest, res: NextApiResponse) {
     const query = tokenId
       ? { 'item.address': address, 'item.tokenId': tokenId }
       : { 'item.address': address }
-    let nft = await db
-      .collection('NFT')
-      .find(query)
-      .sort({ published: -1 })
-      .toArray()
+    let nft = await db.collection('NFT').find(query).toArray()
     return res.json({
       message: JSON.parse(JSON.stringify(tokenId ? nft[0] : nft)),
       success: true,

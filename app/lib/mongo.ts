@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { Db, MongoClient } from 'mongodb'
 
 const MONGODB_URI = process.env.MDB_URI
 const MONGODB_DB = process.env.MDB_DB
@@ -10,7 +10,10 @@ if (!MONGODB_URI) {
 let cachedClient: any
 let cachedDb: any
 
-export async function connectToDatabase() {
+export async function connectToDatabase(): Promise<{
+  client: MongoClient
+  db: Db
+}> {
   // check the cached.
   if (cachedClient && cachedDb) {
     // load from cache

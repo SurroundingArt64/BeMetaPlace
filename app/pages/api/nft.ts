@@ -16,11 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function getNFTs(res: NextApiResponse) {
   try {
     let { db } = await connectToDatabase()
-    let posts = await db
-      .collection('NFT')
-      .find({})
-      .sort({ published: -1 })
-      .toArray()
+    let posts = await db.collection('NFT').find({}).toArray()
     return res.json({
       message: JSON.parse(JSON.stringify(posts)),
       success: true,
