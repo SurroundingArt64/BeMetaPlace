@@ -1,28 +1,26 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import React from "react";
-import NFT, { NFTTypes } from "../components/NFT";
-import classes from "./index.module.scss";
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import React from 'react'
+import NFT, { NFTTypes } from '../components/NFT'
+import classes from './index.module.scss'
 
 const Home: NextPage = () => {
-  const [nfts, setNfts] = React.useState<NFTTypes[]>([]);
+  const [nfts, setNfts] = React.useState<NFTTypes[]>([])
 
   React.useEffect(() => {
     const run = async () => {
-      const res = await fetch("/api/nft");
-      const data = await res.json();
-      const nfts = data.message;
-      setNfts(nfts);
-    };
-    run();
-  }, []);
+      const data = await (await fetch('/api/nft')).json()
+      setNfts(data.message)
+    }
+    run()
+  }, [])
 
   return (
     <>
       <Head>
         <title>NFT Marketplace</title>
-        <meta name="description" content="bemetaplace, NFT Marketplace" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='bemetaplace, NFT Marketplace' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className={classes.root}>
         <h1>Today's Trending</h1>
@@ -37,7 +35,7 @@ const Home: NextPage = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
