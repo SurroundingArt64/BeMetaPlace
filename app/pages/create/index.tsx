@@ -56,25 +56,32 @@ const Create = () => {
     _key: keyof typeof preview['item'],
     { target: { value } }: { target: { value?: any } }
   ) => {
+    console.log(value)
     setPreview((p) => ({
       ...p,
       item: {
         ...p.item,
         [_key]: value,
+        tokenId: (
+          Math.floor(Math.random() * (100_000_000 - 0 + 1)) + 0
+        ).toString(),
       },
     }))
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    console.log(preview)
     const res = await fetch('/api/nft', {
       method: 'POST',
       body: JSON.stringify(preview),
     })
     const data: { message: NFTTypes; success: Boolean } = await res.json()
     if (data.success) {
-      router.push('/')
-      // router.push('/nft/[id]', `/nft/${data.message.item?.address}`)
+      router.push(
+        '/nft/[address]/[tokenId]',
+        `/nft/${preview.item.address}/${preview.item.tokenId}`
+      )
     } else {
       notifications.showNotification({
         title: 'Error',
