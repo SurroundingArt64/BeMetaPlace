@@ -15,6 +15,19 @@ const Home: NextPage = () => {
     run()
   }, [])
 
+  if (!nfts.length) {
+    return (
+      <div className={classes.root}>
+        <h1
+          className={classes.loading}
+          style={{ height: 'calc(100vh - 369px)' }}
+        >
+          NO NFTS FOUND!
+        </h1>
+      </div>
+    )
+  }
+
   return (
     <>
       <Head>
@@ -25,12 +38,8 @@ const Home: NextPage = () => {
       <div className={classes.root}>
         <h1>Today's Trending</h1>
         <div className={classes.grid}>
-          {nfts.length > 0 ? (
-            nfts.map((nft, i) =>
-              nft.item ? <NFT {...{ nft }} key={i} /> : <></>
-            )
-          ) : (
-            <div className={classes.loading}>NO NFTS FOUND!</div>
+          {nfts.map((nft, i) =>
+            nft.item ? <NFT {...{ nft }} key={i} /> : <></>
           )}
         </div>
       </div>
