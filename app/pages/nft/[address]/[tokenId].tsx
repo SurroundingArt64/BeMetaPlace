@@ -82,9 +82,11 @@ const NFTPage: React.FC = () => {
           Part of the Arabian Camel Caravan. Unique Camel ID:
           96eRxKZdoZvpiYWQadUcBM
           <div className={classes.price}>ABOUT {sample.item.title}</div>
-          {sample.item.description?.split("\n").map((elem) => (
+          {sample.item.description?.split("\n").map((elem, idx) => (
             <>
-              <div className={classes.desc}>{elem}</div>
+              <div key={idx} className={classes.desc}>
+                {elem}
+              </div>
             </>
           ))}
         </div>
