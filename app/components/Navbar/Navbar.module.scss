@@ -6,6 +6,7 @@
   height: 80px;
   background: $gradient-color;
   position: fixed;
+  z-index: 999;
   .container {
     @include flex;
     width: clamp(300px, 80vw, $sm-screen);
