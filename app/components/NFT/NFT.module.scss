@@ -8,11 +8,14 @@
   height: auto;
   margin: 0;
   padding: 0 10px 10px 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc00;
+  background-color: #f6f8ff;
   border-radius: 15px;
   transition-duration: 300ms;
   &:hover {
-    transform: scale(1.1);
+    transform: translateY(5px);
+    border: 1px solid $secondary-color;
+    background-color: #fff0e2;
   }
   .container {
     @include flex;

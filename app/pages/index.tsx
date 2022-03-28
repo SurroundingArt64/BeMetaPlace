@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className={classes.root}>
-        <h1>Today's Trending</h1>
+        <h1>RECENTLY LISTED</h1>
         <div className={classes.grid}>
           {nfts.map((nft, i) =>
             nft.item ? <NFT {...{ nft }} key={i} /> : <></>

@@ -1,4 +1,4 @@
-@import "../styles/mixins.scss";
+@import '../styles/mixins.scss';
 
 .root {
   @include flex;
@@ -7,10 +7,28 @@
   align-items: flex-start;
   flex-direction: column;
   padding: 64px 0;
-  h1 {
-    font-weight: 500;
-    color: $gray-900;
-    margin-bottom: 64px;
+  & > h1 {
+    font-size: clamp(32px, 4vw, 64px);
+    font-weight: 900;
+    width: 100%;
+    max-height: 200px;
+    &.loading {
+      max-height: 100vh;
+      line-height: min(250px, 30vh);
+    }
+    line-height: 200px;
+    padding-left: 100px;
+    color: white;
+    background-image: $gradient-color,
+      linear-gradient(90deg, #0000006e 0%, #0000006e 100%),
+      url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcrypto-market.us%2Fwp-content%2Fuploads%2F2021%2F05%2Fdepends-on-who-you-ask-report-shows-nft-sales-cool-off-another-study-says-nft-market-set-to-double-by-october-1140x570.jpg&f=1&nofb=1');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: color, normal, normal;
+    border-radius: 10px;
+    margin: 0 0 64px 0;
+    user-select: none;
   }
   .grid {
     width: 100%;
