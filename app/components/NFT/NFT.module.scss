@@ -17,6 +17,9 @@
     border: 1px solid $secondary-color;
     background-color: #fff0e2;
   }
+  @media screen and (max-width: $sm-mobile) {
+    width: 100%;
+  }
   .container {
     @include flex;
     flex-direction: column;
@@ -33,6 +36,9 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      @media screen and (max-width: $sm-mobile) {
+        width: 100%;
+      }
     }
     .info {
       @include flex;

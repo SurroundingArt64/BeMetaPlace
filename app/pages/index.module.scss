@@ -1,19 +1,23 @@
 @import '../styles/mixins.scss';
 
+$scale-h: min(7.5vw, 64px);
+$scale-v: min(20vw, 200px);
+$scale-l: min(12.5vw, 100px);
+
 .root {
   @include flex;
   width: clamp(300px, 80vw, $sm-screen);
   margin: auto;
   align-items: flex-start;
   flex-direction: column;
-  padding: 64px 0;
+  padding: $scale-h 0;
   & > h1 {
     font-size: clamp(32px, 4vw, 64px);
     font-weight: 900;
     width: 100%;
-    max-height: 200px;
-    line-height: 200px;
-    padding-left: 100px;
+    max-height: $scale-v;
+    line-height: $scale-v;
+    padding-left: $scale-l;
     color: white;
     background-image: $gradient-color,
       linear-gradient(90deg, #0000006e 0%, #0000006e 100%),
@@ -23,8 +27,11 @@
     background-size: cover;
     background-blend-mode: color, normal, normal;
     border-radius: 10px;
-    margin: 0 0 64px 0;
+    margin: 0 0 $scale-h 0;
     user-select: none;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .spinner {
     @include flex;
