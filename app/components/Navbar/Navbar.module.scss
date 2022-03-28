@@ -1,10 +1,11 @@
-@import "../../styles/mixins.scss";
+@import '../../styles/mixins.scss';
 
 .root {
   @include flex;
   width: 100vw;
   height: 80px;
   background: $gradient-color;
+  position: fixed;
   .container {
     @include flex;
     width: clamp(300px, 80vw, $sm-screen);
@@ -41,13 +42,13 @@
         color: $gray-100;
         cursor: pointer;
         padding: 10px 0;
-        &[data-type="create"] {
+        &[data-type='create'] {
           color: $secondary-color;
           font-weight: 600;
         }
         &::after {
           position: absolute;
-          content: "";
+          content: '';
           width: 100%;
           height: 3px;
           top: 100%;
