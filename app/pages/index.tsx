@@ -1,16 +1,19 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import React from 'react'
+import { SpinnerDotted } from 'spinners-react'
 import NFT, { NFTTypes } from '../components/NFT'
 import classes from './index.module.scss'
 
 const Home: NextPage = () => {
   const [nfts, setNfts] = React.useState<NFTTypes[]>([])
+  const [loading, setLoading] = React.useState<boolean>(true)
 
   React.useEffect(() => {
     const run = async () => {
       const data = await (await fetch('/api/nft')).json()
       setNfts(data.message)
+      setLoading(false)
     }
     run()
   }, [])
@@ -22,8 +25,11 @@ const Home: NextPage = () => {
           className={classes.loading}
           style={{ height: 'calc(100vh - 369px)' }}
         >
-          NO NFTS FOUND!
+          RECENTLY LISTED
         </h1>
+        <div className={classes.spinner}>
+          {loading ? <SpinnerDotted color='#4262ea' /> : 'NO LISTINGS FOUND'}
+        </div>
       </div>
     )
   }
