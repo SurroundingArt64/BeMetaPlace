@@ -24,8 +24,6 @@ describe('BeMetaPlace.sol', () => {
 			PrimarySale,
 			SecondarySale,
 		} = await setupTest())
-		await deployer.BeMetaPlace.setAdminAccess(PrimarySale.address, true)
-		await deployer.BeMetaPlace.setAdminAccess(SecondarySale.address, true)
 	})
 
 	it('correct name', async () => {
