@@ -115,7 +115,12 @@ const NFTPage: React.FC = () => {
               <img className={styles.image} src={nft.item.image} />
             </div>
             <div className={styles.content__right}>
-              <div className={styles.ownedBy}>Owned by {nft.owner}</div>
+              <div
+                className={styles.ownedBy}
+                style={nft.owner.length > 28 ? { fontSize: '12px' } : {}}
+              >
+                Owned by {nft.owner.substring(0, 42)}
+              </div>
               <div className={styles.price}>
                 <div>CURRENT PRICE</div>
                 <div>
