@@ -37,4 +37,8 @@ contract AccessControl is OwnableUpgradeable, BaseRelayRecipient {
 	{
 		return BaseRelayRecipient._msgSender();
 	}
+
+	function setTrustedForwarder(address _trustedForwarder) external onlyAdmin {
+		trustedForwarder = _trustedForwarder;
+	}
 }

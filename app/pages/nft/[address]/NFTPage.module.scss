@@ -1,0 +1,112 @@
+@import '../../../styles/mixins.scss';
+
+.root {
+    @include flex;
+    width: clamp(300px, 80vw, $sm-screen);
+    margin: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 64px 0;
+    .header {
+        @include flex;
+        width: 100%;
+        justify-content: space-between;
+        @media screen and (max-width: 570px) {
+            flex-wrap: wrap;
+        }
+        .title {
+            @include flex;
+            .verified {
+                padding: 0 0.5rem;
+            }
+            h1 {
+                font-weight: 500;
+                font-size: 32px;
+                line-height: 48px;
+                color: $gray-900;
+            }
+        }
+        .social {
+            @include flex;
+            * + * {
+                padding: 0 1rem;
+            }
+        }
+    }
+    .spinner {
+        @include flex;
+        width: 100%;
+        height: 35vh;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        z-index: 1;
+        font-size: 32px;
+        font-weight: 700;
+    }
+    .content {
+        @include flex;
+        justify-content: space-between;
+        padding-top: 2rem;
+        align-items: flex-start;
+        width: 100%;
+        --size-width: 48%;
+        flex-wrap: wrap;
+        @media screen and (max-width: 1024px) {
+            --size-width: 96%;
+        }
+        .content__nft {
+            width: var(--size-width);
+            padding-bottom: 1.5rem;
+            min-height: 560px;
+            @media screen and (max-width: 1024px) {
+                min-height: initial;
+            }
+            .image {
+                border-radius: 10px;
+                width: 100%;
+                @media screen and (max-width: 1024px) {
+                    --size-width: 80%;
+                }
+                min-height: 230px;
+                height: auto;
+                background-color: $secondary-color;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            *:hover {
+                transform: none;
+            }
+        }
+        .content__right {
+            width: var(--size-width);
+            a {
+                color: $primary-color;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            .price {
+                @include flex;
+                justify-content: space-between;
+                font-size: 12px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: $gray-900;
+                font-weight: 600;
+                padding: 1rem 0;
+            }
+            .desc {
+                font-weight: 400;
+                padding-top: 0.75rem;
+            }
+            .ownedBy {
+                color: $primary-color;
+                font-weight: 500;
+                font-size: 18px;
+            }
+        }
+    }
+}

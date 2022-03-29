@@ -54,11 +54,6 @@ const config: HardhatUserConfig = {
 			accounts: process.env.DEPLOYER_PRIVATE_KEY ? getPrivateKey() : undefined,
 			gasPrice: 5_500_000_000, // 5.5 gwei in numerical wei
 		},
-		polygon: {
-			url: `https://polygon-rpc.com/`,
-			chainId: 137,
-			accounts: process.env.DEPLOYER_PRIVATE_KEY ? getPrivateKey() : undefined,
-		},
 		mainnet: {
 			url: `https://mainnet.infura.io/v3/${process.env.INFURA_APP_ID}`,
 			chainId: 1,

@@ -1,6 +1,7 @@
 /coverage
 
 git-reset-auth.sh
+*lock*
 
 # Logs
 logs

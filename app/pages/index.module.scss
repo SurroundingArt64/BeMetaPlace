@@ -1,26 +1,57 @@
-@import "../styles/mixins.scss";
+@import '../styles/mixins.scss';
+
+$scale-h: min(7.5vw, 64px);
+$scale-v: min(20vw, 200px);
+$scale-l: min(12.5vw, 100px);
 
 .root {
-  @include flex;
-  width: clamp(300px, 80vw, $sm-screen);
-  margin: auto;
-  align-items: flex-start;
-  flex-direction: column;
-  padding: 64px 0;
-  h1 {
-    font-weight: 500;
-    color: #0a0b0d;
-    margin-bottom: 64px;
-  }
-  .grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    grid-gap: 2em;
-    .box {
-      width: 250px;
-      height: 300px;
-      border: 1px solid red;
+    @include flex;
+    width: clamp(300px, 80vw, $sm-screen);
+    margin: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: $scale-h 0;
+    & > h1 {
+        font-size: clamp(32px, 4vw, 64px);
+        font-weight: 900;
+        width: 100%;
+        max-height: $scale-v;
+        line-height: $scale-v;
+        padding-left: $scale-l;
+        color: white;
+        background-image: $gradient-color,
+            linear-gradient(90deg, #0000006e 0%, #0000006e 100%),
+            url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcrypto-market.us%2Fwp-content%2Fuploads%2F2021%2F05%2Fdepends-on-who-you-ask-report-shows-nft-sales-cool-off-another-study-says-nft-market-set-to-double-by-october-1140x570.jpg&f=1&nofb=1');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: color, normal, normal;
+        border-radius: 10px;
+        margin: 0 0 $scale-h 0;
+        user-select: none;
+        &:hover {
+            cursor: pointer;
+        }
     }
-  }
+    .spinner {
+        @include flex;
+        width: 100%;
+        height: 35vh;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        z-index: 1;
+        font-size: 32px;
+        font-weight: 700;
+    }
+    .grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-gap: 2em;
+        .box {
+            width: 250px;
+            height: 300px;
+        }
+    }
 }

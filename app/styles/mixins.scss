@@ -1,16 +1,25 @@
 $sm-screen: 1200px;
 $mobile: 900px;
+$sm-mobile: 640px;
+
+$gray-900: #0a0b0d;
+$primary-color: #4262ea;
+$secondary-color: #faba81;
+$dark-blue: #040e38;
+$gray-100: #f9f8fe;
+
+$gradient-color: linear-gradient(90deg, #102dab 0%, #4262ea 100%);
 
 @mixin flex {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 @mixin reset-list {
-  margin-block: 0;
-  margin-inline: 0;
-  padding-inline: 0;
-  list-style-type: none;
+    margin-block: 0;
+    margin-inline: 0;
+    padding-inline: 0;
+    list-style-type: none;
 }
