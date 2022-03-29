@@ -52,28 +52,6 @@ const Create = () => {
                     },
                 }))
                 ;(window as any).PrimarySale = await getContract('NFTSale')
-
-                const PrimarySale = await getContract('NFTSale')
-
-                if (PrimarySale) {
-                    const price = ethers.utils.parseEther('1000').toString()
-                    const gas = await PrimarySale.estimateGas.create(
-                        'https://gateway.pinata.cloud/ipfs/QmWr11LeYF6GSUVZrWoKKHGZ6bZCwtz414PofyDR8sjDhL',
-                        currencies[0].value,
-                        3600 * 30,
-                        price
-                    )
-                    const tx = await PrimarySale.create(
-                        'https://gateway.pinata.cloud/ipfs/QmWr11LeYF6GSUVZrWoKKHGZ6bZCwtz414PofyDR8sjDhL',
-                        currencies[0].value,
-                        3600 * 30,
-                        price,
-                        {
-                            gasLimit: gas.toNumber() + 100_000,
-                        }
-                    )
-                    await tx.wait()
-                }
             }
             run()
         } else {
