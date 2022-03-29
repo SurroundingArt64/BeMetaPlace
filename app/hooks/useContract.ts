@@ -3,10 +3,11 @@ import { ethers } from 'ethers'
 
 const networks = {
     80001: {
-        NFT: '0x394E9697138E49077d09d7EBeB2075D4b960AB66',
-        NFTSale: '0x74b3017735840d79Cd31997E45D261249B3286F2',
+        NFT: '0xe16Bf37E673757452319BcEa11C7c5702CBA6783',
+        NFTSale: '0x2e14ec4A7929F3A5C8beB40F991c4FC4fAED75Aa',
+        BMP: '0x93cd650E4e9B187c7332D6E3B455156EC3442fEA',
     },
-    137: { NFT: '', NFTSale: '' },
+    137: { NFT: '', NFTSale: '', BMP: '' },
 }
 export const getContractAddress = (
     network: keyof typeof networks,

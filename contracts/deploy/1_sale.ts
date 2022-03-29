@@ -26,22 +26,39 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 			upgradeIndex: 0,
 		},
 	})
+	// await deploy('PrimarySale', {
+	// 	from: deployer,
+	// 	log: true,
+	// 	skipIfAlreadyDeployed: true,
+	// 	args: [],
+	// 	proxy: {
+	// 		execute: {
+	// 			init: {
+	// 				methodName: 'initialize',
+	// 				args: [BeMetaPlaceDeployment.address],
+	// 			},
+	// 		},
+	// 		proxyContract: 'OptimizedTransparentProxy',
+	// 		upgradeIndex: 1,
+	// 	},
+	// })
 	await deploy('PrimarySale', {
 		from: deployer,
 		log: true,
-		skipIfAlreadyDeployed: true,
+		// skipIfAlreadyDeployed: true,
 		args: [],
 		proxy: {
-			execute: {
-				init: {
-					methodName: 'initialize',
-					args: [BeMetaPlaceDeployment.address],
-				},
-			},
+			// execute: {
+			// 	init: {
+			// 		methodName: 'initialize',
+			// 		args: [BeMetaPlaceDeployment.address],
+			// 	},
+			// },
 			proxyContract: 'OptimizedTransparentProxy',
 			upgradeIndex: 1,
 		},
 	})
+
 	const PrimarySale = (await ethers.getContract(
 		'PrimarySale',
 		deployer

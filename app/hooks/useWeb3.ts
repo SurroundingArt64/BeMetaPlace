@@ -51,12 +51,10 @@ export const useWeb3 = () => {
                 ContractInstance.provider = new ethers.providers.Web3Provider(
                     ethereum
                 )
-                if (false) {
-                    ContractInstance.provider = getBiconomy(
-                        new ethers.providers.Web3Provider(ethereum),
-                        ethereum
-                    )
-                }
+                ContractInstance.provider = await getBiconomy(
+                    new ethers.providers.Web3Provider(ethereum),
+                    ethereum
+                )
 
                 const { chainId } = await ContractInstance.provider.getNetwork()
                 if (chainId === 80001 || chainId === 137) {

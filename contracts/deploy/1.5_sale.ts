@@ -1,4 +1,4 @@
-import { deployments, ethers } from 'hardhat'
+import { ethers } from 'hardhat'
 import { DeployFunction } from 'hardhat-deploy/dist/types'
 import { HardhatRuntimeEnvironment } from 'hardhat/types'
 import { BeMetaPlace, PrimarySale } from '../src/types'

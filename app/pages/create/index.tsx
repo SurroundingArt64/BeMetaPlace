@@ -19,7 +19,7 @@ import { ethers } from 'ethers'
 
 const Create = () => {
     const currencies = [
-        { name: 'BMP', value: '0x13302F4efD26e2d7258BF684c970cda49c23e7D8' },
+        { name: 'BMP', value: getContractAddress(80001, 'BMP') },
     ]
     const { connectedAddress, showWallet, chainId } = useWeb3()
     const router = useRouter()
@@ -57,11 +57,20 @@ const Create = () => {
 
                 if (PrimarySale) {
                     const price = ethers.utils.parseEther('1000').toString()
-                    const tx = await PrimarySale.create(
+                    const gas = await PrimarySale.estimateGas.create(
                         'https://gateway.pinata.cloud/ipfs/QmWr11LeYF6GSUVZrWoKKHGZ6bZCwtz414PofyDR8sjDhL',
                         currencies[0].value,
                         3600 * 30,
                         price
+                    )
+                    const tx = await PrimarySale.create(
+                        'https://gateway.pinata.cloud/ipfs/QmWr11LeYF6GSUVZrWoKKHGZ6bZCwtz414PofyDR8sjDhL',
+                        currencies[0].value,
+                        3600 * 30,
+                        price,
+                        {
+                            gasLimit: gas.toNumber() + 100_000,
+                        }
                     )
                     await tx.wait()
                 }
