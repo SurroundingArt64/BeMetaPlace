@@ -1,0 +1,11 @@
+{
+	"name": "BeMetaPlace",
+	"description": "BeMetaPlace is an open marketplace for gasless Minting and purchase of NFTs powered by Biconomy",
+	"image": "ipfs://QmaTMaB78AoyHPZYeFmWs1Zzeh2efSDjSLhiHaGLddNkpb/",
+	"attributes": [
+		{
+			"trait_type": "Author",
+			"value": "BeMetaPlace"
+		}
+	]
+}
