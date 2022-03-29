@@ -53,10 +53,6 @@ const NFTPage: React.FC = () => {
     const [nft, setNft] = React.useState<NFTTypes>({
         owner: '',
         uri: '',
-        sale: {
-            enabled: false,
-            price: '',
-        },
         item: {
             chainId: chainId.toString(),
             image: '',
@@ -88,12 +84,12 @@ const NFTPage: React.FC = () => {
 
     const handleBuy = React.useCallback(async () => {
         try {
-            if (!nft.sale) throw '❌ Could not make buy order for NFT.'
+            if (!nft.item) throw '❌ Could not make buy order for NFT.'
             if (!connectedAddress) throw '🛑 Not connected to wallet.'
             throw 'API NOT IMPLEMENTED'
 
             const owner = nft.owner
-            const price = nft.sale.price
+            const price = nft.item.value
             const address = nft.item.address
             const { message } = await (
                 await fetch(`/api/nft/buy`, {
@@ -128,12 +124,12 @@ const NFTPage: React.FC = () => {
 
     const handleList = React.useCallback(async () => {
         try {
-            if (!nft.sale) throw '❌ Could not list NFT.'
+            if (!nft.item) throw '❌ Could not list NFT.'
             if (!connectedAddress) throw '🛑 Not connected to wallet.'
             throw 'API NOT IMPLEMENTED'
 
             const owner = nft.owner
-            const price = nft.sale.price
+            const price = nft.item.value
             const address = nft.item.address
             const { message } = await (
                 await fetch(`/api/nft/list`, {
@@ -304,7 +300,7 @@ const NFTPage: React.FC = () => {
                                         radius="xl"
                                         style={{ flex: 1 }}
                                         disabled={
-                                            nft.sale && connectedAddress
+                                            nft.item && connectedAddress
                                                 ? nft.owner == connectedAddress
                                                 : (connectedAddress?.length ??
                                                       1) > 0

@@ -7,33 +7,21 @@ if (!MONGODB_URI) {
     throw new Error('Define the MONGODB_URI environmental variable')
 }
 
-let cachedClient: any
-let cachedDb: any
+let cachedClient: MongoClient
+let cachedDb: Db
 
-export async function connectToDatabase(): Promise<{
-    client: MongoClient
-    db: Db
-}> {
-    // check the cached.
+export const connectToDatabase = async () => {
     if (cachedClient && cachedDb) {
-        // load from cache
-        return {
-            client: cachedClient,
-            db: cachedDb,
-        }
+        return
     }
 
     // Connect to cluster
     let client = new MongoClient(MONGODB_URI as string)
     await client.connect()
     let db = client.db(MONGODB_DB)
-
     // set cache
     cachedClient = client
     cachedDb = db
-
-    return {
-        client: cachedClient,
-        db: cachedDb,
-    }
 }
+
+export { cachedClient as MDClient, cachedDb as MDB }

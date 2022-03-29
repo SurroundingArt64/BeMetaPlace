@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase } from '../../../../lib/mongo'
+import { connectToDatabase, MDB } from '../../../../lib/mongo'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
@@ -11,12 +11,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function getListings(req: NextApiRequest, res: NextApiResponse) {
     try {
+        await connectToDatabase()
         const { params } = req.query
         const address = params[0]
         let tokenId = params[1]
-        let { db } = await connectToDatabase()
         const query = { address: address, tokenId: tokenId }
-        let listings = await db.collection('LISTINGS').find(query).toArray()
+        let listings = await MDB.collection('LISTINGS').find(query).toArray()
         return res.json({
             message: JSON.parse(JSON.stringify(listings)),
             success: true,
