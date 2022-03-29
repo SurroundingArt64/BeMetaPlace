@@ -22,22 +22,6 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 			upgradeIndex: 0,
 		},
 	})
-	await deploy('BeMetaPlace', {
-		from: deployer,
-		log: true,
-		skipIfAlreadyDeployed: true,
-		args: [],
-		proxy: {
-			execute: {
-				init: {
-					methodName: 'initialize',
-					args: ['BeMetaPlace', 'BMP'],
-				},
-			},
-			proxyContract: 'OptimizedTransparentProxy',
-			upgradeIndex: 1,
-		},
-	})
 }
 export default func
 func.tags = ['BeMetaPlace']
