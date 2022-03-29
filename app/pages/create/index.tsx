@@ -63,7 +63,6 @@ const Create = () => {
         _key: keyof typeof preview['item'],
         { target: { value } }: { target: { value?: any } }
     ) => {
-        console.log(value)
         setPreview((p) => ({
             ...p,
             item: {
@@ -119,7 +118,7 @@ const Create = () => {
         }
         const NFT = await getContract('NFT')
         if (NFT) {
-            const tokenId = await NFT.totalSupply()
+            const tokenId = (await NFT.totalSupply()).toString()
             console.log(tokenId)
             // const data: { message: NFTTypes; success: Boolean } = await res.json()
             // if (true) {
