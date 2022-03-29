@@ -1,108 +1,108 @@
 @import '../../styles/mixins.scss';
 
 .root {
-  @include flex;
-  user-select: none;
-  cursor: pointer;
-  width: 250px;
-  height: auto;
-  margin: 0;
-  padding: 0 10px 10px 10px;
-  border: 1px solid #cccccc00;
-  background-color: #f6f8ff;
-  border-radius: 15px;
-  transition-duration: 300ms;
-  &:hover {
-    transform: translateY(5px);
-    border: 1px solid $secondary-color;
-    background-color: #fff0e2;
-  }
-  @media screen and (max-width: $sm-mobile) {
-    width: 100%;
-  }
-  .container {
     @include flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 100%;
-    height: 100%;
-    .image {
-      border-radius: 10px;
-      width: 230px;
-      min-height: 230px;
-      height: auto;
-      margin: 10px;
-      background-color: $secondary-color;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      @media screen and (max-width: $sm-mobile) {
-        width: 100%;
-      }
+    user-select: none;
+    cursor: pointer;
+    width: 250px;
+    height: auto;
+    margin: 0;
+    padding: 0 10px 10px 10px;
+    border: 1px solid #cccccc00;
+    background-color: #f6f8ff;
+    border-radius: 15px;
+    transition-duration: 300ms;
+    &:hover {
+        transform: translateY(5px);
+        border: 1px solid $secondary-color;
+        background-color: #fff0e2;
     }
-    .info {
-      @include flex;
-      align-items: flex-start;
-      flex-direction: column;
-      width: 100%;
-      & > * {
-        margin: 0;
-        padding: 0;
-        font-weight: 500;
-      }
-      & > :not(:last-child) {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 225px;
-      }
-      & > * + * {
-        margin-top: 5px;
-      }
-      .description {
-        a {
-          font-size: 12px;
-          cursor: pointer;
-          font-weight: bold;
-          text-decoration: underline;
-          color: black;
-          &:hover {
-            color: $primary-color;
-          }
-        }
-      }
-      h1 {
-        color: $primary-color;
-        font-size: 24px;
-      }
-      h2 {
-        color: $secondary-color;
-        font-size: 16px;
-      }
-      h3 {
-        font-size: 12px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: $gray-900;
-        font-weight: 400;
-      }
-      p {
-        font-weight: 400;
-        font-size: 12px;
-        color: $gray-900;
-      }
-      .currency {
+    @media screen and (max-width: $sm-mobile) {
+        width: 100%;
+    }
+    .container {
         @include flex;
+        flex-direction: column;
+        justify-content: flex-start;
         width: 100%;
-        justify-content: space-between;
-        .price {
-          h3 {
-            font-weight: bold;
-          }
-          @include flex;
-          justify-content: space-between;
+        height: 100%;
+        .image {
+            border-radius: 10px;
+            width: 230px;
+            min-height: 230px;
+            height: auto;
+            margin: 10px;
+            background-color: $secondary-color;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            @media screen and (max-width: $sm-mobile) {
+                width: 100%;
+            }
         }
-      }
+        .info {
+            @include flex;
+            align-items: flex-start;
+            flex-direction: column;
+            width: 100%;
+            & > * {
+                margin: 0;
+                padding: 0;
+                font-weight: 500;
+            }
+            & > :not(:last-child) {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 225px;
+            }
+            & > * + * {
+                margin-top: 5px;
+            }
+            .description {
+                a {
+                    font-size: 12px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    text-decoration: underline;
+                    color: black;
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+            }
+            h1 {
+                color: $primary-color;
+                font-size: 24px;
+            }
+            h2 {
+                color: $secondary-color;
+                font-size: 16px;
+            }
+            h3 {
+                font-size: 12px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: $gray-900;
+                font-weight: 400;
+            }
+            p {
+                font-weight: 400;
+                font-size: 12px;
+                color: $gray-900;
+            }
+            .currency {
+                @include flex;
+                width: 100%;
+                justify-content: space-between;
+                .price {
+                    h3 {
+                        font-weight: bold;
+                    }
+                    @include flex;
+                    justify-content: space-between;
+                }
+            }
+        }
     }
-  }
 }

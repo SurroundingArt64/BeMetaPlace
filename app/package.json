@@ -1,36 +1,36 @@
 {
-  "name": "bemetamarketplace",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@biconomy/mexa": "^2.0.31",
-    "@ethersproject/providers": "^5.6.2",
-    "@mantine/core": "^4.0.8",
-    "@mantine/form": "^4.0.8",
-    "@mantine/hooks": "^4.0.8",
-    "@mantine/notifications": "^4.0.8",
-    "@toruslabs/torus-embed": "^1.21.0",
-    "ethers": "^5.6.2",
-    "mongodb": "^4.4.1",
-    "next": "12.1.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "sass": "^1.49.9",
-    "spinners-react": "^1.0.6",
-    "tabler-icons-react": "^1.41.0",
-    "utility-types": "^3.10.0"
-  },
-  "devDependencies": {
-    "@types/node": "17.0.21",
-    "@types/react": "17.0.40",
-    "eslint": "8.11.0",
-    "eslint-config-next": "12.1.0",
-    "typescript": "4.6.2"
-  }
+    "name": "bemetamarketplace",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@biconomy/mexa": "^2.0.31",
+        "@ethersproject/providers": "^5.6.2",
+        "@mantine/core": "^4.0.8",
+        "@mantine/form": "^4.0.8",
+        "@mantine/hooks": "^4.0.8",
+        "@mantine/notifications": "^4.0.8",
+        "@toruslabs/torus-embed": "^1.21.0",
+        "ethers": "^5.6.2",
+        "mongodb": "^4.4.1",
+        "next": "12.1.0",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "sass": "^1.49.9",
+        "spinners-react": "^1.0.6",
+        "tabler-icons-react": "^1.41.0",
+        "utility-types": "^3.10.0"
+    },
+    "devDependencies": {
+        "@types/node": "17.0.21",
+        "@types/react": "17.0.40",
+        "eslint": "8.11.0",
+        "eslint-config-next": "12.1.0",
+        "typescript": "4.6.2"
+    }
 }
