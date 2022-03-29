@@ -35,6 +35,11 @@ async function addNFT(req: NextApiRequest, res: NextApiResponse) {
   try {
     const uri = await pinJSONToIPFS(req.body)
     if (!uri) throw new Error('Failed to pin JSON to IPFS')
+
+    /**
+     * @dev ADD NFT CREATION WEB3/BICO LOGIC HERE
+     */
+
     let { db } = await connectToDatabase()
     const parsedJSON = JSON.parse(req.body)
     await db.collection('NFT').insertOne({ ...parsedJSON, uri })
