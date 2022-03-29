@@ -15,11 +15,11 @@ export interface TableNFTSalesProps {
 const TableNFTSales: React.FC<TableNFTSalesProps> = ({ data }) => {
   const rows =
     data &&
-    data.map((row) => {
+    data.map((row, index) => {
       const date = new Date(parseInt(row.timestamp, 10))
       const time = date.toLocaleTimeString() + ' ' + date.toLocaleDateString()
       return (
-        <tr key={row.owner}>
+        <tr key={index}>
           <td>
             <Anchor<'a'> size='sm' onClick={(event) => event.preventDefault()}>
               {row.owner.substring(0, 6)}...
