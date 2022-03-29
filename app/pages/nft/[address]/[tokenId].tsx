@@ -170,7 +170,7 @@ const NFTPage: React.FC = () => {
                     List For Sale
                   </Button>
                 </Group>
-                {data ? (
+                {data && data?.length > 0 ? (
                   <TableNFTSales {...{ data }} />
                 ) : (
                   <Group
