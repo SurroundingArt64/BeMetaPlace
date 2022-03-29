@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
-
-import { connectToDatabase } from '../../lib/mongo'
+import { MDB } from '../../lib/mongo'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
@@ -23,8 +22,7 @@ async function postBuyOffer(req: NextApiRequest, res: NextApiResponse) {
             timestamp: new Date().getTime().toString(),
             type: 'BUY',
         }
-        let { db } = await connectToDatabase()
-        await db.collection('LISTINGS').insertOne(listing)
+        await MDB.collection('LISTINGS').insertOne(listing)
         return res.json({
             message: 'NFT added successfully',
             success: true,
