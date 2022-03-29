@@ -1,22 +1,22 @@
+import { Db } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase, MDB } from '../../../../lib/mongo'
+import { withDatabase } from '../../../../lib/mongo'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     switch (req.method) {
         case 'GET': {
-            return getListings(req, res)
+            return getListings(req, res, MDB)
         }
     }
 }
 
-async function getListings(req: NextApiRequest, res: NextApiResponse) {
+async function getListings(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     try {
-        await connectToDatabase()
         const { params } = req.query
         const address = params[0]
         let tokenId = params[1]
         const query = { address: address, tokenId: tokenId }
-        let listings = await MDB.collection('LISTINGS').find(query).toArray()
+        let listings = await MDB?.collection('LISTINGS').find(query).toArray()
         return res.json({
             message: JSON.parse(JSON.stringify(listings)),
             success: true,
@@ -28,3 +28,5 @@ async function getListings(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 }
+
+export default withDatabase(handler)

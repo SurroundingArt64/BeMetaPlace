@@ -1,20 +1,20 @@
+import { Db } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
 
-import { connectToDatabase, MDB } from '../../lib/mongo'
+import { withDatabase } from '../../lib/mongo'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     switch (req.method) {
         case 'POST': {
-            return listNFT(req, res)
+            return listNFT(req, res, MDB)
         }
     }
 }
 
-async function listNFT(req: NextApiRequest, res: NextApiResponse) {
+async function listNFT(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     try {
-        await connectToDatabase()
         const parsedJSON: NFTTypes = JSON.parse(req.body)
         const listing: TableNFTSalesProps['data'][0] = {
             owner: parsedJSON.owner as string,
@@ -24,7 +24,7 @@ async function listNFT(req: NextApiRequest, res: NextApiResponse) {
             timestamp: new Date().getTime().toString(),
             type: 'SELL',
         }
-        await MDB.collection('LISTINGS').insertOne(listing)
+        await MDB?.collection('LISTINGS').insertOne(listing)
         return res.json({
             message: 'NFT added successfully',
             success: true,
@@ -36,3 +36,5 @@ async function listNFT(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 }
+
+export default withDatabase(handler)
