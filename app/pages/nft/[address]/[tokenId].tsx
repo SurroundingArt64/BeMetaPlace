@@ -83,9 +83,9 @@ const NFTPage: React.FC = () => {
 
   const handleBuy = React.useCallback(async () => {
     try {
-      if (!nft.sale) throw new Error('COULD NOT LIST')
-      if (!connectedAddress) throw new Error('NOT CONNECTED TO WALLET')
-      throw new Error('API NOT IMPLEMENTED')
+      if (!nft.sale) throw '❌ Could not make buy order for NFT.'
+      if (!connectedAddress) throw '🛑 Not connected to wallet.'
+      throw 'API NOT IMPLEMENTED'
 
       const owner = nft.owner
       const price = nft.sale.price
@@ -123,9 +123,9 @@ const NFTPage: React.FC = () => {
 
   const handleList = React.useCallback(async () => {
     try {
-      if (!nft.sale) throw new Error('COULD NOT LIST')
-      if (!connectedAddress) throw new Error('NOT CONNECTED TO WALLET')
-      throw new Error('API NOT IMPLEMENTED')
+      if (!nft.sale) throw '❌ Could not list NFT.'
+      if (!connectedAddress) throw '🛑 Not connected to wallet.'
+      throw 'API NOT IMPLEMENTED'
 
       const owner = nft.owner
       const price = nft.sale.price

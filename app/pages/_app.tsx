@@ -34,7 +34,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           fontFamily: 'Roboto, sans-serif',
         }}
       >
-        <NotificationsProvider position='top-center'>
+        <NotificationsProvider
+          position='top-center'
+          style={{ marginTop: '80px' }}
+        >
           <Layout>
             <Component {...pageProps} />
           </Layout>
