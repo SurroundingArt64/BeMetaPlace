@@ -299,12 +299,17 @@ const NFTPage: React.FC = () => {
                                     <Button
                                         radius="xl"
                                         style={{ flex: 1 }}
-                                        disabled={
-                                            nft.item && connectedAddress
-                                                ? nft.owner == connectedAddress
-                                                : (connectedAddress?.length ??
-                                                      1) > 0
-                                        }
+                                        disabled={(() => {
+                                            if (!connectedAddress) return true
+                                            if (nft.owner == connectedAddress)
+                                                return true
+                                            if (
+                                                nft.item.value == '0' ||
+                                                nft.item.value == ''
+                                            )
+                                                return true
+                                            return false
+                                        })()}
                                         uppercase
                                         onClick={handleBuy}
                                     >
@@ -314,9 +319,8 @@ const NFTPage: React.FC = () => {
                                         radius="xl"
                                         style={{ flex: 1 }}
                                         disabled={
-                                            connectedAddress
-                                                ? nft.owner != connectedAddress
-                                                : true
+                                            !connectedAddress ||
+                                            nft.owner != connectedAddress
                                         }
                                         color="yellow"
                                         uppercase

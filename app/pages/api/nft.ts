@@ -1,25 +1,24 @@
+import { Db } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
 import { pinJSONToIPFS } from '../../lib/ipfs'
+import { withDatabase } from '../../lib/mongo'
 
-import { connectToDatabase, MDB } from '../../lib/mongo'
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     switch (req.method) {
         case 'GET': {
-            return getNFTs(res)
+            return getNFTs(res, MDB)
         }
         case 'POST': {
-            return addNFT(req, res)
+            return addNFT(req, res, MDB)
         }
     }
 }
 
-async function getNFTs(res: NextApiResponse) {
+async function getNFTs(res: NextApiResponse, MDB: Db) {
     try {
-        await connectToDatabase()
-        let nfts = await MDB.collection('NFT').find({}).toArray()
+        let nfts = await MDB?.collection('NFT').find({}).toArray()
         return res.json({
             message: JSON.parse(JSON.stringify(nfts)),
             success: true,
@@ -32,12 +31,12 @@ async function getNFTs(res: NextApiResponse) {
     }
 }
 
-async function addNFT(req: NextApiRequest, res: NextApiResponse) {
+async function addNFT(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     try {
         const uri = await pinJSONToIPFS(req.body)
         if (!uri) throw new Error('Failed to pin JSON to IPFS')
         const parsedJSON: NFTTypes = JSON.parse(req.body)
-        await MDB.collection('NFT').insertOne({ ...parsedJSON, uri })
+        await MDB?.collection('NFT').insertOne({ ...parsedJSON, uri })
         const listing: TableNFTSalesProps['data'][0] = {
             owner: parsedJSON.owner as string,
             address: parsedJSON.item.address as string,
@@ -46,7 +45,7 @@ async function addNFT(req: NextApiRequest, res: NextApiResponse) {
             timestamp: new Date().getTime().toString(),
             type: 'CREATION',
         }
-        await MDB.collection('LISTINGS').insertOne(listing)
+        await MDB?.collection('LISTINGS').insertOne(listing)
         return res.json({
             message: 'NFT added successfully',
             success: true,
@@ -58,3 +57,5 @@ async function addNFT(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 }
+
+export default withDatabase(handler)
