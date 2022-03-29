@@ -4,9 +4,9 @@ import { ethers } from 'ethers'
 const networks = {
     80001: {
         NFT: '0x394E9697138E49077d09d7EBeB2075D4b960AB66',
-        PrimarySale: '0x74b3017735840d79Cd31997E45D261249B3286F2',
+        NFTSale: '0x74b3017735840d79Cd31997E45D261249B3286F2',
     },
-    137: { NFT: '', PrimarySale: '' },
+    137: { NFT: '', NFTSale: '' },
 }
 export const getContractAddress = (
     network: keyof typeof networks,
@@ -19,18 +19,20 @@ export const getContractAddress = (
 export const getContractABI = async (
     contract: keyof typeof networks[keyof typeof networks]
 ) => {
-    return (await import(`./${contract}.json`)) as any
+    return Array.from<any>((await import(`./${contract}.json`)) as any)
 }
 
 export const getContract = async (
     contract: keyof typeof networks[keyof typeof networks]
 ) => {
-    if (ContractInstance.provider && ContractInstance.chainId) {
+    const abi = await getContractABI(contract)
+    ;(window as any).abi = abi
+    if (ContractInstance.provider && ContractInstance.chainId && abi) {
         return new ethers.Contract(
             getContractAddress(ContractInstance.chainId, contract),
-            await getContractABI(contract),
+            abi,
             ContractInstance.provider
-        )
+        ).connect(ContractInstance.provider.getSigner(0))
     }
 }
 

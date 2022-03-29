@@ -48,7 +48,15 @@ export const useWeb3 = () => {
                 await ethereum.request({
                     method: 'eth_requestAccounts',
                 })
-                ContractInstance.provider = getBiconomy(ethereum)
+                ContractInstance.provider = new ethers.providers.Web3Provider(
+                    ethereum
+                )
+                if (false) {
+                    ContractInstance.provider = getBiconomy(
+                        new ethers.providers.Web3Provider(ethereum),
+                        ethereum
+                    )
+                }
 
                 const { chainId } = await ContractInstance.provider.getNetwork()
                 if (chainId === 80001 || chainId === 137) {
@@ -59,6 +67,7 @@ export const useWeb3 = () => {
                 setWalletType(walletType)
 
                 setLoader(false)
+
                 return getProvider()
             }
         }

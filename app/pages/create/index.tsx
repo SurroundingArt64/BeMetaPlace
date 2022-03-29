@@ -12,9 +12,10 @@ import {
 } from '@mantine/core'
 import NFT, { NFTTypes } from '../../components/NFT'
 import { useWeb3 } from '../../hooks/useWeb3'
-import { getContractAddress } from '../../hooks/useContract'
+import { getContract, getContractAddress } from '../../hooks/useContract'
 import { useNotifications } from '@mantine/notifications'
 import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
 
 const Create = () => {
     const currencies = [
@@ -27,10 +28,6 @@ const Create = () => {
     const [preview, setPreview] = React.useState<NFTTypes>({
         owner: '',
         uri: '',
-        sale: {
-            enabled: false,
-            price: '0',
-        },
         item: {
             chainId: chainId.toString(),
             image: '',
@@ -54,6 +51,20 @@ const Create = () => {
                         address: NFTAddress,
                     },
                 }))
+                ;(window as any).PrimarySale = await getContract('NFTSale')
+
+                const PrimarySale = await getContract('NFTSale')
+
+                if (PrimarySale) {
+                    const price = ethers.utils.parseEther('1000').toString()
+                    const tx = await PrimarySale.create(
+                        'https://gateway.pinata.cloud/ipfs/QmWr11LeYF6GSUVZrWoKKHGZ6bZCwtz414PofyDR8sjDhL',
+                        currencies[0].value,
+                        3600 * 30,
+                        price
+                    )
+                    await tx.wait()
+                }
             }
             run()
         } else {
@@ -81,6 +92,7 @@ const Create = () => {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log(preview)
+
         const res = await fetch('/api/nft', {
             method: 'POST',
             body: JSON.stringify(preview),
