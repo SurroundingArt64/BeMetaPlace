@@ -22,7 +22,7 @@ const NFTPage: React.FC = () => {
   const router = useRouter()
   const [address, setAddress] = useState<string>()
   const [tokenId, setTokenId] = useState<string>()
-  const { connectedAddress, showWallet } = useWeb3()
+  const { connectedAddress, showWallet, chainId } = useWeb3()
   const [data, setData] = useState<TableNFTSalesProps['data']>()
   const [loading, setLoading] = useState<boolean>(true)
   const notifications = useNotifications()
@@ -58,6 +58,7 @@ const NFTPage: React.FC = () => {
       price: '',
     },
     item: {
+      chainId: chainId.toString(),
       image: '',
       title: '',
       tokenId: '',

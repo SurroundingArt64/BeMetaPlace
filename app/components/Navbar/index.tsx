@@ -57,10 +57,6 @@ const Navbar: React.FC<NavbarProps> = ({
           >
             Create
           </li>
-
-          <Link href='/'>
-            <li>Marketplace</li>
-          </Link>
           <li
             onClick={() => {
               if (!connectedAddress) showWallet(true)
