@@ -117,23 +117,26 @@ const Create = () => {
                 await tx.wait()
             }
         }
-        const tokenId = await getContract('NFT')
-        // const data: { message: NFTTypes; success: Boolean } = await res.json()
-        // if (true) {
-        //     console.log(data)
-        // }
-        // if (data.success) {
-        //     router.push(
-        //         '/nft/[address]/[tokenId]',
-        //         `/nft/${preview.item.address}/${preview.item.tokenId}`
-        //     )
-        // } else {
-        //     notifications.showNotification({
-        //         title: 'Error',
-        //         message: data.message,
-        //         color: 'red',
-        //     })
-        // }
+        const NFT = await getContract('NFT')
+        if (NFT) {
+            const tokenId = NFT.totalSupply()
+            // const data: { message: NFTTypes; success: Boolean } = await res.json()
+            // if (true) {
+            //     console.log(data)
+            // }
+            // if (data.success) {
+            //     router.push(
+            //         '/nft/[address]/[tokenId]',
+            //         `/nft/${preview.item.address}/${preview.item.tokenId}`
+            //     )
+            // } else {
+            //     notifications.showNotification({
+            //         title: 'Error',
+            //         message: data.message,
+            //         color: 'red',
+            //     })
+            // }
+        }
     }
 
     return (
