@@ -21,7 +21,7 @@ const NFTPage: React.FC = () => {
   const router = useRouter()
   const [address, setAddress] = useState<string>()
   const [tokenId, setTokenId] = useState<string>()
-  const { connectedAddress } = useWeb3()
+  const { connectedAddress, showWallet } = useWeb3()
   const [data, setData] = useState<TableNFTSalesProps['data']>()
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -142,9 +142,43 @@ const NFTPage: React.FC = () => {
                 </p>
               )}
               <Group direction='column' sx={{ gap: '32px', padding: '32px 0' }}>
-                <Text size='xl' weight={700} sx={{ lineHeight: 1 }}>
-                  Sale Options
-                </Text>
+                <Group sx={{ height: '32px' }}>
+                  <Text
+                    size='xl'
+                    weight={700}
+                    sx={{
+                      lineHeight: 1,
+                    }}
+                  >
+                    Sale Options
+                  </Text>
+                  {!connectedAddress && (
+                    <Button
+                      variant='light'
+                      color='red'
+                      size='sm'
+                      uppercase
+                      radius='xl'
+                      onClick={() => showWallet(true)}
+                      compact
+                    >
+                      Wallet not connected
+                    </Button>
+                  )}
+                  {connectedAddress && nft.owner == connectedAddress && (
+                    <Button
+                      variant='light'
+                      color='green'
+                      size='sm'
+                      uppercase
+                      radius='xl'
+                      translate='no'
+                      compact
+                    >
+                      You own this NFT
+                    </Button>
+                  )}
+                </Group>
                 <Group sx={{ width: '100%', gap: '16px' }}>
                   <Button
                     radius='xl'
