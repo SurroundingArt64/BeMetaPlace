@@ -23,6 +23,7 @@ const Create = () => {
 
   const [preview, setPreview] = React.useState<NFTTypes>({
     owner: '',
+    uri: '',
     item: {
       image: '',
       title: '',
@@ -162,7 +163,9 @@ const Create = () => {
               value={preview.item.currency}
             />
             <Group position='right' mt='lg'>
-              <Button type='submit'>Submit and Mint!</Button>
+              <Button type='submit' uppercase>
+                Submit and Mint!
+              </Button>
             </Group>
           </form>
         </Box>

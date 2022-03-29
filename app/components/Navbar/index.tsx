@@ -20,7 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({
   opened,
 }) => {
   const theme = useMantineTheme()
-
   return (
     <div className={classes.root}>
       <div className={classes.container}>

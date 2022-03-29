@@ -1,3 +1,4 @@
+import { Button, Group, Text } from '@mantine/core'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
@@ -5,26 +6,29 @@ import React, { useEffect, useState } from 'react'
 import { SpinnerDotted } from 'spinners-react'
 import { likeButton, shareButton, verified } from '../../../components/assets'
 import { NFTTypes } from '../../../components/NFT'
+import NFTSalesTable, { TableNFTProps } from '../../../components/NFTSalesTable'
+import { useWeb3 } from '../../../hooks/useWeb3'
 
-import classes from './NFTPage.module.scss'
+import styles from './NFTPage.module.scss'
 interface IParams extends ParsedUrlQuery {
   address?: string
   tokenId?: string
 }
+
 const NFTPage: React.FC = () => {
   const router = useRouter()
   const [address, setAddress] = useState<string>()
   const [tokenId, setTokenId] = useState<string>()
-  const [loading, setLoading] = React.useState<boolean>(true)
+  const { connectedAddress } = useWeb3()
+  const [data, setData] = useState<TableNFTProps['data']>()
 
   useEffect(() => {
     const query = router.query as IParams
     if (query.address && query.tokenId) {
       setAddress(query.address)
       setTokenId(query.tokenId)
-
       setNft((sample) => {
-        if (query.address && query.tokenId)
+        if (query.address && query.tokenId) {
           return {
             ...sample,
             item: {
@@ -33,7 +37,7 @@ const NFTPage: React.FC = () => {
               tokenId: query.tokenId,
             },
           }
-        else {
+        } else {
           return sample
         }
       })
@@ -63,34 +67,38 @@ const NFTPage: React.FC = () => {
     if (address && tokenId) run()
   }, [address, tokenId])
 
-  if (nft.owner === '')
+  if (nft && !nft.item)
     return (
-      <div className={classes.root} style={{ height: 'calc(100vh - 369px)' }}>
-        <div className={classes.spinner}>
-          {loading ? <SpinnerDotted color='#4262ea' /> : 'NO LISTINGS FOUND'}
+      <div className={styles.root} style={{ height: 'calc(100vh - 200px)' }}>
+        <div className={styles.spinner}>
+          {nft.item !== undefined ? (
+            <SpinnerDotted color='#4262ea' />
+          ) : (
+            'NO LISTINGS FOUND'
+          )}
         </div>
       </div>
     )
 
   return (
-    <div className={classes.root}>
-      <div className={classes.header}>
-        <div className={classes.title}>
+    <div className={styles.root}>
+      <div className={styles.header}>
+        <div className={styles.title}>
           <h1>{nft.item.title}</h1>
-          <span className={classes.verified}>{verified}</span>
+          <span className={styles.verified}>{verified}</span>
         </div>
-        <div className={classes.social}>
+        <div className={styles.social}>
           <div>{likeButton}</div>
           <div>{shareButton}</div>
         </div>
       </div>
-      <div className={classes.content}>
-        <div className={classes.content__nft}>
-          <img className={classes.image} src={nft.item.image} />
+      <div className={styles.content}>
+        <div className={styles.content__nft}>
+          <img className={styles.image} src={nft.item.image} />
         </div>
-        <div className={classes.content__right}>
-          <div className={classes.ownedBy}>Owned by {nft.owner}</div>
-          <div className={classes.price}>
+        <div className={styles.content__right}>
+          <div className={styles.ownedBy}>Owned by {nft.owner}</div>
+          <div className={styles.price}>
             <div>CURRENT PRICE</div>
             <div>
               {nft.item.value} {nft.item.currency}
@@ -98,16 +106,16 @@ const NFTPage: React.FC = () => {
           </div>
           Part of the Arabian Camel Caravan. Unique Camel ID:
           96eRxKZdoZvpiYWQadUcBM
-          <div className={classes.price}>ABOUT {nft.item.title}</div>
+          <div className={styles.price}>ABOUT {nft.item.title}</div>
           {nft.item.description?.split('\n').map((elem, idx) => (
             <>
-              <div key={idx} className={classes.desc}>
+              <div key={idx} className={styles.desc}>
                 {elem}
               </div>
             </>
           ))}
           {nft.uri && (
-            <p className={classes.description}>
+            <p className={styles.description}>
               Check out the{' '}
               <Link href={`https://gateway.pinata.cloud/ipfs/${nft.uri}` ?? ''}>
                 <a target='_blank' rel='noopener noreferrer'>
@@ -117,6 +125,55 @@ const NFTPage: React.FC = () => {
               .
             </p>
           )}
+          <Group direction='column' sx={{ gap: '16px', padding: '32px 0' }}>
+            <Text size='xl' weight={700} sx={{ lineHeight: 1 }}>
+              Sale Options
+            </Text>
+            <Group sx={{ width: '100%' }}>
+              <Button
+                radius='xl'
+                style={{ flex: 1 }}
+                disabled={
+                  connectedAddress ? nft.owner == connectedAddress : false
+                }
+                uppercase
+              >
+                Place Buy Order
+              </Button>
+              <Button
+                radius='xl'
+                style={{ flex: 1 }}
+                disabled={
+                  connectedAddress ? nft.owner != connectedAddress : true
+                }
+                color='yellow'
+                uppercase
+              >
+                List For Sale
+              </Button>
+            </Group>
+            {data ? (
+              <NFTSalesTable {...{ data }} />
+            ) : (
+              <Group
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  padding: '32px 0',
+                  color: '#aaa',
+                }}
+              >
+                <Text
+                  size='md'
+                  weight={500}
+                  sx={{ lineHeight: 1, textTransform: 'uppercase' }}
+                >
+                  No Sale History Found
+                </Text>
+              </Group>
+            )}
+          </Group>
         </div>
       </div>
     </div>
