@@ -1,4 +1,5 @@
 import { Button, Group, Text } from '@mantine/core'
+import { useNotifications } from '@mantine/notifications'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
@@ -24,6 +25,7 @@ const NFTPage: React.FC = () => {
   const { connectedAddress, showWallet } = useWeb3()
   const [data, setData] = useState<TableNFTSalesProps['data']>()
   const [loading, setLoading] = useState<boolean>(true)
+  const notifications = useNotifications()
 
   useEffect(() => {
     const query = router.query as IParams
@@ -78,6 +80,82 @@ const NFTPage: React.FC = () => {
     }
     if (address && tokenId) run()
   }, [address, tokenId])
+
+  const handleBuy = React.useCallback(async () => {
+    try {
+      if (!nft.sale) throw new Error('COULD NOT LIST')
+      if (!connectedAddress) throw new Error('NOT CONNECTED TO WALLET')
+      throw new Error('API NOT IMPLEMENTED')
+
+      // const owner = nft.owner
+      // const price = nft.sale.price
+      // const address = nft.item.address
+      // const { message } = await (await fetch(`/api/nft/buy`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     owner,
+      //     address,
+      //     tokenId,
+      //     price,
+      //   }),
+      // })).json()
+      // if(!message.status) throw new Error(message.message)
+      // else {
+      //   notifications.showNotification({
+      //     title: 'Successfully bought',
+      //     message: "NFT was successfully purchased",
+      //     color: 'green',
+      //   })
+      // }
+    } catch (err: any) {
+      notifications.showNotification({
+        title: 'Error',
+        message: err,
+        color: 'red',
+      })
+    }
+  }, [])
+
+  const handleList = React.useCallback(async () => {
+    try {
+      if (!nft.sale) throw new Error('COULD NOT LIST')
+      if (!connectedAddress) throw new Error('NOT CONNECTED TO WALLET')
+      throw new Error('API NOT IMPLEMENTED')
+
+      // const owner = nft.owner
+      // const price = nft.sale.price
+      // const address = nft.item.address
+      // const { message } = await (await fetch(`/api/nft/list`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     owner,
+      //     address,
+      //     tokenId,
+      //     price,
+      //   }),
+      // })).json()
+      // if(!message.status) throw new Error(message.message)
+      // else {
+      //   notifications.showNotification({
+      //     title: 'Successfully Listed',
+      //     message: "NFT was successfully listed on Sale",
+      //     color: 'green',
+      //   })
+      // }
+    } catch (err: any) {
+      notifications.showNotification({
+        title: 'Error',
+        message: err,
+        color: 'red',
+      })
+    }
+  }, [])
 
   if (nft && !nft.item)
     return (
@@ -198,6 +276,7 @@ const NFTPage: React.FC = () => {
                         : (connectedAddress?.length ?? 1) > 0
                     }
                     uppercase
+                    onClick={handleBuy}
                   >
                     Place Buy Order
                   </Button>
@@ -209,6 +288,7 @@ const NFTPage: React.FC = () => {
                     }
                     color='yellow'
                     uppercase
+                    onClick={handleList}
                   >
                     List For Sale
                   </Button>
