@@ -128,7 +128,7 @@ const Create = () => {
                     title: preview.item.title,
                     tokenId: tokenId,
                     value: preview.item.value,
-                    currency: currencies[0].value,
+                    currency: currencies[0].name,
                     address: getContractAddress(chainId, 'NFT'),
                 },
             }
@@ -144,7 +144,7 @@ const Create = () => {
             if (data.success) {
                 router.push(
                     '/nft/[address]/[tokenId]',
-                    `/nft/${preview.item.address}/${preview.item.tokenId}`
+                    `/nft/${preview.item.address}/${tokenId}`
                 )
             } else {
                 notifications.showNotification({

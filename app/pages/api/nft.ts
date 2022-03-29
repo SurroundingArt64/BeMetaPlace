@@ -33,10 +33,8 @@ async function getNFTs(res: NextApiResponse, MDB: Db) {
 
 async function addNFT(req: NextApiRequest, res: NextApiResponse, MDB: Db) {
     try {
-        const uri = await pinJSONToIPFS(req.body)
-        if (!uri) throw new Error('Failed to pin JSON to IPFS')
         const parsedJSON: NFTTypes = JSON.parse(req.body)
-        await MDB?.collection('NFT').insertOne({ ...parsedJSON, uri })
+        await MDB?.collection('NFT').insertOne({ ...parsedJSON })
         const listing: TableNFTSalesProps['data'][0] = {
             owner: parsedJSON.owner as string,
             address: parsedJSON.item.address as string,

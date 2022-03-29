@@ -122,46 +122,6 @@ const NFTPage: React.FC = () => {
         }
     }, [])
 
-    const handleList = React.useCallback(async () => {
-        try {
-            if (!nft.item) throw '❌ Could not list NFT.'
-            if (!connectedAddress) throw '🛑 Not connected to wallet.'
-            throw 'API NOT IMPLEMENTED'
-
-            const owner = nft.owner
-            const price = nft.item.value
-            const address = nft.item.address
-            const { message } = await (
-                await fetch(`/api/nft/list`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        owner,
-                        address,
-                        tokenId,
-                        price,
-                    }),
-                })
-            ).json()
-            if (!message.status) throw new Error(message.message)
-            else {
-                notifications.showNotification({
-                    title: 'Successfully Listed',
-                    message: 'NFT was successfully listed on Sale',
-                    color: 'green',
-                })
-            }
-        } catch (err: any) {
-            notifications.showNotification({
-                title: 'Error',
-                message: err,
-                color: 'red',
-            })
-        }
-    }, [])
-
     if (nft && !nft.item)
         return (
             <div
@@ -237,12 +197,7 @@ const NFTPage: React.FC = () => {
                             {nft.uri && (
                                 <p className={styles.description}>
                                     Check out the{' '}
-                                    <Link
-                                        href={
-                                            `https://gateway.pinata.cloud/ipfs/${nft.uri}` ??
-                                            ''
-                                        }
-                                    >
+                                    <Link href={nft.uri}>
                                         <a
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -314,19 +269,6 @@ const NFTPage: React.FC = () => {
                                         onClick={handleBuy}
                                     >
                                         Place Buy Order
-                                    </Button>
-                                    <Button
-                                        radius="xl"
-                                        style={{ flex: 1 }}
-                                        disabled={
-                                            !connectedAddress ||
-                                            nft.owner != connectedAddress
-                                        }
-                                        color="yellow"
-                                        uppercase
-                                        onClick={handleList}
-                                    >
-                                        List For Sale
                                     </Button>
                                 </Group>
                                 {data && data?.length > 0 ? (
