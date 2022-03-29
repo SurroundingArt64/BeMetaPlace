@@ -23,6 +23,7 @@ const NFTPage: React.FC = () => {
   const [tokenId, setTokenId] = useState<string>()
   const { connectedAddress } = useWeb3()
   const [data, setData] = useState<TableNFTSalesProps['data']>()
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const query = router.query as IParams
@@ -69,6 +70,7 @@ const NFTPage: React.FC = () => {
       data = await (await fetch(`/api/nft/sales/${address}/${tokenId}`)).json()
       console.log({ api: `/api/nft/sales/${address}/${tokenId}`, data })
       setData(data.message)
+      setLoading(false)
     }
     if (address && tokenId) run()
   }, [address, tokenId])
@@ -88,102 +90,112 @@ const NFTPage: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.header}>
-        <div className={styles.title}>
-          <h1>{nft.item.title}</h1>
-          <span className={styles.verified}>{verified}</span>
+      {loading ? (
+        <div className={styles.spinner} style={{ height: '69vh' }}>
+          <SpinnerDotted color='#4262ea' />
         </div>
-        <div className={styles.social}>
-          <div>{likeButton}</div>
-          <div>{shareButton}</div>
-        </div>
-      </div>
-      <div className={styles.content}>
-        <div className={styles.content__nft}>
-          <img className={styles.image} src={nft.item.image} />
-        </div>
-        <div className={styles.content__right}>
-          <div className={styles.ownedBy}>Owned by {nft.owner}</div>
-          <div className={styles.price}>
-            <div>CURRENT PRICE</div>
-            <div>
-              {nft.item.value} {nft.item.currency}
+      ) : (
+        <>
+          <div className={styles.header}>
+            <div className={styles.title}>
+              <h1>{nft.item.title}</h1>
+              <span className={styles.verified}>{verified}</span>
+            </div>
+            <div className={styles.social}>
+              <div>{likeButton}</div>
+              <div>{shareButton}</div>
             </div>
           </div>
-          Part of the Arabian Camel Caravan. Unique Camel ID:
-          96eRxKZdoZvpiYWQadUcBM
-          <div className={styles.price}>ABOUT {nft.item.title}</div>
-          {nft.item.description?.split('\n').map((elem, idx) => (
-            <>
-              <div key={idx} className={styles.desc}>
-                {elem}
+          <div className={styles.content}>
+            <div className={styles.content__nft}>
+              <img className={styles.image} src={nft.item.image} />
+            </div>
+            <div className={styles.content__right}>
+              <div className={styles.ownedBy}>Owned by {nft.owner}</div>
+              <div className={styles.price}>
+                <div>CURRENT PRICE</div>
+                <div>
+                  {nft.item.value} {nft.item.currency}
+                </div>
               </div>
-            </>
-          ))}
-          {nft.uri && (
-            <p className={styles.description}>
-              Check out the{' '}
-              <Link href={`https://gateway.pinata.cloud/ipfs/${nft.uri}` ?? ''}>
-                <a target='_blank' rel='noopener noreferrer'>
-                  metadata
-                </a>
-              </Link>
-              .
-            </p>
-          )}
-          <Group direction='column' sx={{ gap: '32px', padding: '32px 0' }}>
-            <Text size='xl' weight={700} sx={{ lineHeight: 1 }}>
-              Sale Options
-            </Text>
-            <Group sx={{ width: '100%', gap: '16px' }}>
-              <Button
-                radius='xl'
-                style={{ flex: 1 }}
-                disabled={
-                  connectedAddress
-                    ? nft.owner == connectedAddress
-                    : (connectedAddress?.length ?? 1) > 0
-                }
-                uppercase
-              >
-                Place Buy Order
-              </Button>
-              <Button
-                radius='xl'
-                style={{ flex: 1 }}
-                disabled={
-                  connectedAddress ? nft.owner != connectedAddress : true
-                }
-                color='yellow'
-                uppercase
-              >
-                List For Sale
-              </Button>
-            </Group>
-            {data ? (
-              <TableNFTSales {...{ data }} />
-            ) : (
-              <Group
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  padding: '32px 0',
-                  color: '#aaa',
-                }}
-              >
-                <Text
-                  size='md'
-                  weight={500}
-                  sx={{ lineHeight: 1, textTransform: 'uppercase' }}
-                >
-                  No Sale History Found
+              Part of the Arabian Camel Caravan. Unique Camel ID:
+              96eRxKZdoZvpiYWQadUcBM
+              <div className={styles.price}>ABOUT {nft.item.title}</div>
+              {nft.item.description?.split('\n').map((elem, idx) => (
+                <>
+                  <div key={idx} className={styles.desc}>
+                    {elem}
+                  </div>
+                </>
+              ))}
+              {nft.uri && (
+                <p className={styles.description}>
+                  Check out the{' '}
+                  <Link
+                    href={`https://gateway.pinata.cloud/ipfs/${nft.uri}` ?? ''}
+                  >
+                    <a target='_blank' rel='noopener noreferrer'>
+                      metadata
+                    </a>
+                  </Link>
+                  .
+                </p>
+              )}
+              <Group direction='column' sx={{ gap: '32px', padding: '32px 0' }}>
+                <Text size='xl' weight={700} sx={{ lineHeight: 1 }}>
+                  Sale Options
                 </Text>
+                <Group sx={{ width: '100%', gap: '16px' }}>
+                  <Button
+                    radius='xl'
+                    style={{ flex: 1 }}
+                    disabled={
+                      connectedAddress
+                        ? nft.owner == connectedAddress
+                        : (connectedAddress?.length ?? 1) > 0
+                    }
+                    uppercase
+                  >
+                    Place Buy Order
+                  </Button>
+                  <Button
+                    radius='xl'
+                    style={{ flex: 1 }}
+                    disabled={
+                      connectedAddress ? nft.owner != connectedAddress : true
+                    }
+                    color='yellow'
+                    uppercase
+                  >
+                    List For Sale
+                  </Button>
+                </Group>
+                {data ? (
+                  <TableNFTSales {...{ data }} />
+                ) : (
+                  <Group
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      padding: '32px 0',
+                      color: '#aaa',
+                    }}
+                  >
+                    <Text
+                      size='md'
+                      weight={500}
+                      sx={{ lineHeight: 1, textTransform: 'uppercase' }}
+                    >
+                      No Sale History Found
+                    </Text>
+                  </Group>
+                )}
               </Group>
-            )}
-          </Group>
-        </div>
-      </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
