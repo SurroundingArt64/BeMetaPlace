@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@biconomy/mexa": "^2.0.31",
     "@ethersproject/providers": "^5.6.2",
     "@mantine/core": "^4.0.8",
     "@mantine/form": "^4.0.8",

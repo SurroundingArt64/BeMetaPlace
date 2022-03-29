@@ -4,6 +4,7 @@ import AppContext from "../components/wallet/AppContext";
 import { ethers } from "ethers";
 import { PromiseType } from "utility-types";
 import { ContractInstance } from "./useContract";
+import { getBiconomy } from "./getBiconomy";
 
 export type WalletType = "metamask" | "wallet-connect" | "torus-wallet";
 const getTorus = async () => {
@@ -47,7 +48,7 @@ export const useWeb3 = () => {
         await ethereum.request({
           method: "eth_requestAccounts",
         });
-        ContractInstance.provider = new ethers.providers.Web3Provider(ethereum);
+        ContractInstance.provider = getBiconomy(ethereum);
 
         const { chainId } = await ContractInstance.provider.getNetwork();
         if (chainId === 80001 || chainId === 137) {
