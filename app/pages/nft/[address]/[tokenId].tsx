@@ -6,10 +6,12 @@ import React, { useEffect, useState } from 'react'
 import { SpinnerDotted } from 'spinners-react'
 import { likeButton, shareButton, verified } from '../../../components/assets'
 import { NFTTypes } from '../../../components/NFT'
-import NFTSalesTable, { TableNFTProps } from '../../../components/NFTSalesTable'
+import TableNFTSales, {
+  TableNFTSalesProps,
+} from '../../../components/TableNFTSales'
 import { useWeb3 } from '../../../hooks/useWeb3'
-
 import styles from './NFTPage.module.scss'
+
 interface IParams extends ParsedUrlQuery {
   address?: string
   tokenId?: string
@@ -20,7 +22,7 @@ const NFTPage: React.FC = () => {
   const [address, setAddress] = useState<string>()
   const [tokenId, setTokenId] = useState<string>()
   const { connectedAddress } = useWeb3()
-  const [data, setData] = useState<TableNFTProps['data']>()
+  const [data, setData] = useState<TableNFTSalesProps['data']>()
 
   useEffect(() => {
     const query = router.query as IParams
@@ -155,7 +157,7 @@ const NFTPage: React.FC = () => {
               </Button>
             </Group>
             {data ? (
-              <NFTSalesTable {...{ data }} />
+              <TableNFTSales {...{ data }} />
             ) : (
               <Group
                 style={{

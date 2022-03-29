@@ -1,7 +1,7 @@
 import { Anchor, ScrollArea, Table } from '@mantine/core'
 import React from 'react'
 
-export interface TableNFTProps {
+export interface TableNFTSalesProps {
   data: {
     owner: string
     price: string
@@ -9,7 +9,7 @@ export interface TableNFTProps {
   }[]
 }
 
-const NFTSalesTable: React.FC<TableNFTProps> = ({ data }) => {
+const TableNFTSales: React.FC<TableNFTSalesProps> = ({ data }) => {
   const rows =
     data &&
     data.map((row) => {
@@ -46,4 +46,4 @@ const NFTSalesTable: React.FC<TableNFTProps> = ({ data }) => {
   )
 }
 
-export default NFTSalesTable
+export default TableNFTSales
