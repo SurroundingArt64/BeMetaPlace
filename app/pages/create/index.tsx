@@ -29,6 +29,7 @@ const Create = () => {
       price: '0',
     },
     item: {
+      chainId: chainId.toString(),
       image: '',
       title: '',
       tokenId: '',

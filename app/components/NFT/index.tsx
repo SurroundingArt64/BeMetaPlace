@@ -11,6 +11,7 @@ export interface NFTTypes {
     price: string
   }
   item: {
+    chainId: string
     image: string
     video?: string
     title: string
