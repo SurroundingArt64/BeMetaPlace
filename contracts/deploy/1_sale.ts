@@ -58,14 +58,17 @@ export const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
 	const receipt0 = await tx0.wait()
 	console.log('Receipt hash:', receipt0.transactionHash)
-
-	const tx = await PrimarySale.setAdminAccess(
+	const addresses = [
 		'0x7a783DCE34B58055610E87B373cD97F26B45B1D9',
-		true
-	)
-	console.log('Transaction hash:', tx.hash)
-	const receipt = await tx.wait()
-	console.log('Receipt hash:', receipt.transactionHash)
+		'0xb8D249aa28E689f418c6c3D41Dd40076B9F09797',
+	]
+	for (let index = 0; index < addresses.length; index++) {
+		const addr = addresses[index]
+		const tx = await PrimarySale.setAdminAccess(addr, true)
+		console.log('Transaction hash:', tx.hash)
+		const receipt = await tx.wait()
+		console.log('Receipt hash:', receipt.transactionHash)
+	}
 
 	const tx2 = await PrimarySale.setAllowedERC20(
 		(
