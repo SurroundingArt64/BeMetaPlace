@@ -27,10 +27,6 @@ const Create = () => {
     const [preview, setPreview] = React.useState<NFTTypes>({
         owner: '',
         uri: '',
-        sale: {
-            enabled: false,
-            price: '0',
-        },
         item: {
             chainId: chainId.toString(),
             image: '',

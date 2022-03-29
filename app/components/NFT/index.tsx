@@ -6,10 +6,6 @@ import classes from './NFT.module.scss'
 export interface NFTTypes {
     owner: string
     uri: string
-    sale?: {
-        enabled: boolean
-        price: string
-    }
     item: {
         chainId: string
         image: string

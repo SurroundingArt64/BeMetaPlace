@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
 import { pinJSONToIPFS } from '../../lib/ipfs'
 
@@ -35,19 +36,14 @@ async function addNFT(req: NextApiRequest, res: NextApiResponse) {
     try {
         const uri = await pinJSONToIPFS(req.body)
         if (!uri) throw new Error('Failed to pin JSON to IPFS')
-
-        /**
-         * @dev ADD NFT CREATION WEB3/BICO LOGIC HERE
-         */
-
         let { db } = await connectToDatabase()
-        const parsedJSON = JSON.parse(req.body)
+        const parsedJSON: NFTTypes = JSON.parse(req.body)
         await db.collection('NFT').insertOne({ ...parsedJSON, uri })
         const listing: TableNFTSalesProps['data'][0] = {
             owner: parsedJSON.owner as string,
             address: parsedJSON.item.address as string,
             tokenId: parsedJSON.item.tokenId as string,
-            price: (parsedJSON.sale && parsedJSON.sale.price) ?? '0',
+            price: (parsedJSON.item && parsedJSON.item.value) ?? '0',
             timestamp: new Date().getTime().toString(),
             type: 'CREATION',
         }

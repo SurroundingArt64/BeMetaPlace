@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
 
 import { connectToDatabase } from '../../lib/mongo'
@@ -13,17 +14,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function postBuyOffer(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const parsedJSON = JSON.parse(req.body)
-
-        /**
-         * @dev ADD BUY WEB3/BICO LOGIC HERE
-         */
-
+        const parsedJSON: NFTTypes = JSON.parse(req.body)
         const listing: TableNFTSalesProps['data'][0] = {
             owner: parsedJSON.owner as string,
             address: parsedJSON.item.address as string,
             tokenId: parsedJSON.item.tokenId as string,
-            price: parsedJSON.sale.price,
+            price: parsedJSON.item.value,
             timestamp: new Date().getTime().toString(),
             type: 'BUY',
         }
