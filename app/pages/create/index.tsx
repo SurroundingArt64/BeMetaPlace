@@ -80,26 +80,59 @@ const Create = () => {
         event.preventDefault()
         console.log(preview)
 
-        const res = await fetch('/api/nft', {
+        const res = await fetch('/api/pin', {
             method: 'POST',
-            body: JSON.stringify(preview),
+            body: JSON.stringify({
+                name: preview.item.title,
+                image: preview.item.image,
+                description: preview.item.description ?? '',
+                ...(preview.item.video
+                    ? { animation_url: preview.item.video }
+                    : {}),
+            }),
         })
-        const data: { message: NFTTypes; success: Boolean } = await res.json()
-        if (true) {
-            console.log(data)
-        }
+        const data: { uri: string; success: Boolean } = await res.json()
         if (data.success) {
-            router.push(
-                '/nft/[address]/[tokenId]',
-                `/nft/${preview.item.address}/${preview.item.tokenId}`
-            )
-        } else {
-            notifications.showNotification({
-                title: 'Error',
-                message: data.message,
-                color: 'red',
-            })
+            const PrimarySale = await getContract('NFTSale')
+
+            if (PrimarySale) {
+                const price = ethers.utils
+                    .parseEther(preview.item.value.toString() ?? '1000')
+                    .toString()
+                const gas = await PrimarySale.estimateGas.create(
+                    'ipfs://' + data.uri,
+                    currencies[0].value,
+                    3600 * 30,
+                    price
+                )
+                const tx = await PrimarySale.create(
+                    'ipfs://' + data.uri,
+                    currencies[0].value,
+                    3600 * 30,
+                    price,
+                    {
+                        gasLimit: gas.toNumber() + 100_000,
+                    }
+                )
+                await tx.wait()
+            }
         }
+        // const data: { message: NFTTypes; success: Boolean } = await res.json()
+        // if (true) {
+        //     console.log(data)
+        // }
+        // if (data.success) {
+        //     router.push(
+        //         '/nft/[address]/[tokenId]',
+        //         `/nft/${preview.item.address}/${preview.item.tokenId}`
+        //     )
+        // } else {
+        //     notifications.showNotification({
+        //         title: 'Error',
+        //         message: data.message,
+        //         color: 'red',
+        //     })
+        // }
     }
 
     return (

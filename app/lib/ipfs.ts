@@ -1,6 +1,11 @@
 const key = process.env.IPFS_KEY
 const secret = process.env.IPFS_SECRET
 
+/**
+ *
+ * @param JSONBody
+ * @returns only CID not link
+ */
 export const pinJSONToIPFS = async (JSONBody: any): Promise<string> => {
     const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`
     try {
