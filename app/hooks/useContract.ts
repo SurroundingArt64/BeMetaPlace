@@ -2,8 +2,8 @@ import { Web3Provider } from '@ethersproject/providers'
 import { ethers } from 'ethers'
 
 const networks = {
-    80001: { NFT: '0x394E9697138E49077d09d7EBeB2075D4b960AB66' },
-    137: { NFT: '' },
+    80001: { NFT: '0x394E9697138E49077d09d7EBeB2075D4b960AB66', PrimarySale: '0x74b3017735840d79Cd31997E45D261249B3286F2' },
+    137: { NFT: '',PrimarySale: '' },
 }
 export const getContractAddress = (
     network: keyof typeof networks,
