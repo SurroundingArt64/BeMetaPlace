@@ -125,16 +125,18 @@ const NFTPage: React.FC = () => {
               .
             </p>
           )}
-          <Group direction='column' sx={{ gap: '16px', padding: '32px 0' }}>
+          <Group direction='column' sx={{ gap: '32px', padding: '32px 0' }}>
             <Text size='xl' weight={700} sx={{ lineHeight: 1 }}>
               Sale Options
             </Text>
-            <Group sx={{ width: '100%' }}>
+            <Group sx={{ width: '100%', gap: '16px' }}>
               <Button
                 radius='xl'
                 style={{ flex: 1 }}
                 disabled={
-                  connectedAddress ? nft.owner == connectedAddress : false
+                  connectedAddress
+                    ? nft.owner == connectedAddress
+                    : (connectedAddress?.length ?? 1) > 0
                 }
                 uppercase
               >
