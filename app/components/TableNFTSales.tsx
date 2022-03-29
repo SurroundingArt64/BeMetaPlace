@@ -31,8 +31,8 @@ const TableNFTSales: React.FC<TableNFTSalesProps> = ({ data }) => {
               {row.price}
             </Anchor>
           </td>
-          <td>{time}</td>
           <td>{row.type}</td>
+          <td>{time}</td>
         </tr>
       )
     })
@@ -44,8 +44,8 @@ const TableNFTSales: React.FC<TableNFTSalesProps> = ({ data }) => {
           <tr>
             <th>Owner</th>
             <th>Price</th>
-            <th>Timestamp</th>
             <th>Type</th>
+            <th>Time/Date</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
