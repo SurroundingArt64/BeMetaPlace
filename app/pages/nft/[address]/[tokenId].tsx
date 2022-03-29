@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import React, { useEffect, useState } from 'react'
+import { SpinnerDotted } from 'spinners-react'
 import { likeButton, shareButton, verified } from '../../../components/assets'
 import { NFTTypes } from '../../../components/NFT'
 
@@ -14,6 +15,7 @@ const NFTPage: React.FC = () => {
   const router = useRouter()
   const [address, setAddress] = useState<string>()
   const [tokenId, setTokenId] = useState<string>()
+  const [loading, setLoading] = React.useState<boolean>(true)
 
   useEffect(() => {
     const query = router.query as IParams
@@ -64,7 +66,9 @@ const NFTPage: React.FC = () => {
   if (nft.owner === '')
     return (
       <div className={classes.root} style={{ height: 'calc(100vh - 369px)' }}>
-        <h1>Cound not find NFT!</h1>
+        <div className={classes.spinner}>
+          {loading ? <SpinnerDotted color='#4262ea' /> : 'NO LISTINGS FOUND'}
+        </div>
       </div>
     )
 
