@@ -62,9 +62,13 @@ const NFTPage: React.FC = () => {
 
   React.useEffect(() => {
     const run = async () => {
-      const data = await (await fetch(`/api/nft/${address}/${tokenId}`)).json()
+      let data = await (await fetch(`/api/nft/${address}/${tokenId}`)).json()
       console.log({ api: `/api/nft/${address}/${tokenId}`, data })
       setNft(data.message)
+
+      data = await (await fetch(`/api/nft/sales/${address}/${tokenId}`)).json()
+      console.log({ api: `/api/nft/sales/${address}/${tokenId}`, data })
+      setData(data.message)
     }
     if (address && tokenId) run()
   }, [address, tokenId])
