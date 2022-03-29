@@ -87,29 +87,31 @@ const NFTPage: React.FC = () => {
       if (!connectedAddress) throw new Error('NOT CONNECTED TO WALLET')
       throw new Error('API NOT IMPLEMENTED')
 
-      // const owner = nft.owner
-      // const price = nft.sale.price
-      // const address = nft.item.address
-      // const { message } = await (await fetch(`/api/nft/buy`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     owner,
-      //     address,
-      //     tokenId,
-      //     price,
-      //   }),
-      // })).json()
-      // if(!message.status) throw new Error(message.message)
-      // else {
-      //   notifications.showNotification({
-      //     title: 'Successfully bought',
-      //     message: "NFT was successfully purchased",
-      //     color: 'green',
-      //   })
-      // }
+      const owner = nft.owner
+      const price = nft.sale.price
+      const address = nft.item.address
+      const { message } = await (
+        await fetch(`/api/nft/buy`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            owner,
+            address,
+            tokenId,
+            price,
+          }),
+        })
+      ).json()
+      if (!message.status) throw new Error(message.message)
+      else {
+        notifications.showNotification({
+          title: 'Successfully bought',
+          message: 'NFT was successfully purchased',
+          color: 'green',
+        })
+      }
     } catch (err: any) {
       notifications.showNotification({
         title: 'Error',
@@ -125,29 +127,31 @@ const NFTPage: React.FC = () => {
       if (!connectedAddress) throw new Error('NOT CONNECTED TO WALLET')
       throw new Error('API NOT IMPLEMENTED')
 
-      // const owner = nft.owner
-      // const price = nft.sale.price
-      // const address = nft.item.address
-      // const { message } = await (await fetch(`/api/nft/list`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     owner,
-      //     address,
-      //     tokenId,
-      //     price,
-      //   }),
-      // })).json()
-      // if(!message.status) throw new Error(message.message)
-      // else {
-      //   notifications.showNotification({
-      //     title: 'Successfully Listed',
-      //     message: "NFT was successfully listed on Sale",
-      //     color: 'green',
-      //   })
-      // }
+      const owner = nft.owner
+      const price = nft.sale.price
+      const address = nft.item.address
+      const { message } = await (
+        await fetch(`/api/nft/list`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            owner,
+            address,
+            tokenId,
+            price,
+          }),
+        })
+      ).json()
+      if (!message.status) throw new Error(message.message)
+      else {
+        notifications.showNotification({
+          title: 'Successfully Listed',
+          message: 'NFT was successfully listed on Sale',
+          color: 'green',
+        })
+      }
     } catch (err: any) {
       notifications.showNotification({
         title: 'Error',
