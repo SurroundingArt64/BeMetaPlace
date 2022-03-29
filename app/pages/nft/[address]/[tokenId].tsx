@@ -51,6 +51,10 @@ const NFTPage: React.FC = () => {
   const [nft, setNft] = React.useState<NFTTypes>({
     owner: '',
     uri: '',
+    sale: {
+      enabled: false,
+      price: '',
+    },
     item: {
       image: '',
       title: '',
@@ -184,7 +188,7 @@ const NFTPage: React.FC = () => {
                     radius='xl'
                     style={{ flex: 1 }}
                     disabled={
-                      connectedAddress
+                      nft.sale && connectedAddress
                         ? nft.owner == connectedAddress
                         : (connectedAddress?.length ?? 1) > 0
                     }

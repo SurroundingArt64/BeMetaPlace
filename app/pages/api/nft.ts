@@ -42,7 +42,7 @@ async function addNFT(req: NextApiRequest, res: NextApiResponse) {
       owner: parsedJSON.owner as string,
       address: parsedJSON.item.address as string,
       tokenId: parsedJSON.item.tokenId as string,
-      price: '0',
+      price: (parsedJSON.sale && parsedJSON.sale.price) ?? '0',
       timestamp: new Date().getTime().toString(),
       type: 'CREATION',
     }
