@@ -119,23 +119,40 @@ const Create = () => {
         const NFT = await getContract('NFT')
         if (NFT) {
             const tokenId = (await NFT.totalSupply()).toString()
-            console.log(tokenId)
-            // const data: { message: NFTTypes; success: Boolean } = await res.json()
-            // if (true) {
-            //     console.log(data)
-            // }
-            // if (data.success) {
-            //     router.push(
-            //         '/nft/[address]/[tokenId]',
-            //         `/nft/${preview.item.address}/${preview.item.tokenId}`
-            //     )
-            // } else {
-            //     notifications.showNotification({
-            //         title: 'Error',
-            //         message: data.message,
-            //         color: 'red',
-            //     })
-            // }
+            const sdata: NFTTypes = {
+                owner: connectedAddress as string,
+                uri: 'ipfs://' + data.uri,
+                item: {
+                    chainId: chainId.toString(),
+                    image: preview.item.image,
+                    title: preview.item.title,
+                    tokenId: tokenId,
+                    value: preview.item.value,
+                    currency: currencies[0].value,
+                    address: getContractAddress(chainId, 'NFT'),
+                },
+            }
+            const resp = await fetch('/api/nft', {
+                method: 'POST',
+                body: JSON.stringify(sdata),
+            })
+            const rdata: { message: NFTTypes; success: Boolean } =
+                await resp.json()
+            if (true) {
+                console.log(data)
+            }
+            if (data.success) {
+                router.push(
+                    '/nft/[address]/[tokenId]',
+                    `/nft/${preview.item.address}/${preview.item.tokenId}`
+                )
+            } else {
+                notifications.showNotification({
+                    title: 'Error',
+                    message: rdata.message,
+                    color: 'red',
+                })
+            }
         }
     }
 
