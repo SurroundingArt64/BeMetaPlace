@@ -1,4 +1,4 @@
-@import "../../../styles/mixins.scss";
+@import '../../../styles/mixins.scss';
 
 .root {
   @include flex;
@@ -71,6 +71,13 @@
     }
     .content__right {
       width: var(--size-width);
+      a {
+        color: $primary-color;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
       .price {
         @include flex;
         justify-content: space-between;

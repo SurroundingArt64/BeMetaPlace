@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import React, { useEffect, useState } from 'react'
@@ -40,6 +41,7 @@ const NFTPage: React.FC = () => {
 
   const [nft, setNft] = React.useState<NFTTypes>({
     owner: '',
+    uri: '',
     item: {
       image: '',
       title: '',
@@ -100,6 +102,17 @@ const NFTPage: React.FC = () => {
               </div>
             </>
           ))}
+          {nft.uri && (
+            <p className={classes.description}>
+              Check out the{' '}
+              <Link href={`https://gateway.pinata.cloud/ipfs/${nft.uri}` ?? ''}>
+                <a target='_blank' rel='noopener noreferrer'>
+                  metadata
+                </a>
+              </Link>
+              .
+            </p>
+          )}
         </div>
       </div>
     </div>

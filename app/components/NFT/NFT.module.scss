@@ -54,19 +54,20 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 200px;
+        max-width: 225px;
       }
       & > * + * {
         margin-top: 5px;
       }
       .description {
-        .more {
+        a {
           font-size: 12px;
           cursor: pointer;
           font-weight: bold;
           text-decoration: underline;
+          color: black;
           &:hover {
-            text-decoration: none;
+            color: $primary-color;
           }
         }
       }

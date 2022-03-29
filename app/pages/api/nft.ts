@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { pinJSONToIPFS } from '../../lib/ipfs'
 
 import { connectToDatabase } from '../../lib/mongo'
 
@@ -31,8 +32,11 @@ async function getNFTs(res: NextApiResponse) {
 
 async function addNFT(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const uri = await pinJSONToIPFS(req.body)
+    if (!uri) throw new Error('Failed to pin JSON to IPFS')
     let { db } = await connectToDatabase()
-    await db.collection('NFT').insertOne(JSON.parse(req.body))
+    const parsedJSON = JSON.parse(req.body)
+    await db.collection('NFT').insertOne({ ...parsedJSON, uri })
     return res.json({
       message: 'NFT added successfully',
       success: true,
