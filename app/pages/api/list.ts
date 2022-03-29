@@ -14,11 +14,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function listNFT(req: NextApiRequest, res: NextApiResponse) {
   try {
     const parsedJSON = JSON.parse(req.body)
-
-    /**
-     * @dev ADD LISTING WEB3/BICO LOGIC HERE
-     */
-
     const listing: TableNFTSalesProps['data'][0] = {
       owner: parsedJSON.owner as string,
       address: parsedJSON.item.address as string,

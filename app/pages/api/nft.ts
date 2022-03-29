@@ -18,7 +18,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function getNFTs(res: NextApiResponse) {
   try {
     let { db } = await connectToDatabase()
-    let nfts = await db.collection('NFT').find({}).toArray()
+    let nfts = await db
+      .collection('NFT')
+      .find({})
+      .sort({ timestamp: -1 })
+      .toArray()
     return res.json({
       message: JSON.parse(JSON.stringify(nfts)),
       success: true,
@@ -35,14 +39,13 @@ async function addNFT(req: NextApiRequest, res: NextApiResponse) {
   try {
     const uri = await pinJSONToIPFS(req.body)
     if (!uri) throw new Error('Failed to pin JSON to IPFS')
-
-    /**
-     * @dev ADD NFT CREATION WEB3/BICO LOGIC HERE
-     */
-
     let { db } = await connectToDatabase()
     const parsedJSON = JSON.parse(req.body)
-    await db.collection('NFT').insertOne({ ...parsedJSON, uri })
+    await db.collection('NFT').insertOne({
+      ...parsedJSON,
+      uri,
+      timestamp: new Date().getTime().toString(),
+    })
     const listing: TableNFTSalesProps['data'][0] = {
       owner: parsedJSON.owner as string,
       address: parsedJSON.item.address as string,
