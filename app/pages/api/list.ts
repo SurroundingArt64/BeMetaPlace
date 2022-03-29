@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
 
-import { MDB } from '../../lib/mongo'
+import { connectToDatabase, MDB } from '../../lib/mongo'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
@@ -14,6 +14,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function listNFT(req: NextApiRequest, res: NextApiResponse) {
     try {
+        await connectToDatabase()
         const parsedJSON: NFTTypes = JSON.parse(req.body)
         const listing: TableNFTSalesProps['data'][0] = {
             owner: parsedJSON.owner as string,

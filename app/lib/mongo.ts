@@ -10,13 +10,18 @@ if (!MONGODB_URI) {
 let cachedClient: MongoClient
 let cachedDb: Db
 
-// Connect to cluster
-let client = new MongoClient(MONGODB_URI as string)
-client.connect()
-let db = client.db(MONGODB_DB)
+export const connectToDatabase = async () => {
+    if (cachedClient && cachedDb) {
+        return
+    }
 
-// set cache
-cachedClient = client
-cachedDb = db
+    // Connect to cluster
+    let client = new MongoClient(MONGODB_URI as string)
+    await client.connect()
+    let db = client.db(MONGODB_DB)
+    // set cache
+    cachedClient = client
+    cachedDb = db
+}
 
 export { cachedClient as MDClient, cachedDb as MDB }

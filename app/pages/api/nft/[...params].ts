@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { MDB } from '../../../lib/mongo'
+import { connectToDatabase, MDB } from '../../../lib/mongo'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
@@ -11,6 +11,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function getNFTs(req: NextApiRequest, res: NextApiResponse) {
     try {
+        await connectToDatabase()
         const { params } = req.query
         const address = params[0]
         let tokenId

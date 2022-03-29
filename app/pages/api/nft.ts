@@ -3,7 +3,7 @@ import { NFTTypes } from '../../components/NFT'
 import { TableNFTSalesProps } from '../../components/TableNFTSales'
 import { pinJSONToIPFS } from '../../lib/ipfs'
 
-import { MDB } from '../../lib/mongo'
+import { connectToDatabase, MDB } from '../../lib/mongo'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
@@ -18,6 +18,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function getNFTs(res: NextApiResponse) {
     try {
+        await connectToDatabase()
         let nfts = await MDB.collection('NFT').find({}).toArray()
         return res.json({
             message: JSON.parse(JSON.stringify(nfts)),

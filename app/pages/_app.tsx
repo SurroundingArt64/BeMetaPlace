@@ -5,6 +5,7 @@ import { useState } from 'react'
 import AppContext from '../components/wallet/AppContext'
 import { NotificationsProvider } from '@mantine/notifications'
 import { MantineProvider } from '@mantine/core'
+import React from 'react'
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [connectedAddress, setConnectedAddress] = useState<string>()
