@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import React from 'react'
 import { SpinnerDotted } from 'spinners-react'
 import NFT, { NFTTypes } from '../components/NFT'
@@ -40,14 +39,6 @@ const Home: NextPage = () => {
 
     return (
         <>
-            <Head>
-                <title>NFT Marketplace</title>
-                <meta
-                    name="description"
-                    content="bemetaplace, NFT Marketplace"
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
             <div className={classes.root}>
                 <h1>RECENTLY LISTED</h1>
                 <div className={classes.grid}>

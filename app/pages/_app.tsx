@@ -1,4 +1,6 @@
 import '../styles/globals.scss'
+import Head from 'next/head'
+
 import type { AppProps } from 'next/app'
 import Layout from '../components/Layout'
 import { useState } from 'react'
@@ -17,34 +19,44 @@ function MyApp({ Component, pageProps }: AppProps) {
     }) as typeof setLoader
 
     return (
-        <AppContext.Provider
-            value={{
-                connectedAddress: connectedAddress,
-                setConnectedAddress,
-                loader,
-                setLoader: setLoaderWithTimeOut,
-                wallet,
-                showWallet,
-            }}
-        >
-            <MantineProvider
-                withGlobalStyles
-                withNormalizeCSS
-                theme={{
-                    colorScheme: 'light',
-                    fontFamily: 'Roboto, sans-serif',
+        <>
+            <Head>
+                <title>NFT Marketplace</title>
+                <meta
+                    name="description"
+                    content="bemetaplace, NFT Marketplace"
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <AppContext.Provider
+                value={{
+                    connectedAddress: connectedAddress,
+                    setConnectedAddress,
+                    loader,
+                    setLoader: setLoaderWithTimeOut,
+                    wallet,
+                    showWallet,
                 }}
             >
-                <NotificationsProvider
-                    position="top-center"
-                    style={{ marginTop: '80px' }}
+                <MantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{
+                        colorScheme: 'light',
+                        fontFamily: 'Roboto, sans-serif',
+                    }}
                 >
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
-                </NotificationsProvider>
-            </MantineProvider>
-        </AppContext.Provider>
+                    <NotificationsProvider
+                        position="top-center"
+                        style={{ marginTop: '80px' }}
+                    >
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </NotificationsProvider>
+                </MantineProvider>
+            </AppContext.Provider>
+        </>
     )
 }
 

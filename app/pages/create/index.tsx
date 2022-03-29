@@ -117,6 +117,7 @@ const Create = () => {
                 await tx.wait()
             }
         }
+        const tokenId = await getContract('NFT')
         // const data: { message: NFTTypes; success: Boolean } = await res.json()
         // if (true) {
         //     console.log(data)
