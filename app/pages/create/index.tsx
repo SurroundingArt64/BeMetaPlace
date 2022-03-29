@@ -119,7 +119,8 @@ const Create = () => {
         }
         const NFT = await getContract('NFT')
         if (NFT) {
-            const tokenId = NFT.totalSupply()
+            const tokenId = await NFT.totalSupply()
+            console.log(tokenId)
             // const data: { message: NFTTypes; success: Boolean } = await res.json()
             // if (true) {
             //     console.log(data)
