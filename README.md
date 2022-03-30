@@ -1,6 +1,6 @@
 # BeMetaPlace
 
-![image](https://user-images.githubusercontent.com/97761020/160706505-b01ee0d3-5bb1-4414-be4b-4d528b5d7931.png)
+![image](https://i.ibb.co/cxpm8DP/Screenshot-2022-03-30-at-3-04-55-PM.png)
 
 Gasless Minting and Purchase of NFTs
 
