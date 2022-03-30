@@ -1,20 +1,30 @@
+@import '../../styles/mixins.scss';
+
 .wallet {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.4);
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    position: fixed;
+    background-color: #f6f8ff;
+    right: calc(50% - 250px);
+    top: calc(50% - 100px);
     z-index: 2;
+    height: auto;
+    width: 500px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 0 0 10000px rgba(0, 0, 0, 0.45);
+    .title {
+        font-weight: 500;
+        margin-bottom: 10px;
+        transform: translateY(-5px);
+    }
     .inner {
         position: relative;
         width: 100%;
-        background-color: rgb(255, 255, 255);
         border-radius: 12px;
-        margin: 10px;
+        border: 1px solid #ccc;
         padding: 0px;
         opacity: 1;
         visibility: visible;
@@ -36,7 +46,7 @@
             flex-direction: column;
             cursor: pointer;
             border-radius: 0px;
-            border: 1px solid rgba(195, 195, 195, 0.295);
+            border: 1px solid #ccccccaa;
 
             .providerIcon {
                 width: 45px;

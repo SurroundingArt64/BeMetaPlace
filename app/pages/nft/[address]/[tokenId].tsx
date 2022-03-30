@@ -120,7 +120,7 @@ const NFTPage: React.FC = () => {
                 color: 'red',
             })
         }
-    }, [])
+    }, [connectedAddress, nft])
 
     if (nft && !nft.item)
         return (

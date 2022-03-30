@@ -78,7 +78,14 @@ const Create = () => {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log(preview)
-
+        notifications.showNotification({
+            title: 'Creating NFT',
+            message:
+                'Please wait... On successful mint you will be redirected to the NFT page 🔭',
+            loading: true,
+            color: 'yellow',
+            autoClose: false,
+        })
         const res = await fetch('/api/pin', {
             method: 'POST',
             body: JSON.stringify({
@@ -138,10 +145,8 @@ const Create = () => {
             })
             const rdata: { message: NFTTypes; success: Boolean } =
                 await resp.json()
-            if (true) {
-                console.log(data)
-            }
             if (data.success) {
+                notifications.clean()
                 router.push(
                     '/nft/[address]/[tokenId]',
                     `/nft/${preview.item.address}/${tokenId}`
